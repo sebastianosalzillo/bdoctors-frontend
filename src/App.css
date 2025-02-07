@@ -1,42 +1,43 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.medico-card{
+  display: flex;
+  width: 100%;
+  min-height: 100px;
+  border-radius: 10px;
+  border: black solid 1px;
+  padding: 15px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.medico-card .imm{
+  width: 40%;
+
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.medico-card .imm img{
+  width: 100%;
+
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.spec{
+  display: inline-block;
+  padding: 0.4rem 0.6rem;
+  color: rgb(32, 32, 96);
+  border-radius: 15px;
+  border: solid 1px rgb(32, 32, 96);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
+  margin: 15px 0px;
 }
 
-.card {
-  padding: 2em;
+.rece-card{
+  width: 100%;
+  min-height: 100px;
+  border-radius: 10px;
+  border: black solid 1px;
+  padding: 15px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
+  margin: 25px 0px;
 }
 
-.read-the-docs {
-  color: #888;
+.rece-card p{
+  font-style: italic;
 }
