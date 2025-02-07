@@ -7,10 +7,10 @@ import axios from "axios";
 
 function DettaglioMedico() {
 
-  let { id } = useParams();
+  let { slug } = useParams();
   let [doc, setDoc] = useState(null)
   useEffect(() => {
-    axios.get(`http://localhost:3000/doctors/${id}`).then((resp) => {
+    axios.get(`http://localhost:3000/doctors/${slug}`).then((resp) => {
       setDoc(resp.data.data)
       console.log(resp.data.data)
     })
@@ -49,7 +49,7 @@ function DettaglioMedico() {
       <>
         <div className="medico-card">
           <div className="imm">
-            <img src="" alt={`medico ${doc.nome} ${doc.cognome}`} />
+            <img src={`http://localhost:3000/images/doctors/${doc.immagine}`} alt={`medico ${doc.nome} ${doc.cognome}`} />
           </div>
           <section className="p-3">
             <h2>{doc.nome}{doc.cognome}</h2>
