@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 function HomePage() {
-  const [medici, setMedici] = useState([]); // Tutti i medici dal backend
-  const [filteredMedici, setFilteredMedici] = useState([]); // Medici filtrati
-  const [specializzazioni, setSpecializzazioni] = useState([]); // Lista specializzazioni
-  const [searchTerm, setSearchTerm] = useState(""); // Input ricerca
-  const [selectedSpecialization, setSelectedSpecialization] = useState(""); // Filtro per specializzazione
+  const [medici, setMedici] = useState([]); 
+  const [filteredMedici, setFilteredMedici] = useState([]); 
+  const [specializzazioni, setSpecializzazioni] = useState([]); 
+  const [searchTerm, setSearchTerm] = useState(""); 
+  const [selectedSpecialization, setSelectedSpecialization] = useState(""); 
 
   // Recupero dati dal backend
   useEffect(() => {
@@ -53,7 +53,7 @@ function HomePage() {
       <h1 className="text-center mt-4">Benvenuto su BDoctors</h1>
       <p className="text-center">Trova il medico specialista che fa per te.</p>
 
-      {/* 🔍 Ricerca avanzata */}
+      
       <div className="row mt-4">
         <div className="col-md-6">
           <input
