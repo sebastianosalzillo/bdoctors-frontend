@@ -100,9 +100,7 @@ function HomePage() {
         )}
       </div>
 
-      <footer className="text-center mt-5">
-        <p>BDoctors © {new Date().getFullYear()} - Tutti i diritti riservati</p>
-      </footer>
+     
     </div>
   );
 }
