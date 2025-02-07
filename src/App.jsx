@@ -13,7 +13,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
           <Route path="ricerca" element={<RicercaMedici />} />
-          <Route path="medico/:id" element={<DettaglioMedico />} />
+          <Route path="medico/:slug" element={<DettaglioMedico />} />
           <Route path="registrazione" element={<RegistrazioneMedico />} />
         </Route>
       </Routes>
