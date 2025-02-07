@@ -3,9 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function HomePage() {
-  const [medici, setMedici] = useState([]); 
-  const [specializzazioni, setSpecializzazioni] = useState([]); 
-  const [selectedSpecialization, setSelectedSpecialization] = useState(""); 
+  const [medici, setMedici] = useState([]);
+  const [specializzazioni, setSpecializzazioni] = useState([]);
+  const [selectedSpecialization, setSelectedSpecialization] = useState("");
   const navigate = useNavigate(); // ✅ Hook per la navigazione
 
   // Recupero dati dal backend
@@ -51,9 +51,9 @@ function HomePage() {
           </select>
         </div>
         <div className="col-md-4">
-          <button 
-            className="btn btn-primary w-100" 
-            onClick={handleSearchBySpecialization} 
+          <button
+            className="btn btn-primary w-100"
+            onClick={handleSearchBySpecialization}
             disabled={!selectedSpecialization}
           >
             Cerca
@@ -68,7 +68,12 @@ function HomePage() {
           medici.map(medico => (
             <div key={medico.id} className="col-md-4 mb-4">
               <div className="card">
-                <img src={medico.immagine} className="card-img-top" alt={medico.nome} style={{ height: "200px", objectFit: "cover" }} />
+                <img
+                  src={medico.immagine.startsWith("http") ? medico.immagine : `http://localhost:3000/images/doctors/${medico.immagine}`}
+                  className="card-img-top"
+                  alt={medico.nome}
+                  style={{ height: "200px", objectFit: "cover" }}
+                />
                 <div className="card-body">
                   <h5 className="card-title">{medico.nome} {medico.cognome}</h5>
                   <p className="card-text"><strong>Specializzazione:</strong> {medico.specializzazione}</p>
