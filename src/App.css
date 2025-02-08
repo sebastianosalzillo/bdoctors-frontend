@@ -16,15 +16,18 @@
 .medico-card .imm img{
   width: 90%;
   border-radius: 10px;
+}
 
+.medico-card.mobile{
+  display: none;
 }
 
 .spec{
   display: inline-block;
   padding: 0.4rem 0.6rem;
-  color: rgb(32, 32, 96);
+  color:#0097b2;
   border-radius: 15px;
-  border: solid 1px rgb(32, 32, 96);
+  border: solid 1px#0097b2;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
   margin: 15px 0px;
 }
@@ -41,4 +44,50 @@
 
 .rece-card p{
   font-style: italic;
+}
+
+label span{
+  padding-right: 10px;
+}
+
+form.recensioni{
+  width: 100%;
+  min-height: 100px;
+  border-radius: 10px;
+  border: #0097b2 solid 1px;
+  padding: 15px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
+  margin: 25px 0px;  
+}
+
+form.recensioni h3{
+  color:  #0097b2;
+}
+
+form button.btn.btn-primary{
+  background-color: #0097b2; 
+  border: #0097b2 solid 1px; 
+  margin-top: 10px;
+}
+
+.linea{
+  color: #0097b2;
+  opacity: .5;
+}
+
+@media screen and (max-width:540px){
+  .medico-card{
+    display: none;
+  }
+  .medico-card.mobile{
+    display: block;
+  }
+  .medico-card .imm{
+    width: 100%;
+  }
+    
+  .medico-card.mobile .imm img{
+    width: 100%;  
+    border-radius: 10px;
+  }
 }
