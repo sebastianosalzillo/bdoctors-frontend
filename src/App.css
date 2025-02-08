@@ -60,6 +60,11 @@ form.recensioni{
   margin: 25px 0px;  
 }
 
+input.form-check-input:checked {
+  background-color: #0097b2;
+  border-color: #0097b2;
+}
+
 form.recensioni h3{
   color:  #0097b2;
 }
@@ -85,7 +90,7 @@ form button.btn.btn-primary{
   .medico-card .imm{
     width: 100%;
   }
-    
+
   .medico-card.mobile .imm img{
     width: 100%;  
     border-radius: 10px;
