@@ -6,7 +6,7 @@ function HomePage() {
   const [medici, setMedici] = useState([]);
   const [specializzazioni, setSpecializzazioni] = useState([]);
   const [selectedSpecialization, setSelectedSpecialization] = useState("");
-  const navigate = useNavigate(); // ✅ Hook per la navigazione
+  const navigate = useNavigate(); 
 
   // Recupero dati dal backend
   useEffect(() => {
@@ -28,10 +28,6 @@ function HomePage() {
 
   return (
     <div className="container mt-4">
-      {/* Bottone in alto a destra */}
-      <div className="d-flex justify-content-end">
-        <Link to="/registrazione" className="btn btn-success">Registra il tuo profilo</Link>
-      </div>
 
       <h1 className="text-center mt-4">Benvenuto su BDoctors</h1>
       <p className="text-center">Trova il medico specialista che fa per te.</p>
