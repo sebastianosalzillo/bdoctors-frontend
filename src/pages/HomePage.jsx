@@ -1,21 +1,17 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function HomePage() {
-  const [medici, setMedici] = useState([]); 
-  const [filteredMedici, setFilteredMedici] = useState([]); 
-  const [specializzazioni, setSpecializzazioni] = useState([]); 
-  const [searchTerm, setSearchTerm] = useState(""); 
-  const [selectedSpecialization, setSelectedSpecialization] = useState(""); 
+  const [medici, setMedici] = useState([]);
+  const [specializzazioni, setSpecializzazioni] = useState([]);
+  const [selectedSpecialization, setSelectedSpecialization] = useState("");
+  const navigate = useNavigate(); // ✅ Hook per la navigazione
 
   // Recupero dati dal backend
   useEffect(() => {
     axios.get("http://localhost:3000/doctors")
-      .then(response => {
-        setMedici(response.data.data);
-        setFilteredMedici(response.data.data);
-      })
+      .then(response => setMedici(response.data.data))
       .catch(error => console.error("Errore nel recupero medici", error));
 
     axios.get("http://localhost:3000/specialization")
@@ -23,25 +19,12 @@ function HomePage() {
       .catch(error => console.error("Errore nel recupero specializzazioni", error));
   }, []);
 
-  // Funzione di ricerca e filtro
-  useEffect(() => {
-    let filtered = medici;
-
-    // Filtra per nome o cognome
-    if (searchTerm) {
-      filtered = filtered.filter(medico =>
-        medico.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        medico.cognome.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
-
-    // Filtra per specializzazione
+  // 🔹 Funzione per navigare alla ricerca con la specializzazione selezionata
+  const handleSearchBySpecialization = () => {
     if (selectedSpecialization) {
-      filtered = filtered.filter(medico => medico.specializzazione === selectedSpecialization);
+      navigate(`/ricerca?specializzazione=${selectedSpecialization}`);
     }
-
-    setFilteredMedici(filtered);
-  }, [searchTerm, selectedSpecialization, medici]);
+  };
 
   return (
     <div className="container mt-4">
@@ -53,18 +36,9 @@ function HomePage() {
       <h1 className="text-center mt-4">Benvenuto su BDoctors</h1>
       <p className="text-center">Trova il medico specialista che fa per te.</p>
 
-      
+      {/* 🔍 Selezione Specializzazione e Pulsante di Ricerca */}
       <div className="row mt-4">
-        <div className="col-md-6">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Cerca per nome o cognome"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-        <div className="col-md-6">
+        <div className="col-md-8">
           <select
             className="form-control"
             value={selectedSpecialization}
@@ -76,16 +50,30 @@ function HomePage() {
             ))}
           </select>
         </div>
+        <div className="col-md-4">
+          <button
+            className="btn btn-primary w-100"
+            onClick={handleSearchBySpecialization}
+            disabled={!selectedSpecialization}
+          >
+            Cerca
+          </button>
+        </div>
       </div>
 
       <h2 className="mt-5">I nostri migliori medici</h2>
 
       <div className="row mt-3">
-        {filteredMedici.length > 0 ? (
-          filteredMedici.map(medico => (
+        {medici.length > 0 ? (
+          medici.map(medico => (
             <div key={medico.id} className="col-md-4 mb-4">
               <div className="card">
-                <img src={medico.immagine} className="card-img-top" alt={medico.nome} style={{ height: "200px", objectFit: "cover" }} />
+                <img
+                  src={medico.immagine.startsWith("http") ? medico.immagine : `http://localhost:3000/images/doctors/${medico.immagine}`}
+                  className="card-img-top"
+                  alt={medico.nome}
+                  style={{ height: "200px", objectFit: "cover" }}
+                />
                 <div className="card-body">
                   <h5 className="card-title">{medico.nome} {medico.cognome}</h5>
                   <p className="card-text"><strong>Specializzazione:</strong> {medico.specializzazione}</p>
@@ -99,8 +87,6 @@ function HomePage() {
           <p className="text-center">Nessun medico trovato</p>
         )}
       </div>
-
-     
     </div>
   );
 }
