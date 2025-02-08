@@ -37,10 +37,10 @@ function HomePage() {
       <p className="text-center">Trova il medico specialista che fa per te.</p>
 
       {/* 🔍 Selezione Specializzazione e Pulsante di Ricerca */}
-      <div className="row mt-4">
+      <div className="row mt-4 align-items-center">
         <div className="col-md-8">
           <select
-            className="form-control"
+            className="form-control my-1"
             value={selectedSpecialization}
             onChange={(e) => setSelectedSpecialization(e.target.value)}
           >
@@ -52,7 +52,7 @@ function HomePage() {
         </div>
         <div className="col-md-4">
           <button
-            className="btn btn-primary w-100"
+            className="btn btn-primary w-100 my-1"
             onClick={handleSearchBySpecialization}
             disabled={!selectedSpecialization}
           >
@@ -67,12 +67,12 @@ function HomePage() {
         {medici.length > 0 ? (
           medici.map(medico => (
             <div key={medico.id} className="col-md-4 mb-4">
-              <div className="card">
+              <div className="card ms-card">
                 <img
                   src={medico.immagine.startsWith("http") ? medico.immagine : `http://localhost:3000/images/doctors/${medico.immagine}`}
                   className="card-img-top"
                   alt={medico.nome}
-                  style={{ height: "200px", objectFit: "cover" }}
+                  style={{ objectFit: "cover" }}
                 />
                 <div className="card-body">
                   <h5 className="card-title">{medico.nome} {medico.cognome}</h5>

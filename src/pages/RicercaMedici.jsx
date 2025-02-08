@@ -68,8 +68,8 @@ const RicercaMedici = () => {
         {filteredDoctors.length > 0 ? (
           filteredDoctors.map((doctor) => (
             <div className="col-md-4 mb-4" key={doctor.id}>
-              <div className="card">
-                <img src={doctor.immagine.startsWith("http") ? doctor.immagine : `http://localhost:3000/images/doctors/${doctor.immagine}`} className="card-img-top" alt={doctor.nome} style={{ height: "200px", objectFit: "cover" }} />
+              <div className="card ms-card">
+                <img src={doctor.immagine.startsWith("http") ? doctor.immagine : `http://localhost:3000/images/doctors/${doctor.immagine}`} className="card-img-top" alt={doctor.nome} style={{ objectFit: "cover" }} />
                 <div className="card-body">
                   <p><strong>Nome e Cognome:</strong> {doctor.nome} {doctor.cognome}</p>
                   <p><strong>Specializzazione:</strong> {doctor.specializzazione}</p>
