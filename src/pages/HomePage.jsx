@@ -6,7 +6,7 @@ function HomePage() {
   const [medici, setMedici] = useState([]);
   const [specializzazioni, setSpecializzazioni] = useState([]);
   const [selectedSpecialization, setSelectedSpecialization] = useState("");
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   // Recupero dati dal backend
   useEffect(() => {
@@ -61,24 +61,26 @@ function HomePage() {
 
       <div className="row mt-3">
         {medici.length > 0 ? (
-          medici.map(medico => (
-            <div key={medico.id} className="col-md-4 mb-4">
-              <div className="card ms-card">
-                <img
-                  src={medico.immagine.startsWith("http") ? medico.immagine : `http://localhost:3000/images/doctors/${medico.immagine}`}
-                  className="card-img-top"
-                  alt={medico.nome}
-                  style={{ objectFit: "cover" }}
-                />
-                <div className="card-body">
-                  <h5 className="card-title">{medico.nome} {medico.cognome}</h5>
-                  <p className="card-text"><strong>Specializzazione:</strong> {medico.specializzazione}</p>
-                  <p className="card-text"><strong>Media Voto:</strong> {medico.media_voto}/5</p>
-                  <Link to={`/medico/${medico.slug}`} className="btn btn-primary">Vedi dettagli</Link>
+          medici
+            .filter(medico => medico.media_voto >= 4.5)
+            .map(medico => (
+              <div key={medico.id} className="col-md-4 mb-4">
+                <div className="card ms-card">
+                  <img
+                    src={medico.immagine.startsWith("http") ? medico.immagine : `http://localhost:3000/images/doctors/${medico.immagine}`}
+                    className="card-img-top"
+                    alt={medico.nome}
+                    style={{ objectFit: "cover" }}
+                  />
+                  <div className="card-body">
+                    <h5 className="card-title">{medico.nome} {medico.cognome}</h5>
+                    <p className="card-text"><strong>Specializzazione:</strong> {medico.specializzazione}</p>
+                    <p className="card-text"><strong>Media Voto:</strong> {medico.media_voto}/5</p>
+                    <Link to={`/medico/${medico.slug}`} className="btn btn-primary">Vedi dettagli</Link>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))
+            ))
         ) : (
           <p className="text-center">Nessun medico trovato</p>
         )}
