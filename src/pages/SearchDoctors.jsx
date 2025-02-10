@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 const apiUrl = "http://localhost:3000";
 
-const RicercaMedici = () => {
+const SearchDoctors = () => {
   const [doctors, setDoctors] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [specializzazioni, setSpecializzazioni] = useState([]);
@@ -73,11 +73,9 @@ const RicercaMedici = () => {
                 <div className="card-body">
                   <p><strong>Nome e Cognome:</strong> {doctor.nome} {doctor.cognome}</p>
                   <p><strong>Specializzazione:</strong> {doctor.specializzazione}</p>
-                  <p><strong>Telefono:</strong> {doctor.telefono}</p>
-                  <p><strong>Email:</strong> {doctor.email}</p>
-                  <p><strong>Indirizzo:</strong> {doctor.indirizzo}</p>
+                  <p><strong>Media Voto:</strong> {doctor.media_voto}/5</p>
                   <button className="btn btn-primary" onClick={() => navigate(`/medico/${doctor.slug}`)}>
-                    Vai al dettaglio
+                    Vai ai dettagli
                   </button>
                 </div>
               </div>
@@ -91,4 +89,4 @@ const RicercaMedici = () => {
   );
 };
 
-export default RicercaMedici;
+export default SearchDoctors;

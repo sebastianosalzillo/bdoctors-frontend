@@ -5,7 +5,7 @@ import { faStar as solidStar } from '@fortawesome/free-solid-svg-icons';
 import { faStar as regularStar } from '@fortawesome/free-regular-svg-icons';
 import axios from "axios";
 
-function DettaglioMedico() {
+function DoctorDetail() {
   const array = [1, 2, 3, 4, 5]
   let { slug } = useParams();
   let [doc, setDoc] = useState(null)
@@ -149,4 +149,4 @@ function DettaglioMedico() {
   );
 }
 
-export default DettaglioMedico;
+export default DoctorDetail;
