@@ -7,7 +7,7 @@ const apiUrl = "http://localhost:3000";
 const SearchDoctors = () => {
   const [doctors, setDoctors] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [specializzazioni, setSpecializzazioni] = useState([]);
+  const [specializations, setSpecializations] = useState([]);
   const [city, setCity] = useState("");
 
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ const SearchDoctors = () => {
     });
 
     axios.get(`${apiUrl}/specialization`).then((resp) => {
-      setSpecializzazioni(resp.data);
+      setSpecializations(resp.data);
     });
 
   }, [selectedSpecialization]);
@@ -49,13 +49,13 @@ const SearchDoctors = () => {
 
   return (
     <div className="container mt-4">
-      <h2>Ricerca Medici</h2>
+      <h2>Ricerca doctors</h2>
 
       <div className="row mb-4">
         <div className="col-md-4">
           <select className="form-control" value={selectedSpecialization} onChange={handleSpecializationChange}>
-            <option value="">Tutte le specializzazioni</option>
-            {specializzazioni.map(spec => (
+            <option value="">Tutte le specializations</option>
+            {specializations.map(spec => (
               <option key={spec.id} value={spec.nome}>{spec.nome}</option>
             ))}
           </select>

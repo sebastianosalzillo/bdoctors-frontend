@@ -26,7 +26,7 @@ function DoctorRegistration() {
         setSpecialization(response.data);
       })
       .catch(error => {
-        console.error('Error fetching specializzazioni:', error);
+        console.error('Error fetching specializations:', error);
       });
   }, []);
 
