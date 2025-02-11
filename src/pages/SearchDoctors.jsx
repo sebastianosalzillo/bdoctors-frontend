@@ -8,10 +8,13 @@ const SearchDoctors = () => {
   const [doctors, setDoctors] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [specializzazioni, setSpecializzazioni] = useState([]);
+  const [city, setCity] = useState("");
+
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const [selectedSpecialization, setSelectedSpecialization] = useState(queryParams.get("specializzazione") || "");
+  
 
   useEffect(() => {
     axios.get(`${apiUrl}/doctors`).then((resp) => {
@@ -31,7 +34,11 @@ const SearchDoctors = () => {
 
   const filteredDoctors = doctors.filter((doctor) => {
     const fullName = `${doctor.nome.toLowerCase()} ${doctor.cognome.toLowerCase()}`;
-    return fullName.includes(searchTerm.toLowerCase());
+
+    const cityInAddress = doctor.indirizzo.split(",")[1]?.trim().toLowerCase();
+    const matchCity = city ? cityInAddress?.includes(city.toLowerCase()) : true;
+
+    return fullName.includes(searchTerm.toLowerCase()) && matchCity;
   });
 
   const handleSpecializationChange = (e) => {
@@ -45,7 +52,7 @@ const SearchDoctors = () => {
       <h2>Ricerca Medici</h2>
 
       <div className="row mb-4">
-        <div className="col-md-6">
+        <div className="col-md-4">
           <select className="form-control" value={selectedSpecialization} onChange={handleSpecializationChange}>
             <option value="">Tutte le specializzazioni</option>
             {specializzazioni.map(spec => (
@@ -53,13 +60,22 @@ const SearchDoctors = () => {
             ))}
           </select>
         </div>
-        <div className="col-md-6">
+        <div className="col-md-4">
           <input
             type="text"
             className="form-control"
             placeholder="Cerca per nome o cognome"
             value={searchTerm}
             onChange={(event) => setSearchTerm(event.target.value)}
+          />
+        </div>
+        <div className="col-md-4">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Cerca per città"
+            value={city}
+            onChange={(event) => setCity(event.target.value)}
           />
         </div>
       </div>
