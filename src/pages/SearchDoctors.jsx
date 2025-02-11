@@ -13,14 +13,14 @@ const SearchDoctors = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const [selectedSpecialization, setSelectedSpecialization] = useState(queryParams.get("specializzazione") || "");
+  const [selectedSpecialization, setSelectedSpecialization] = useState(queryParams.get("specialization") || "");
   
 
   useEffect(() => {
     axios.get(`${apiUrl}/doctors`).then((resp) => {
       const allDoctors = resp.data.data;
       const filteredBySpecialization = selectedSpecialization 
-        ? allDoctors.filter((doc) => doc.specializzazione === selectedSpecialization) 
+        ? allDoctors.filter((doc) => doc.specialization === selectedSpecialization) 
         : allDoctors;
 
       setDoctors(filteredBySpecialization);

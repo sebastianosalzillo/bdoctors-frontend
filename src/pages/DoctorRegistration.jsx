@@ -24,7 +24,7 @@ function DoctorRegistration() {
   useEffect(() => {
     axios.get('http://localhost:3000/specialization')
       .then(response => {
-        setSpecialization(response.data);
+        setSpecialization(response.data.data);
       })
       .catch(error => {
         console.error('Error fetching specializations:', error);

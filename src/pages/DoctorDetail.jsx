@@ -11,10 +11,10 @@ function DoctorDetail() {
   let [doc, setDoc] = useState(null)
 
   const emptyRece = {
-    vote: 0,
-    name: "",
+    rating: 0,
+    patient_name: "",
     email: "",
-    text: ""
+    content: ""
   }
   let [newRece, setNewRece] = useState(emptyRece)
 
@@ -26,16 +26,15 @@ function DoctorDetail() {
   const refresh = () => {
     axios.get(`http://localhost:3000/doctors/${slug}`).then((resp) => {
       setDoc(resp.data.data)
-      console.log(("Refreshato"))
     })
   }
 
   const printData = () => {
     return (
-      <><div className="spec">{doc.specializzazione}</div>
-        <p className="my-1"><strong>Telefono: </strong>{doc.telefono}</p>
+      <><div className="spec">{doc.specialization}</div>
+        <p className="my-1"><strong>Telefono: </strong>{doc.phone}</p>
         <p className="my-1"><strong>Email: </strong>{doc.email}</p>
-        <p className="my-1"><strong>Indirizzo: </strong>{doc.indirizzo}</p></>
+        <p className="my-1"><strong>Indirizzo: </strong>{doc.address}</p></>
     )
   }
 
@@ -54,9 +53,9 @@ function DoctorDetail() {
     let risp = rece.map((curRece) => {
       return (
         <div key={curRece.id} className="rece-card">
-          <h5>{curRece.patient}</h5>
-          <div><strong>Voto: </strong> {stelline(curRece.voto)}</div>
-          <p>{curRece.text}</p>
+          <h5>{curRece.patient_name}</h5>
+          <div><strong>Voto: </strong> {stelline(curRece.rating)}</div>
+          <p>{curRece.content}</p>
         </div>
       );
     })
@@ -67,7 +66,7 @@ function DoctorDetail() {
     let risp = array.map((i) => {
       return (
         <div key={i} className="form-check form-check-inline">
-          <input required className="form-check-input" type="radio" name="vote" id={i} checked={newRece.vote == i} onChange={(event) => handleInputChange(event)} value={i} />
+          <input required className="form-check-input" type="radio" name="rating" id={i} checked={newRece.rating == i} onChange={(event) => handleInputChange(event)} value={i} />
           <label className="form-check-label" htmlFor={i}>{i}</label>
         </div>
       )
@@ -76,11 +75,11 @@ function DoctorDetail() {
   }
 
   const handleInputChange = (event) => {
-    let nome = event.target.name
-    let valore = event.target.value
+    let name = event.target.name
+    let value = event.target.value
     let obj = {
       ...newRece,
-      [nome]: valore
+      [name]: value
     }
     setNewRece(obj)
   }
@@ -99,17 +98,17 @@ function DoctorDetail() {
       <>
         <div className="medico-card">
           <div className="imm">
-            <img src={`http://localhost:3000/images/doctors/${doc.immagine}`} alt={`medico ${doc.nome} ${doc.cognome}`} />
+            <img src={`http://localhost:3000/images/doctors/${doc.image}`} alt={`medico ${doc.fist_name} ${doc.last_name}`} />
           </div>
           <section className="p-3">
-            <h2>{doc.nome} {doc.cognome}</h2>
+            <h2>{doc.first_name} {doc.last_name}</h2>
             {printData()}
           </section>
         </div>
         <div className="medico-card mobile">
-          <h2 className="py-2">{doc.nome} {doc.cognome}</h2>
+          <h2 className="py-2">{doc.first_name} {doc.last_name}</h2>
           <div className="imm">
-            <img src={`http://localhost:3000/images/doctors/${doc.immagine}`} alt={`medico ${doc.nome} ${doc.cognome}`} />
+            <img src={`http://localhost:3000/images/doctors/${doc.image}`} alt={`medico ${doc.first_name} ${doc.last_name}`} />
           </div>
           <section className="p-3">
             {printData()}
@@ -127,8 +126,8 @@ function DoctorDetail() {
           <form onSubmit={(event) => handleOnSubmit(event)} className="recensioni">
             <h3 className="py-2">Scrivi una recensione!</h3>
             <div className="form-group">
-              <label className="mt-1" htmlFor="name">Nome e Cognome</label>
-              <input required type="text" minLength={3} className="form-control mt-1" id="name" name="name" value={newRece.name} onChange={(event) => { handleInputChange(event) }} />
+              <label className="mt-1" htmlFor="patient_name">Nome e Cognome</label>
+              <input required type="text" minLength={3} className="form-control mt-1" id="patient_name" name="patient_name" value={newRece.patient_name} onChange={(event) => { handleInputChange(event) }} />
             </div>
 
             <div className="form-group">
@@ -137,13 +136,13 @@ function DoctorDetail() {
             </div>
 
             <div className="mt-3">
-              <label htmlFor="vote"><span>Valutazione:</span></label>
+              <label htmlFor="rating"><span>Valutazione:</span></label>
               {printRadioCheck()}
             </div>
 
             <div className="form-group mt-2">
-              <label className="mt-1" htmlFor="text">Aggiungi una recensione scritta</label>
-              <textarea className="form-control mt-1" type="text" id="text" rows="3" name="text" minLength={6} value={newRece.text} onChange={(event) => { handleInputChange(event) }}></textarea>
+              <label className="mt-1" htmlFor="content">Aggiungi una recensione scritta</label>
+              <textarea className="form-control mt-1" type="text" id="content" rows="3" name="content" minLength={6} value={newRece.content} onChange={(event) => { handleInputChange(event) }}></textarea>
             </div>
             <button type="submit" className="btn btn-primary">Conferma</button>
           </form>
