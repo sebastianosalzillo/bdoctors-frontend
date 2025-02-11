@@ -46,9 +46,9 @@ function FormDoctor({ formData, specialization, handleChange, handleFileChange, 
                                         required
                                     >
                                         <option value="">-</option>
-                                        <option value="Maschio">M</option>
-                                        <option value="Femmina">F</option>
-                                        <option value="Non indicato">X</option>
+                                        <option value="M">M</option>
+                                        <option value="F">F</option>
+                                        <option value="X">X</option>
                                     </select>
                                 </div>
                             </div>
@@ -58,7 +58,7 @@ function FormDoctor({ formData, specialization, handleChange, handleFileChange, 
                                     <label htmlFor="phone">Numero di telefono</label>
                                     <input
                                         type="tel"
-                                        pattern="[0-9]{10}"
+                                        
                                         className="form-control"
                                         id="phone"
                                         name="phone"
@@ -110,7 +110,7 @@ function FormDoctor({ formData, specialization, handleChange, handleFileChange, 
                             >
                                 <option value="">Seleziona specializzazione</option>
                                 {specialization.map(curItem => (
-                                    <option key={curItem.id} value={curItem.name}>
+                                    <option key={curItem.id} value={curItem.id}>
                                         {curItem.name}
                                     </option>
                                 ))}

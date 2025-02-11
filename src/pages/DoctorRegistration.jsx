@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import FormDoctor from "../components/FormDoctor";
@@ -36,7 +35,8 @@ function DoctorRegistration() {
     setFormData({
       ...formData,
       [name]: value
-    });
+});
+console.log(formData);
   };
 
   const handleFileChange = (event) => {
@@ -52,10 +52,12 @@ function DoctorRegistration() {
     Object.keys(formData).forEach(key => {
       data.append(key, formData[key]);
     });
+console.log(data);
 
-    axios.post('/', data)
+    axios.post('http://localhost:3000/doctors', data)
       .then(response => {
-        navigate('/doctors/slug'); 
+        //const doctorSlug = response.data.slug;
+        // navigate(`/doctor/${doctorSlug}`); 
       })
       .catch(error => {
         console.error('Error:', error);
