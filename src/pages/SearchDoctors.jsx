@@ -27,15 +27,15 @@ const SearchDoctors = () => {
     });
 
     axios.get(`${apiUrl}/specialization`).then((resp) => {
-      setSpecializations(resp.data);
+      setSpecializations(resp.data.data);
     });
 
   }, [selectedSpecialization]);
 
   const filteredDoctors = doctors.filter((doctor) => {
-    const fullName = `${doctor.nome.toLowerCase()} ${doctor.cognome.toLowerCase()}`;
+    const fullName = `${doctor.first_name.toLowerCase()} ${doctor.last_name.toLowerCase()}`;
 
-    const cityInAddress = doctor.indirizzo.split(",")[1]?.trim().toLowerCase();
+    const cityInAddress = doctor.address.split(",")[1]?.trim().toLowerCase();
     const matchCity = city ? cityInAddress?.includes(city.toLowerCase()) : true;
 
     return fullName.includes(searchTerm.toLowerCase()) && matchCity;
@@ -44,19 +44,19 @@ const SearchDoctors = () => {
   const handleSpecializationChange = (e) => {
     const newSpecialization = e.target.value;
     setSelectedSpecialization(newSpecialization);
-    navigate(`/ricerca?specializzazione=${newSpecialization}`);
+    navigate(`/ricerca?specialization=${newSpecialization}`);
   };
 
   return (
     <div className="container mt-4">
-      <h2>Ricerca doctors</h2>
+      <h2>Ricerca dottori</h2>
 
       <div className="row mb-4">
         <div className="col-md-4">
           <select className="form-control" value={selectedSpecialization} onChange={handleSpecializationChange}>
-            <option value="">Tutte le specializations</option>
+            <option value="">Tutte le specializzazioni</option>
             {specializations.map(spec => (
-              <option key={spec.id} value={spec.nome}>{spec.nome}</option>
+              <option key={spec.id} value={spec.name}>{spec.name}</option>
             ))}
           </select>
         </div>
@@ -85,11 +85,11 @@ const SearchDoctors = () => {
           filteredDoctors.map((doctor) => (
             <div className="col-md-4 mb-4" key={doctor.id}>
               <div className="card ms-card">
-                <img src={doctor.immagine.startsWith("http") ? doctor.immagine : `http://localhost:3000/images/doctors/${doctor.immagine}`} className="card-img-top" alt={doctor.nome} style={{ objectFit: "cover" }} />
+                <img src={doctor.image.startsWith("http") ? doctor.image : `http://localhost:3000/images/doctors/${doctor.image}`} className="card-img-top" alt={doctor.fist_name} style={{ objectFit: "cover" }} />
                 <div className="card-body">
-                  <p><strong>Nome e Cognome:</strong> {doctor.nome} {doctor.cognome}</p>
-                  <p><strong>Specializzazione:</strong> {doctor.specializzazione}</p>
-                  <p><strong>Media Voto:</strong> {doctor.media_voto}/5</p>
+                  <p><strong>Nome e Cognome:</strong> {doctor.first_name} {doctor.last_name}</p>
+                  <p><strong>Specializzazione:</strong> {doctor.specialization}</p>
+                  <p><strong>Media Voto:</strong> {doctor.average_rating}/5</p>
                   <button className="btn btn-primary" onClick={() => navigate(`/medico/${doctor.slug}`)}>
                     Vai ai dettagli
                   </button>
