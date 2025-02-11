@@ -5,15 +5,15 @@ import axios from 'axios';
 
 function DoctorRegistration() {
   const initialFormRegistration = {
-    nome: '',
-    cognome: '',
+    first_name: '',
+    last_name: '',
     email: '',
-    telefono: '',
-    indirizzo: '',
-    specializzazione: '',
-    servizi: '',
-    immagine: null,
-    genere: ''
+    phone: '',
+    address: '',
+    specialization: '',
+    description: '',
+    image: null,
+    gender: ''
   };
 
   const [formData, setFormData] = useState(initialFormRegistration);
@@ -41,7 +41,7 @@ function DoctorRegistration() {
   const handleFileChange = (event) => {
     setFormData({
       ...formData,
-      immagine: event.target.files[0]
+      image: event.target.files[0]
     });
   };
 
@@ -67,7 +67,7 @@ function DoctorRegistration() {
     specialization={specialization}
     handleChange={handleChange}
     handleFileChange={handleFileChange}
-    handleSubmit={handleFileChange}
+    handleSubmit={handleSubmit}
    />
     
   );

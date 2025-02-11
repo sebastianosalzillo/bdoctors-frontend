@@ -9,56 +9,56 @@ function FormDoctor({formData, specialization, handleChange, handleFileChange, h
                         <div className="col-md-6 mb-3">
                             <h6 className="my-4">Dati anagrafici</h6>
                             <div className="form-group">
-                                <label htmlFor="nome">Nome</label>
+                                <label htmlFor="first_name">Nome</label>
                                 <input
                                     type="text"
                                     className="form-control"
-                                    id="nome"
-                                    name="nome"
-                                    value={formData.nome}
+                                    id="first_name"
+                                    name="first_name"
+                                    value={formData.first_name}
                                     onChange={handleChange}
                                     required
                                 />
                             </div>
                             <div className="form-group mt-3">
-                                <label htmlFor="cognome">Cognome</label>
+                                <label htmlFor="last_name">Cognome</label>
                                 <input
                                     type="text"
                                     className="form-control"
-                                    id="cognome"
-                                    name="cognome"
-                                    value={formData.cognome}
+                                    id="last_name"
+                                    name="last_name"
+                                    value={formData.last_name}
                                     onChange={handleChange}
                                     required
                                 />
                             </div>
                             <div className="form-group mt-3">
-                                <label htmlFor="genere">Genere</label>
+                                <label htmlFor="gender">Genere</label>
                                 <select
                                     className="form-control"
-                                    id="genere"
-                                    name="genere"
-                                    value={formData.genere}
+                                    id="gender"
+                                    name="gender"
+                                    value={formData.gender}
                                     onChange={handleChange}
                                     required
                                 >
                                     <option value="">-</option>
-                                    <option value="Maschio">Uomo</option>
-                                    <option value="Femmina">Donna</option>
-                                    <option value="Non indicato">Non indicato</option>
+                                    <option value="Maschio">M</option>
+                                    <option value="Femmina">F</option>
+                                    <option value="Non indicato">X</option>
                                 </select>
                             </div>
                         </div>
                         <div className="col-md-6 mb-3">
                             <h6 className="my-4">Contatti</h6>
                             <div className="form-group">
-                                <label htmlFor="telefono">Numero di telefono</label>
+                                <label htmlFor="phone">Numero di telefono</label>
                                 <input
                                     type="text"
                                     className="form-control"
-                                    id="telefono"
-                                    name="telefono"
-                                    value={formData.telefono}
+                                    id="phone"
+                                    name="phone"
+                                    value={formData.phone}
                                     onChange={handleChange}
                                     required
                                 />
@@ -76,13 +76,13 @@ function FormDoctor({formData, specialization, handleChange, handleFileChange, h
                                 />
                             </div>
                             <div className="form-group mt-3">
-                                <label htmlFor="indirizzo">Indirizzo</label>
+                                <label htmlFor="address">Indirizzo</label>
                                 <input
                                     type="text"
                                     className="form-control"
-                                    id="indirizzo"
-                                    name="indirizzo"
-                                    value={formData.indirizzo}
+                                    id="address"
+                                    name="address"
+                                    value={formData.address}
                                     onChange={handleChange}
                                     required
                                 />
@@ -92,30 +92,30 @@ function FormDoctor({formData, specialization, handleChange, handleFileChange, h
                     <hr />
                     <h6 className="mt-4">Professione</h6>
                     <div className="form-group mb-3">
-                        <label htmlFor="specializzazione"></label>
+                        <label htmlFor="specialization"></label>
                         <select
                             className="form-control"
-                            id="specializzazione"
-                            name="specializzazione"
-                            value={formData.specializzazione}
+                            id="specialization"
+                            name="specialization"
+                            value={formData.specialization}
                             onChange={handleChange}
                             required
                         >
                             <option value="">Seleziona specializzazione</option>
                             {specialization.map(curItem => (
-                                <option key={curItem.id} value={curItem.nome}>
-                                    {curItem.nome}
+                                <option key={curItem.id} value={curItem.name}>
+                                    {curItem.name}
                                 </option>
                             ))}
                         </select>
                     </div>
                     <div className="form-group my-4">
-                        <label htmlFor="servizi">Servizi</label>
+                        <label htmlFor="description">Servizi</label>
                         <textarea
                             className="form-control"
-                            id="servizi"
-                            name="servizi"
-                            value={formData.servizi}
+                            id="description"
+                            name="description"
+                            value={formData.description}
                             onChange={handleChange}
                             required
                         ></textarea>
@@ -123,12 +123,12 @@ function FormDoctor({formData, specialization, handleChange, handleFileChange, h
                     <hr />
                     <h6 className="mt-4">Immagine di profilo</h6>
                     <div className="form-group mb-3 w-100">
-                        <label htmlFor="immagine"></label>
+                        <label htmlFor="image"></label>
                         <input
                             type="file"
                             className="form-control mt-1"
-                            id="immagine"
-                            name="immagine"
+                            id="image"
+                            name="image"
                             onChange={handleFileChange}
                             required
                         />
