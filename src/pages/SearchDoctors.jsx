@@ -44,12 +44,12 @@ const SearchDoctors = () => {
   const handleSpecializationChange = (e) => {
     const newSpecialization = e.target.value;
     setSelectedSpecialization(newSpecialization);
-    navigate(`/ricerca?specialization=${newSpecialization}`);
+    navigate(`/search?specialization=${newSpecialization}`);
   };
 
   return (
     <div className="container mt-4">
-      <h2>Ricerca dottori</h2>
+      <h2>Cerca dottori</h2>
 
       <div className="row mb-4">
         <div className="col-md-4">
@@ -90,7 +90,7 @@ const SearchDoctors = () => {
                   <p><strong>Nome e Cognome:</strong> {doctor.first_name} {doctor.last_name}</p>
                   <p><strong>Specializzazione:</strong> {doctor.specialization}</p>
                   <p><strong>Media Voto:</strong> {doctor.average_rating}/5</p>
-                  <button className="btn btn-primary" onClick={() => navigate(`/medico/${doctor.slug}`)}>
+                  <button className="btn btn-primary" onClick={() => navigate(`/doctor/${doctor.slug}`)}>
                     Vai ai dettagli
                   </button>
                 </div>

@@ -22,7 +22,7 @@ function HomePage() {
   // 🔹 Funzione per navigare alla ricerca con la specializzazione selezionata
   const handleSearchBySpecialization = () => {
     if (selectedSpecialization) {
-      navigate(`/ricerca?specialization=${selectedSpecialization}`);
+      navigate(`/search?specialization=${selectedSpecialization}`);
     }
   };
 
@@ -30,9 +30,9 @@ function HomePage() {
     <div className="container mt-4">
 
       <h1 className="text-center mt-4">Benvenuto su BDoctors</h1>
-      <p className="text-center">Trova il doctor specialista che fa per te.</p>
+      <p className="text-center">Trova il dottore specialista che fa per te.</p>
 
-      {/* 🔍 Selezione Specializzazione e Pulsante di Ricerca */}
+      {/* 🔍 Selezione Specializzazione e Pulsante di ricerca */}
       <div className="row mt-4 align-items-center">
         <div className="col-md-8">
           <select
@@ -76,7 +76,7 @@ function HomePage() {
                     <h5 className="card-title">{doctor.first_name} {doctor.last_name}</h5>
                     <p className="card-text"><strong>Specializzazione:</strong> {doctor.specialization}</p>
                     <p className="card-text"><strong>Media Voto:</strong> {doctor.average_rating}/5</p>
-                    <Link to={`/dottori/${doctor.slug}`} className="btn btn-primary">Vedi dettagli</Link>
+                    <Link to={`/doctor/${doctor.slug}`} className="btn btn-primary">Vedi dettagli</Link>
                   </div>
                 </div>
               </div>

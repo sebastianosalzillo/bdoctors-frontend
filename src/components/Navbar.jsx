@@ -10,7 +10,7 @@ function Navbar() {
 
         <ul className="navbar-nav">
           <li className="nav-item">
-            <Link className="nav-link" to="/registrazione">Registrati come Medico</Link>
+            <Link className="nav-link" to="/registration">Registrati come Medico</Link>
           </li>
         </ul>
       </div>
