@@ -10,9 +10,9 @@ function DoctorRegistration() {
     email: '',
     phone: '',
     address: '',
-    specialization: '',
+    id_specialization: '',
     description: '',
-    image: null,
+    image: '',
     gender: ''
   };
 
@@ -48,21 +48,26 @@ console.log(formData);
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
     const data = new FormData();
     Object.keys(formData).forEach(key => {
       data.append(key, formData[key]);
     });
-console.log(data);
+
+    // Log dei dati per la verifica
+    for (var pair of data.entries()) {
+        console.log(pair[0] + ', ' + pair[1]); 
+    }
 
     axios.post('http://localhost:3000/doctors', data)
       .then(response => {
-        //const doctorSlug = response.data.slug;
-        // navigate(`/doctor/${doctorSlug}`); 
+        console.log('Success:', response.data);
+         navigate('/'); 
       })
       .catch(error => {
         console.error('Error:', error);
       });
-  };
+};
 
   return (
    <FormDoctor

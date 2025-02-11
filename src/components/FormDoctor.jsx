@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 function FormDoctor({ formData, specialization, handleChange, handleFileChange, handleSubmit }) {
     return (
         <div className="container">
@@ -99,12 +98,12 @@ function FormDoctor({ formData, specialization, handleChange, handleFileChange, 
                         <hr />
                         <h6 className="mt-4">Professione</h6>
                         <div className="form-group mb-3">
-                            <label htmlFor="specialization"></label>
+                            <label htmlFor="id_specialization"></label>
                             <select
                                 className="form-control"
-                                id="specialization"
-                                name="specialization"
-                                value={formData.specialization}
+                                id="id_specialization"
+                                name="id_specialization"
+                                value={formData.id_specialization}
                                 onChange={handleChange}
                                 required
                             >
@@ -137,7 +136,7 @@ function FormDoctor({ formData, specialization, handleChange, handleFileChange, 
                                 id="image"
                                 name="image"
                                 onChange={handleFileChange}
-                                required
+                                
                             />
                         </div>
                         <div className="d-flex justify-content-center">
