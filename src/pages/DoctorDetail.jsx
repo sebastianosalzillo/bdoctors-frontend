@@ -13,6 +13,7 @@ function DoctorDetail() {
   const emptyRece = {
     vote: 0,
     name: "",
+    email: "",
     text: ""
   }
   let [newRece, setNewRece] = useState(emptyRece)
@@ -127,7 +128,12 @@ function DoctorDetail() {
             <h3 className="py-2">Scrivi una recensione!</h3>
             <div className="form-group">
               <label className="mt-1" htmlFor="name">Nome e Cognome</label>
-              <input required type="text" className="form-control mt-1" id="name" name="name" value={newRece.name} onChange={(event) => { handleInputChange(event) }} />
+              <input required type="text" minLength={3} className="form-control mt-1" id="name" name="name" value={newRece.name} onChange={(event) => { handleInputChange(event) }} />
+            </div>
+
+            <div className="form-group">
+              <label className="mt-1" htmlFor="email">Email</label>
+              <input required type="email" className="form-control mt-1" id="email" name="email" value={newRece.email} onChange={(event) => { handleInputChange(event) }} />
             </div>
 
             <div className="mt-3">
@@ -137,7 +143,7 @@ function DoctorDetail() {
 
             <div className="form-group mt-2">
               <label className="mt-1" htmlFor="text">Aggiungi una recensione scritta</label>
-              <textarea className="form-control mt-1" type="text" id="text" rows="3" name="text" value={newRece.text} onChange={(event) => { handleInputChange(event) }}></textarea>
+              <textarea className="form-control mt-1" type="text" id="text" rows="3" name="text" minLength={6} value={newRece.text} onChange={(event) => { handleInputChange(event) }}></textarea>
             </div>
             <button type="submit" className="btn btn-primary">Conferma</button>
           </form>
