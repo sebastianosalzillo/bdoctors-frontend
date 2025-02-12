@@ -6,6 +6,7 @@ import { faStar as regularStar } from '@fortawesome/free-regular-svg-icons';
 import axios from "axios";
 
 function DoctorDetail() {
+
   const array = [1, 2, 3, 4, 5]
   let { slug } = useParams();
   let [doc, setDoc] = useState(null)
@@ -35,6 +36,7 @@ function DoctorDetail() {
         <p className="my-1"><strong>Telefono: </strong>{doc.phone}</p>
         <p className="my-1"><strong>Email: </strong>{doc.email}</p>
         <p className="my-1"><strong>Indirizzo: </strong>{doc.address}</p></>
+        //manca il voto medio
     )
   }
 
@@ -51,11 +53,13 @@ function DoctorDetail() {
   const printRecensioni = () => {
     const rece = doc.reviews
     let risp = rece.map((curRece) => {
+      console.log("Dati recensione corrente:", curRece);
       return (
         <div key={curRece.id} className="rece-card">
           <h5>{curRece.patient_name}</h5>
           <div><strong>Voto: </strong> {stelline(curRece.rating)}</div>
           <p>{curRece.content}</p>
+          <a href={`mailto:${curRece.email}`}>{curRece.email}</a>
         </div>
       );
     })
@@ -87,7 +91,7 @@ function DoctorDetail() {
   const handleOnSubmit = (event) => {
     event.preventDefault();
     console.log("Inizio submit");
-    axios.post(`http://localhost:3000/reviews/doctors/${doc.id}/reviews`, newRece).then(() => {
+    axios.post(`http://localhost:3000/reviews/doctors/${doc.slug}/reviews`, newRece).then(() => {
       refresh();
       setNewRece(emptyRece);
     });
@@ -98,7 +102,7 @@ function DoctorDetail() {
       <>
         <div className="medico-card">
           <div className="imm">
-            <img src={`http://localhost:3000/images/doctors/${doc.image}`} alt={`medico ${doc.fist_name} ${doc.last_name}`} />
+            <img src={`http://localhost:3000/images/doctors/${doc.image}`} alt={`medico ${doc.first_name} ${doc.last_name}`} />
           </div>
           <section className="p-3">
             <h2>{doc.first_name} {doc.last_name}</h2>
@@ -124,7 +128,7 @@ function DoctorDetail() {
 
         <div>
           <form onSubmit={(event) => handleOnSubmit(event)} className="recensioni">
-            <h3 className="py-2">Scrivi una recensione!</h3>
+            <h3 className="py-2">Lascia una recensione!</h3>
             <div className="form-group">
               <label className="mt-1" htmlFor="patient_name">Nome e Cognome</label>
               <input required type="text" minLength={3} className="form-control mt-1" id="patient_name" name="patient_name" value={newRece.patient_name} onChange={(event) => { handleInputChange(event) }} />
@@ -141,7 +145,7 @@ function DoctorDetail() {
             </div>
 
             <div className="form-group mt-2">
-              <label className="mt-1" htmlFor="content">Aggiungi una recensione scritta</label>
+              <label className="mt-1" htmlFor="content">Raccontaci come è andata!</label>
               <textarea className="form-control mt-1" type="text" id="content" rows="3" name="content" minLength={6} value={newRece.content} onChange={(event) => { handleInputChange(event) }}></textarea>
             </div>
             <button type="submit" className="btn btn-primary">Conferma</button>

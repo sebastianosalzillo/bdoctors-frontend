@@ -14,13 +14,13 @@ const SearchDoctors = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const [selectedSpecialization, setSelectedSpecialization] = useState(queryParams.get("specialization") || "");
-  
+
 
   useEffect(() => {
     axios.get(`${apiUrl}/doctors`).then((resp) => {
       const allDoctors = resp.data.data;
-      const filteredBySpecialization = selectedSpecialization 
-        ? allDoctors.filter((doc) => doc.specialization === selectedSpecialization) 
+      const filteredBySpecialization = selectedSpecialization
+        ? allDoctors.filter((doc) => doc.specialization === selectedSpecialization)
         : allDoctors;
 
       setDoctors(filteredBySpecialization);
@@ -85,7 +85,16 @@ const SearchDoctors = () => {
           filteredDoctors.map((doctor) => (
             <div className="col-md-4 mb-4" key={doctor.id}>
               <div className="card ms-card">
-                <img src={doctor.image.startsWith("http") ? doctor.image : `http://localhost:3000/images/doctors/${doctor.image}`} className="card-img-top" alt={doctor.fist_name} style={{ objectFit: "cover" }} />
+                <img
+                  src={doctor.image ? (doctor.image.startsWith("http")
+                    ? doctor.image
+                    : `http://localhost:3000/images/doctors/${doctor.image}`)
+                    : 'path_to_default_image.jpg'}
+                  className="card-img-top"
+                  alt={doctor.first_name}
+                  style={{ objectFit: "cover" }}
+                />
+
                 <div className="card-body">
                   <p><strong>Nome e Cognome:</strong> {doctor.first_name} {doctor.last_name}</p>
                   <p><strong>Specializzazione:</strong> {doctor.specialization}</p>
