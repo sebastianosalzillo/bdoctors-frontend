@@ -81,7 +81,7 @@ function FormDoctor({ formData, specialization, handleChange, handleFileChange, 
                                         className="form-control"
                                         id="email"
                                         name="email"
-                                        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$"
+                                        // pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$"
                                         title="L'email deve includere la @"
                                         autoComplete="off"
                                         value={formData.email}

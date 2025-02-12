@@ -34,34 +34,39 @@ function DoctorRegistration() {
   }, []);
 
   const checkEmail = (email) => {
-    axios.post('http://localhost:3000/doctors', { emailOnly: email })
+    return axios.post('http://localhost:3000/doctors', { emailOnly: email })
       .then(response => {
         if (response.data.exists) {
-          console.log(response.data.exists);
-
           setEmailError("Email già registrata");
+          return false; // Indica che l'email non è valida
         } else {
           setEmailError('');
+          return true; // Indica che l'email è valida
         }
       })
       .catch(error => {
         console.error('Errore durante la verifica dell\'email:', error);
+        return false; // In caso di errore, l'email non è valida
       });
   };
-
+  
   const checkPhone = (phone) => {
-    axios.post('http://localhost:3000/doctors', { phoneOnly: phone })
+    return axios.post('http://localhost:3000/doctors', { phoneOnly: phone })
       .then(response => {
         if (response.data.exists) {
           setPhoneError("Numero di telefono già registrato");
+          return false; // Indica che il telefono non è valido
         } else {
           setPhoneError('');
+          return true; // Indica che il telefono è valido
         }
       })
       .catch(error => {
         console.error('Errore durante la verifica del telefono:', error);
+        return false; // In caso di errore, il telefono non è valido
       });
   };
+  
 
 
   const handleChange = (event) => {
@@ -86,14 +91,21 @@ function DoctorRegistration() {
   const handleSubmit = async (event) => {
     event.preventDefault();
   
-    // Aspetta che entrambe le verifiche dell'email e del telefono siano completate
-    const isEmailValid = await checkEmail(formData.email);  // Controlla la validità dell'email
-    const isPhoneValid = await checkPhone(formData.phone);  // Controlla la validità del telefono
+    // Verifica l'email e il telefono prima di inviare il modulo
+  const emailPromise = checkEmail(formData.email); // Verifica la validità dell'email
+  const phonePromise = checkPhone(formData.phone); // Verifica la validità del telefono
+
+  // Quando entrambe le Promesse sono risolte, controlla se sono valide
+  Promise.all([emailPromise, phonePromise])
+    .then((results) => {
+      const isEmailValid = results[0]; // Risultato di checkEmail
+      const isPhoneValid = results[1]; // Risultato di checkPhon
   
     // Se una delle verifiche fallisce, non inviare il modulo
     if (!isEmailValid || !isPhoneValid) {
       return; // Impedisce l'invio del form se l'email o il telefono non sono validi
     }
+  })
 
     const data = new FormData();
     Object.keys(formData).forEach(key => {
