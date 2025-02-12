@@ -10,7 +10,7 @@ const FormReview = ({handleOnSubmit, handleInputChange, newRece, array}) => {
 
                 <div className="form-group">
                     <label className="mt-1" htmlFor="email">Email</label>
-                    <input required type="email" className="form-control mt-1" id="email" name="email" value={newRece.email} onChange={(event) => { handleInputChange(event) }} />
+                    <input required type="email" className="form-control mt-1" id="email" name="email" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$" value={newRece.email} onChange={(event) => { handleInputChange(event) }} />
                 </div>
 
                 <div className="mt-3">
@@ -25,7 +25,7 @@ const FormReview = ({handleOnSubmit, handleInputChange, newRece, array}) => {
 
                 <div className="form-group mt-2">
                     <label className="mt-1" htmlFor="content">Raccontaci come è andata!</label>
-                    <textarea className="form-control mt-1" type="text" id="content" rows="3" name="content" minLength={6} value={newRece.content} onChange={(event) => { handleInputChange(event) }}></textarea>
+                    <textarea className="form-control mt-1" type="text" id="content" rows="3" name="content" minLength={5} value={newRece.content} onChange={(event) => { handleInputChange(event) }}></textarea>
                 </div>
                 <button type="submit" className="btn btn-primary">Conferma</button>
             </form>

@@ -16,6 +16,8 @@ function FormDoctor({ formData, specialization, handleChange, handleFileChange, 
                                         id="first_name"
                                         name="first_name"
                                         minLength={3}
+                                        autoComplete="off"
+                                        title="Il nome deve contenere almeno 3 caratteri"
                                         value={formData.first_name}
                                         onChange={handleChange}
                                         required
@@ -29,6 +31,8 @@ function FormDoctor({ formData, specialization, handleChange, handleFileChange, 
                                         id="last_name"
                                         name="last_name"
                                         minLength={3}
+                                         title="Il cognome deve contenere almeno 3 caratteri"
+                                        autoComplete="off"
                                         value={formData.last_name}
                                         onChange={handleChange}
                                         required
@@ -56,13 +60,13 @@ function FormDoctor({ formData, specialization, handleChange, handleFileChange, 
                                 <div className="form-group">
                                     <label htmlFor="phone">Numero di telefono</label>
                                     <input
-                                        type="tel"
-                                        
+                                        type="text"
                                         className="form-control"
                                         id="phone"
                                         name="phone"
-                                        maxLength={13}
-                                        minLength={9}
+                                        pattern="^\+?[0-9]{1,15}$"
+                                        title="Il numero deve avere massimo 15 caratteri e può iniziare con il +"
+                                        autoComplete="off"
                                         value={formData.phone}
                                         onChange={handleChange}
                                         required
@@ -75,6 +79,9 @@ function FormDoctor({ formData, specialization, handleChange, handleFileChange, 
                                         className="form-control"
                                         id="email"
                                         name="email"
+                                        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$"
+                                        title="L'email deve includere la @"
+                                        autoComplete="off"
                                         value={formData.email}
                                         onChange={handleChange}
                                         required
@@ -88,6 +95,8 @@ function FormDoctor({ formData, specialization, handleChange, handleFileChange, 
                                         id="address"
                                         name="address"
                                         minLength={5}
+                                        autoComplete="off"
+                                        title="L'indirizzo deve contenere almeno 5 caratteri"
                                         value={formData.address}
                                         onChange={handleChange}
                                         required
@@ -121,6 +130,9 @@ function FormDoctor({ formData, specialization, handleChange, handleFileChange, 
                                 className="form-control"
                                 id="description"
                                 name="description"
+                                minLength={6}
+                                autoComplete="off"
+                                title="Devi inserire almeno 6 aratteri"
                                 value={formData.description}
                                 onChange={handleChange}
                                 required
