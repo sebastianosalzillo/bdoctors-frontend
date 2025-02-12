@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar as solidStar } from '@fortawesome/free-solid-svg-icons';
+import { faStar as solidStar, faPhone, faEnvelope, faMapLocationDot, } from '@fortawesome/free-solid-svg-icons';
 import { faStar as regularStar } from '@fortawesome/free-regular-svg-icons';
 import axios from "axios";
 import FormReview from "../components/FormReview";
@@ -41,12 +41,20 @@ function DoctorDetail() {
   const printData = () => {
     return (
       <>
-        <button onClick={gotToSpec} className="btn spec">{doc.specialization}</button>
-        <p className="my-1"><strong>Telefono: </strong>{doc.phone}</p>
-        <p className="my-1"><strong>Email: </strong><a href={`mailto:${doc.email}`}>{doc.email}</a></p>
-        <p className="my-1"><strong>Indirizzo: </strong>{doc.address}</p>
-        <p className="my-1"><strong>Voto Medio: </strong>{doc.average_rating}</p>
-        <p className="my-1"><strong>Descrizione: </strong>{doc.description}</p>
+        <button onClick={gotToSpec} className="btn btn-primary spec">{doc.specialization}</button>
+        <p className="my-1">
+        <FontAwesomeIcon  icon={faPhone}/> {doc.phone}
+        </p>
+        <p className="my-1">
+        <FontAwesomeIcon  icon={faEnvelope}/> <a href={`mailto:${doc.email}`}>{doc.email}</a>
+        </p>
+        <p className="my-1">
+        <span><FontAwesomeIcon  icon={faMapLocationDot}/></span>  {doc.address}
+        </p>
+        <p className="my-1">
+        <FontAwesomeIcon  icon={solidStar}/> {doc.average_rating}
+        </p>
+        <p className="my-1">{doc.description}</p>
       </>
     )
   }

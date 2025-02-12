@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
 function FormDoctor({ formData, specialization, handleChange, handleFileChange, handleSubmit, emailError, phoneError }) {
     return (
-        <div className="container">
-            <h3 className="text-center my-5">Sei un nuovo? Registrati qui!</h3>
+        <div>
+            <h3 className="text-center my-5">Sei nuovo? Registrati qui!</h3>
             <div className="row justify-content-center">
                 <div className="col-md-8">
-                    <form onSubmit={handleSubmit}>
+                    <form className="registration" onSubmit={handleSubmit}>
                         <div className="row">
                             <div className="col-md-6 mb-3">
                                 <h6 className="my-4">Dati anagrafici</h6>
