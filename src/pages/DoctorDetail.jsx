@@ -4,12 +4,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar as solidStar } from '@fortawesome/free-solid-svg-icons';
 import { faStar as regularStar } from '@fortawesome/free-regular-svg-icons';
 import axios from "axios";
+import FormReview from "../components/FormReview";
 
 function DoctorDetail() {
 
   const array = [1, 2, 3, 4, 5]
-  let { slug } = useParams();
-  let [doc, setDoc] = useState(null)
+  const { slug } = useParams();
+  const [doc, setDoc] = useState(null)
 
   const emptyRece = {
     rating: 0,
@@ -17,12 +18,12 @@ function DoctorDetail() {
     email: "",
     content: ""
   }
-  let [newRece, setNewRece] = useState(emptyRece)
+  const [newRece, setNewRece] = useState(emptyRece)
 
 
   useEffect(() => {
     refresh()
-  }, [])
+  }, [slug])
 
   const refresh = () => {
     axios.get(`http://localhost:3000/doctors/${slug}`).then((resp) => {
@@ -32,11 +33,14 @@ function DoctorDetail() {
 
   const printData = () => {
     return (
-      <><div className="spec">{doc.specialization}</div>
+      <>
+        <div className="spec">{doc.specialization}</div>
         <p className="my-1"><strong>Telefono: </strong>{doc.phone}</p>
-        <p className="my-1"><strong>Email: </strong>{doc.email}</p>
-        <p className="my-1"><strong>Indirizzo: </strong>{doc.address}</p></>
-        //manca il voto medio
+        <p className="my-1"><strong>Email: </strong><a href={`mailto:${doc.email}`}>{doc.email}</a></p>
+        <p className="my-1"><strong>Indirizzo: </strong>{doc.address}</p>
+        <p className="my-1"><strong>Voto Medio: </strong>{doc.average_rating}</p>
+        <p className="my-1"><strong>Descrizione: </strong>{doc.description}</p>
+      </>
     )
   }
 
@@ -52,8 +56,7 @@ function DoctorDetail() {
 
   const printRecensioni = () => {
     const rece = doc.reviews
-    let risp = rece.map((curRece) => {
-      console.log("Dati recensione corrente:", curRece);
+    const risp = rece.map((curRece) => {
       return (
         <div key={curRece.id} className="rece-card">
           <h5>{curRece.patient_name}</h5>
@@ -66,22 +69,10 @@ function DoctorDetail() {
     return risp
   }
 
-  const printRadioCheck = () => {
-    let risp = array.map((i) => {
-      return (
-        <div key={i} className="form-check form-check-inline">
-          <input required className="form-check-input" type="radio" name="rating" id={i} checked={newRece.rating == i} onChange={(event) => handleInputChange(event)} value={i} />
-          <label className="form-check-label" htmlFor={i}>{i}</label>
-        </div>
-      )
-    })
-    return risp
-  }
-
   const handleInputChange = (event) => {
-    let name = event.target.name
-    let value = event.target.value
-    let obj = {
+    const name = event.target.name
+    const value = event.target.value
+    const obj = {
       ...newRece,
       [name]: value
     }
@@ -126,32 +117,12 @@ function DoctorDetail() {
 
         <hr className="linea" />
 
-        <div>
-          <form onSubmit={(event) => handleOnSubmit(event)} className="recensioni">
-            <h3 className="py-2">Lascia una recensione!</h3>
-            <div className="form-group">
-              <label className="mt-1" htmlFor="patient_name">Nome e Cognome</label>
-              <input required type="text" minLength={3} className="form-control mt-1" id="patient_name" name="patient_name" value={newRece.patient_name} onChange={(event) => { handleInputChange(event) }} />
-            </div>
-
-            <div className="form-group">
-              <label className="mt-1" htmlFor="email">Email</label>
-              <input required type="email" className="form-control mt-1" id="email" name="email" value={newRece.email} onChange={(event) => { handleInputChange(event) }} />
-            </div>
-
-            <div className="mt-3">
-              <label htmlFor="rating"><span>Valutazione:</span></label>
-              {printRadioCheck()}
-            </div>
-
-            <div className="form-group mt-2">
-              <label className="mt-1" htmlFor="content">Raccontaci come è andata!</label>
-              <textarea className="form-control mt-1" type="text" id="content" rows="3" name="content" minLength={6} value={newRece.content} onChange={(event) => { handleInputChange(event) }}></textarea>
-            </div>
-            <button type="submit" className="btn btn-primary">Conferma</button>
-          </form>
-
-        </div>
+        <FormReview
+        handleOnSubmit={handleOnSubmit}
+        handleInputChange={handleInputChange}
+        newRece={newRece}
+        array={array}
+        />
       </>
     }
   </>
