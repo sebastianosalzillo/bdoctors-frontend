@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-function FormDoctor({ formData, specialization, handleChange, handleFileChange, handleSubmit }) {
+function FormDoctor({ formData, specialization, handleChange, handleFileChange, handleSubmit, emailError, phoneError }) {
     return (
         <div className="container">
             <h3 className="text-center my-5">Sei un nuovo? Registrati qui!</h3>
@@ -72,6 +72,7 @@ function FormDoctor({ formData, specialization, handleChange, handleFileChange, 
                                         onChange={handleChange}
                                         required
                                     />
+                                    {phoneError && <p style={{ color: 'red' }}>{phoneError}</p>}
                                 </div>
                                 <div className="form-group mt-3">
                                     <label htmlFor="email">Email</label>
@@ -80,13 +81,14 @@ function FormDoctor({ formData, specialization, handleChange, handleFileChange, 
                                         className="form-control"
                                         id="email"
                                         name="email"
-                                        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$"
+                                        //pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$"
                                         title="L'email deve includere la @"
                                         autoComplete="off"
                                         value={formData.email}
                                         onChange={handleChange}
                                         required
                                     />
+                                    {emailError && <p style={{ color: 'red' }}>{emailError}</p>}
                                 </div>
                                 <div className="form-group mt-3">
                                     <label htmlFor="address">Indirizzo</label>
