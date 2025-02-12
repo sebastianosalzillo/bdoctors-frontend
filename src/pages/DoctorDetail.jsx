@@ -82,9 +82,14 @@ function DoctorDetail() {
   const handleOnSubmit = (event) => {
     event.preventDefault();
     console.log("Inizio submit");
-    axios.post(`http://localhost:3000/reviews/doctors/${doc.slug}/reviews`, newRece).then(() => {
-      refresh();
-      setNewRece(emptyRece);
+    axios.post(`http://localhost:3000/reviews/doctors/${doc.slug}/reviews`, newRece).then((resp) => {
+      if (resp.data.status === 'success') {
+        alert('Recensione aggiunta e notifica email inviata al dottore!');
+        refresh();
+        setNewRece(emptyRece);
+      } else {
+        alert(`Errore: ${resp.data.message}`);
+      }
     });
   }
 
@@ -118,10 +123,10 @@ function DoctorDetail() {
         <hr className="linea" />
 
         <FormReview
-        handleOnSubmit={handleOnSubmit}
-        handleInputChange={handleInputChange}
-        newRece={newRece}
-        array={array}
+          handleOnSubmit={handleOnSubmit}
+          handleInputChange={handleInputChange}
+          newRece={newRece}
+          array={array}
         />
       </>
     }
