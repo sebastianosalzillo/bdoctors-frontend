@@ -1,4 +1,10 @@
 /* Dettaglio Medico */
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
 .medico-card{
     display: flex;
     width: 100%;
@@ -54,6 +60,12 @@
   
   .rece-card p{
     font-style: italic;
+    margin-bottom: 0px;
+  }
+
+  .no-rece{
+    font-style: italic;
+    margin: 30px 0px;
   }
   
   label span{
@@ -122,8 +134,23 @@
     color: #0097b2;
     opacity: .5;
   }
+
+  footer{
+    background-color: #023841;
+    color: white;
+  }
+
+  nav{
+    background-color: #023841;
+  }
+
+  ul.navbar-nav{
+    --bs-nav-link-color: rgb(170, 170, 170);
+    --bs-nav-link-hover-color: rgb(255, 255, 255);
+    --bs-nav-link-disabled-color: rgb(255, 255, 255);
+  }
   
-  @media screen and (max-width:540px){
+  @media screen and (max-width:770px){
     .medico-card{
       display: none;
     }

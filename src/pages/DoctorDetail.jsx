@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar as solidStar } from '@fortawesome/free-solid-svg-icons';
@@ -8,18 +8,25 @@ import FormReview from "../components/FormReview";
 
 function DoctorDetail() {
 
-  const array = [1, 2, 3, 4, 5]
-  const { slug } = useParams();
-  const [doc, setDoc] = useState(null)
-
   const emptyRece = {
     rating: 0,
     patient_name: "",
     email: "",
     content: ""
   }
-  const [newRece, setNewRece] = useState(emptyRece)
 
+  const navigate = useNavigate();
+  const array = [1, 2, 3, 4, 5]
+  const { slug } = useParams();
+
+  const [newRece, setNewRece] = useState(emptyRece)
+  const [doc, setDoc] = useState(null)
+
+  const gotToSpec = () => {
+    if (doc.specialization) {
+      navigate(`/search?specialization=${doc.specialization}`)
+    }
+  }
 
   useEffect(() => {
     refresh()
@@ -34,7 +41,7 @@ function DoctorDetail() {
   const printData = () => {
     return (
       <>
-        <div className="spec">{doc.specialization}</div>
+        <button onClick={gotToSpec} className="btn spec">{doc.specialization}</button>
         <p className="my-1"><strong>Telefono: </strong>{doc.phone}</p>
         <p className="my-1"><strong>Email: </strong><a href={`mailto:${doc.email}`}>{doc.email}</a></p>
         <p className="my-1"><strong>Indirizzo: </strong>{doc.address}</p>
@@ -55,18 +62,25 @@ function DoctorDetail() {
   };
 
   const printRecensioni = () => {
-    const rece = doc.reviews
-    const risp = rece.map((curRece) => {
-      return (
-        <div key={curRece.id} className="rece-card">
-          <h5>{curRece.patient_name}</h5>
-          <div><strong>Voto: </strong> {stelline(curRece.rating)}</div>
-          <p>{curRece.content}</p>
-          <a href={`mailto:${curRece.email}`}>{curRece.email}</a>
-        </div>
-      );
-    })
-    return risp
+    if (doc.reviews.length) {
+      const rece = doc.reviews
+      const risp = rece.map((curRece) => {
+        return (
+          <div key={curRece.id} className="rece-card">
+            <h5>{curRece.patient_name}</h5>
+            <div><strong>Voto: </strong> {stelline(curRece.rating)}</div>
+            <p>{curRece.content}</p>
+            {/* <a href={`mailto:${curRece.email}`}>{curRece.email}</a> */}
+          </div>
+        );
+      })
+      return risp
+    } else {
+      return (<>
+        <p className="no-rece">Questo medico non ha ancora recensioni. Sii il primo ad aggiungere una recensione!</p>
+      </>)
+    }
+
   }
 
   const handleInputChange = (event) => {
@@ -116,7 +130,7 @@ function DoctorDetail() {
         </div>
 
         <div>
-          <h3 className="my-4">Recensioni</h3>
+          <h3 className="my-4">Recensioni ({doc.reviews.length})</h3>
           {printRecensioni()}
         </div>
 

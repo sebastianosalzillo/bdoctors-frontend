@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 function FormDoctor({ formData, specialization, handleChange, handleFileChange, handleSubmit }) {
     return (
         <div className="container">
