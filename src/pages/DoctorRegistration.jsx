@@ -20,7 +20,6 @@ function DoctorRegistration() {
   const [specialization, setSpecialization] = useState([]);
   const [emailError, setEmailError] = useState('');
   const [phoneError, setPhoneError] = useState('');
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -49,7 +48,7 @@ function DoctorRegistration() {
         return false; // In caso di errore, l'email non è valida
       });
   };
-  
+
   const checkPhone = (phone) => {
     return axios.post('http://localhost:3000/doctors', { phoneOnly: phone })
       .then(response => {
@@ -66,7 +65,7 @@ function DoctorRegistration() {
         return false; // In caso di errore, il telefono non è valido
       });
   };
-  
+
 
 
   const handleChange = (event) => {
@@ -90,22 +89,22 @@ function DoctorRegistration() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
-    // Verifica l'email e il telefono prima di inviare il modulo
-  const emailPromise = checkEmail(formData.email); // Verifica la validità dell'email
-  const phonePromise = checkPhone(formData.phone); // Verifica la validità del telefono
 
-  // Quando entrambe le Promesse sono risolte, controlla se sono valide
-  Promise.all([emailPromise, phonePromise])
-    .then((results) => {
-      const isEmailValid = results[0]; // Risultato di checkEmail
-      const isPhoneValid = results[1]; // Risultato di checkPhon
-  
-    // Se una delle verifiche fallisce, non inviare il modulo
-    if (!isEmailValid || !isPhoneValid) {
-      return; // Impedisce l'invio del form se l'email o il telefono non sono validi
-    }
-  })
+    // Verifica l'email e il telefono prima di inviare il modulo
+    const emailPromise = checkEmail(formData.email); // Verifica la validità dell'email
+    const phonePromise = checkPhone(formData.phone); // Verifica la validità del telefono
+
+    // Quando entrambe le Promesse sono risolte, controlla se sono valide
+    Promise.all([emailPromise, phonePromise])
+      .then((results) => {
+        const isEmailValid = results[0]; // Risultato di checkEmail
+        const isPhoneValid = results[1]; // Risultato di checkPhon
+
+        // Se una delle verifiche fallisce, non inviare il modulo
+        if (!isEmailValid || !isPhoneValid) {
+          return; // Impedisce l'invio del form se l'email o il telefono non sono validi
+        }
+      })
 
     const data = new FormData();
     Object.keys(formData).forEach(key => {
@@ -130,16 +129,20 @@ function DoctorRegistration() {
   };
 
   return (
-    <FormDoctor
-      formData={formData}
-      specialization={specialization}
-      handleChange={handleChange}
-      handleFileChange={handleFileChange}
-      handleSubmit={handleSubmit}
-      emailError={emailError}
-      phoneError={phoneError}
-    />
-
+    <>
+      <div className="my-3">
+      <a className="back" onClick={() => navigate(-1)}>Torna indietro</a>
+      </div>
+      <FormDoctor
+        formData={formData}
+        specialization={specialization}
+        handleChange={handleChange}
+        handleFileChange={handleFileChange}
+        handleSubmit={handleSubmit}
+        emailError={emailError}
+        phoneError={phoneError}
+      />
+    </>
   );
 }
 

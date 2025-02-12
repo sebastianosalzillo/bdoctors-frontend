@@ -118,6 +118,9 @@ function DoctorDetail() {
   return (<>
     {doc &&
       <>
+      <div className="my-3">
+        <a className="back" onClick={() => navigate(-1)}>Torna indietro</a>
+      </div>
         <div className="medico-card">
           <div className="imm">
             <img src={`http://localhost:3000/images/doctors/${doc.image}`} alt={`medico ${doc.first_name} ${doc.last_name}`} />

@@ -48,69 +48,74 @@ const SearchDoctors = () => {
   };
 
   return (
-    <div className="container mt-4">
-      <h2>Cerca dottori</h2>
-
-      <div className="row mb-4">
-        <div className="col-md-4">
-          <select className="form-control" value={selectedSpecialization} onChange={handleSpecializationChange}>
-            <option value="">Tutte le specializzazioni</option>
-            {specializations.map(spec => (
-              <option key={spec.id} value={spec.name}>{spec.name}</option>
-            ))}
-          </select>
-        </div>
-        <div className="col-md-4">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Cerca per nome o cognome"
-            value={searchTerm}
-            onChange={(event) => setSearchTerm(event.target.value)}
-          />
-        </div>
-        <div className="col-md-4">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Cerca per città"
-            value={city}
-            onChange={(event) => setCity(event.target.value)}
-          />
-        </div>
+    <>
+      <div className="my-3">
+        <a className="back" onClick={() => navigate(-1)}>Torna indietro</a>
       </div>
 
-      <div className="row">
-        {filteredDoctors.length > 0 ? (
-          filteredDoctors.map((doctor) => (
-            <div className="col-md-4 mb-4" key={doctor.id}>
-              <div className="card ms-card">
-                <img
-                  src={doctor.image ? (doctor.image.startsWith("http")
-                    ? doctor.image
-                    : `http://localhost:3000/images/doctors/${doctor.image}`)
-                    : 'placeholder1.webp'}
-                  className="card-img-top"
-                  alt={doctor.first_name}
-                  style={{ objectFit: "cover" }}
-                />
+      <div>
+        <h2 className="text-center mb-4">Cerca dottori</h2>
+        <div className="row mb-4">
+          <div className="col-md-4">
+            <select className="form-control" value={selectedSpecialization} onChange={handleSpecializationChange}>
+              <option value="">Tutte le specializzazioni</option>
+              {specializations.map(spec => (
+                <option key={spec.id} value={spec.name}>{spec.name}</option>
+              ))}
+            </select>
+          </div>
+          <div className="col-md-4">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Cerca per nome o cognome"
+              value={searchTerm}
+              onChange={(event) => setSearchTerm(event.target.value)}
+            />
+          </div>
+          <div className="col-md-4">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Cerca per città"
+              value={city}
+              onChange={(event) => setCity(event.target.value)}
+            />
+          </div>
+        </div>
 
-                <div className="card-body">
-                  <p><strong>Nome e Cognome:</strong> {doctor.first_name} {doctor.last_name}</p>
-                  <p><strong>Specializzazione:</strong> {doctor.specialization}</p>
-                  <p><strong>Media Voto:</strong> {doctor.average_rating}/5</p>
-                  <button className="btn btn-primary" onClick={() => navigate(`/doctor/${doctor.slug}`)}>
-                    Vai ai dettagli
-                  </button>
+        <div className="row">
+          {filteredDoctors.length > 0 ? (
+            filteredDoctors.map((doctor) => (
+              <div className="col-md-4 mb-4" key={doctor.id}>
+                <div className="card ms-card">
+                  <img
+                    src={doctor.image ? (doctor.image.startsWith("http")
+                      ? doctor.image
+                      : `http://localhost:3000/images/doctors/${doctor.image}`)
+                      : 'placeholder1.webp'}
+                    className="card-img-top"
+                    alt={doctor.first_name}
+                    style={{ objectFit: "cover" }}
+                  />
+
+                  <div className="card-body">
+                    <p><strong>Nome e Cognome:</strong> {doctor.first_name} {doctor.last_name}</p>
+                    <p><strong>Specializzazione:</strong> {doctor.specialization}</p>
+                    <p><strong>Media Voto:</strong> {doctor.average_rating}/5</p>
+                    <button className="btn btn-primary" onClick={() => navigate(`/doctor/${doctor.slug}`)}>
+                      Vai ai dettagli
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))
-        ) : (
-          <p className="text-center">Nessun medico trovato</p>
-        )}
+            ))
+          ) : (
+            <p className="text-center">Nessun medico trovato</p>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

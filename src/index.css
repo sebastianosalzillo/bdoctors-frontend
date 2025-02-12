@@ -20,6 +20,13 @@
 a {
   text-decoration: none;
 }
+.back{
+  color: #7a7c7d;
+}
+.back:hover{
+  cursor: pointer;
+  color: #023841;
+}
 
 input.form-check-input:checked {
   background-color: #0097b2;
@@ -158,6 +165,8 @@ form.recensioni {
 form.recensioni h3 {
   color: #0097b2;
 }
+
+
 
 @media screen and (max-width:1400px) {
 

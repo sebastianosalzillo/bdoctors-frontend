@@ -64,8 +64,8 @@ function HomePage() {
           doctors
             .filter(doctor => doctor.average_rating >= 4.5)
             .map(doctor => (
-              <div key={doctor.id} className="col-md-4 mb-4">
-                <div className="card ms-card">
+              <div key={doctor.id} className="col-md-4 mb-4 ">
+                <div className="card ms-card ">
                   <img
                     src={doctor.image.startsWith("http") ? doctor.image : `http://localhost:3000/images/doctors/${doctor.image}`}
                     className="card-img-top"
