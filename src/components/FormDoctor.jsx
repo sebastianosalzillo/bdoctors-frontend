@@ -1,4 +1,4 @@
-function FormDoctor({ formData, specialization, handleChange, handleFileChange, handleSubmit }) {
+function FormDoctor({ formData, specialization, handleChange, handleFileChange, handleSubmit, emailError, phoneError }) {
     return (
         <div className="container">
             <h3 className="text-center my-5">Sei un nuovo? Registrati qui!</h3>
@@ -71,7 +71,9 @@ function FormDoctor({ formData, specialization, handleChange, handleFileChange, 
                                         onChange={handleChange}
                                         required
                                     />
+                                    {phoneError && <p style={{ color: 'red' }}>{phoneError}</p>}
                                 </div>
+
                                 <div className="form-group mt-3">
                                     <label htmlFor="email">Email</label>
                                     <input
@@ -86,7 +88,9 @@ function FormDoctor({ formData, specialization, handleChange, handleFileChange, 
                                         onChange={handleChange}
                                         required
                                     />
+                                    {emailError && <p style={{ color: 'red' }}>{emailError}</p>}
                                 </div>
+
                                 <div className="form-group mt-3">
                                     <label htmlFor="address">Indirizzo</label>
                                     <input

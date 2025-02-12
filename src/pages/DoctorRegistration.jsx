@@ -18,6 +18,9 @@ function DoctorRegistration() {
 
   const [formData, setFormData] = useState(initialFormRegistration);
   const [specialization, setSpecialization] = useState([]);
+  const [emailError, setEmailError] = useState('');
+  const [phoneError, setPhoneError] = useState('');
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,24 +33,67 @@ function DoctorRegistration() {
       });
   }, []);
 
+  const checkEmail = (email) => {
+    axios.post('http://localhost:3000/doctors', { emailOnly: email })
+      .then(response => {
+        if (response.data.exists) {
+          console.log(response.data.exists);
+
+          setEmailError("Email già registrata");
+        } else {
+          setEmailError('');
+        }
+      })
+      .catch(error => {
+        console.error('Errore durante la verifica dell\'email:', error);
+      });
+  };
+
+  const checkPhone = (phone) => {
+    axios.post('http://localhost:3000/doctors', { phoneOnly: phone })
+      .then(response => {
+        if (response.data.exists) {
+          setPhoneError("Numero di telefono già registrato");
+        } else {
+          setPhoneError('');
+        }
+      })
+      .catch(error => {
+        console.error('Errore durante la verifica del telefono:', error);
+      });
+  };
+
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData({
       ...formData,
       [name]: value
-});
-console.log(formData);
+    });
+
   };
+
 
   const handleFileChange = (event) => {
     setFormData({
       ...formData,
       image: event.target.files[0]
     });
+
+
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+  
+    // Aspetta che entrambe le verifiche dell'email e del telefono siano completate
+    const isEmailValid = await checkEmail(formData.email);  // Controlla la validità dell'email
+    const isPhoneValid = await checkPhone(formData.phone);  // Controlla la validità del telefono
+  
+    // Se una delle verifiche fallisce, non inviare il modulo
+    if (!isEmailValid || !isPhoneValid) {
+      return; // Impedisce l'invio del form se l'email o il telefono non sono validi
+    }
 
     const data = new FormData();
     Object.keys(formData).forEach(key => {
@@ -56,28 +102,32 @@ console.log(formData);
 
     // Log dei dati per la verifica
     for (var pair of data.entries()) {
-        console.log(pair[0] + ', ' + pair[1]); 
+      console.log(pair[0] + ', ' + pair[1]);
     }
 
     axios.post('http://localhost:3000/doctors', data)
       .then(response => {
         console.log('Success:', response.data);
-         navigate('/'); 
+        navigate('/');
       })
       .catch(error => {
         console.error('Error:', error);
       });
-};
+
+
+  };
 
   return (
-   <FormDoctor
-    formData={formData}
-    specialization={specialization}
-    handleChange={handleChange}
-    handleFileChange={handleFileChange}
-    handleSubmit={handleSubmit}
-   />
-    
+    <FormDoctor
+      formData={formData}
+      specialization={specialization}
+      handleChange={handleChange}
+      handleFileChange={handleFileChange}
+      handleSubmit={handleSubmit}
+      emailError={emailError}
+      phoneError={phoneError}
+    />
+
   );
 }
 
