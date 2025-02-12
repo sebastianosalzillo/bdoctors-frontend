@@ -89,7 +89,7 @@ const SearchDoctors = () => {
                   src={doctor.image ? (doctor.image.startsWith("http")
                     ? doctor.image
                     : `http://localhost:3000/images/doctors/${doctor.image}`)
-                    : 'path_to_default_image.jpg'}
+                    : 'placeholder1.webp'}
                   className="card-img-top"
                   alt={doctor.first_name}
                   style={{ objectFit: "cover" }}
