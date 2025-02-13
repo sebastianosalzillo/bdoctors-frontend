@@ -100,8 +100,8 @@ function DoctorDetail() {
           <a className="back" onClick={() => navigate(-1)}>Torna indietro</a>
         </div>
 
+        <h2 className="py-2 px-1">{doc.first_name} {doc.last_name}</h2>
         <div className="card card-detail mb-3">
-          <h2 className="p-3">{doc.first_name} {doc.last_name}</h2>
           <div className="row g-0">
             <div className="col-md-4 col-img">
               <div className="imm">
@@ -113,13 +113,12 @@ function DoctorDetail() {
               </div>
             </div>
             <div className="col-md-8 col-text">
-              <div className="card-body">
-                <button onClick={gotToSpec} className="btn btn-primary spec">{doc.specialization}</button>
-                
+              <div className="card-body">                     
                 <p className="my-1"><FontAwesomeIcon icon={faPhone} /> {doc.phone}</p>
                 <p className="my-1"><FontAwesomeIcon icon={faEnvelope} /> <a href={`mailto:${doc.email}`}>{doc.email}</a></p>
                 <p className="my-1"><span><FontAwesomeIcon icon={faMapLocationDot} /></span>  {doc.address}</p>
                 <p className="my-1"><FontAwesomeIcon icon={solidStar} /> {doc.average_rating}</p>
+                <button onClick={gotToSpec} className="btn my-1 spec">{doc.specialization}</button>
                 <p className="my-1">{doc.description}</p>
               </div>
             </div>

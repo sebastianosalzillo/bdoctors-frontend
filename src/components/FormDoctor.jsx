@@ -65,7 +65,7 @@ function FormDoctor({ formData, specialization, handleChange, handleFileChange, 
                                         className="form-control"
                                         id="phone"
                                         name="phone"
-                                        pattern="^\+?[0-9]{1,15}$"
+                                        pattern="^\+?[0-9]{9,15}$"
                                         title="Il numero deve avere massimo 15 caratteri e può iniziare con il +"
                                         autoComplete="off"
                                         value={formData.phone}
