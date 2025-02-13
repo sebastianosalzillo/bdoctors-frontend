@@ -5,6 +5,7 @@ import { faStar as solidStar, faPhone, faEnvelope, faMapLocationDot, } from '@fo
 import { faStar as regularStar } from '@fortawesome/free-regular-svg-icons';
 import axios from "axios";
 import FormReview from "../components/FormReview";
+import { useAlertContext } from "../contexts/AlertContext";
 
 function DoctorDetail() {
 
@@ -21,6 +22,7 @@ function DoctorDetail() {
 
   const [newRece, setNewRece] = useState(emptyRece)
   const [doc, setDoc] = useState(null)
+  const { message, setMessage } = useAlertContext();
 
   const gotToSpec = () => {
     if (doc.specialization) {
@@ -43,16 +45,16 @@ function DoctorDetail() {
       <>
         <button onClick={gotToSpec} className="btn btn-primary spec">{doc.specialization}</button>
         <p className="my-1">
-        <FontAwesomeIcon  icon={faPhone}/> {doc.phone}
+          <FontAwesomeIcon icon={faPhone} /> {doc.phone}
         </p>
         <p className="my-1">
-        <FontAwesomeIcon  icon={faEnvelope}/> <a href={`mailto:${doc.email}`}>{doc.email}</a>
+          <FontAwesomeIcon icon={faEnvelope} /> <a href={`mailto:${doc.email}`}>{doc.email}</a>
         </p>
         <p className="my-1">
-        <span><FontAwesomeIcon  icon={faMapLocationDot}/></span>  {doc.address}
+          <span><FontAwesomeIcon icon={faMapLocationDot} /></span>  {doc.address}
         </p>
         <p className="my-1">
-        <FontAwesomeIcon  icon={solidStar}/> {doc.average_rating}
+          <FontAwesomeIcon icon={solidStar} /> {doc.average_rating}
         </p>
         <p className="my-1">{doc.description}</p>
       </>
@@ -105,22 +107,19 @@ function DoctorDetail() {
     event.preventDefault();
     console.log("Inizio submit");
     axios.post(`http://localhost:3000/reviews/doctors/${doc.slug}/reviews`, newRece).then((resp) => {
-      if (resp.data.status === 'success') {
-        alert('Recensione aggiunta e notifica email inviata al dottore!');
-        refresh();
-        setNewRece(emptyRece);
-      } else {
-        alert(`Errore: ${resp.data.message}`);
-      }
+      setMessage({ text: 'Grazie per aver lasciato una recensione!', type: 'success' });
+      setTimeout(() => setMessage({ text: '', type: '' }), 5000);
+      refresh();
+      setNewRece(emptyRece);
     });
   }
 
   return (<>
     {doc &&
       <>
-      <div className="my-3">
-        <a className="back" onClick={() => navigate(-1)}>Torna indietro</a>
-      </div>
+        <div className="my-3">
+          <a className="back" onClick={() => navigate(-1)}>Torna indietro</a>
+        </div>
         <div className="medico-card">
           <div className="imm">
             <img src={`http://localhost:3000/images/doctors/${doc.image}`} alt={`medico ${doc.first_name} ${doc.last_name}`} />

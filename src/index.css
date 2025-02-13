@@ -166,7 +166,21 @@ form.recensioni h3 {
   color: #0097b2;
 }
 
+/* Alert */
 
+.fixed-alert {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999; 
+  width: 60%; 
+  max-width: 600px; 
+  margin-top: 20px;
+  border-radius: 5px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
 
 @media screen and (max-width:1400px) {
 

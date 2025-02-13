@@ -10,7 +10,7 @@ const FormReview = ({handleOnSubmit, handleInputChange, newRece, array}) => {
 
                 <div className="form-group">
                     <label className="mt-1" htmlFor="email">Email</label>
-                    <input required type="email" className="form-control mt-1" id="email" name="email" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$" value={newRece.email} onChange={(event) => { handleInputChange(event) }} />
+                    <input required type="email" className="form-control mt-1" id="email" name="email"  value={newRece.email} onChange={(event) => { handleInputChange(event) }} />
                 </div>
 
                 <div className="mt-3">

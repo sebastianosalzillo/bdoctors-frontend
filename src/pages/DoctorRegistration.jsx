@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import FormDoctor from "../components/FormDoctor";
 import axios from 'axios';
+import { useAlertContext } from "../contexts/AlertContext";
 
 function DoctorRegistration() {
   const initialFormRegistration = {
@@ -20,6 +21,7 @@ function DoctorRegistration() {
   const [specialization, setSpecialization] = useState([]);
   const [emailError, setEmailError] = useState('');
   const [phoneError, setPhoneError] = useState('');
+  const { message, setMessage } = useAlertContext();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -118,11 +120,12 @@ function DoctorRegistration() {
 
     axios.post('http://localhost:3000/doctors', data)
       .then(response => {
-        console.log('Success:', response.data);
-        navigate('/');
+        setMessage({ text: 'Dottore registrato con successo!', type: 'success' });
+            navigate('/');
+            setTimeout(() => setMessage({ text: '', type: '' }), 6000); 
       })
       .catch(error => {
-        console.error('Error:', error);
+          console.error('Error:', error);
       });
 
 
