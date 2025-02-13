@@ -10,7 +10,7 @@ function FormDoctor({ formData, specialization, handleChange, handleFileChange, 
                             <div className="col-md-6 mb-3">
                                 <h6 className="my-4">Dati anagrafici</h6>
                                 <div className="form-group">
-                                    <label htmlFor="first_name">Nome</label>
+                                    <label htmlFor="first_name">Nome <span className="red">*</span></label>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -25,7 +25,7 @@ function FormDoctor({ formData, specialization, handleChange, handleFileChange, 
                                     />
                                 </div>
                                 <div className="form-group mt-3">
-                                    <label htmlFor="last_name">Cognome</label>
+                                    <label htmlFor="last_name">Cognome <span className="red">*</span></label>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -40,7 +40,7 @@ function FormDoctor({ formData, specialization, handleChange, handleFileChange, 
                                     />
                                 </div>
                                 <div className="form-group mt-3">
-                                    <label htmlFor="gender">Genere</label>
+                                    <label htmlFor="gender">Genere <span className="red">*</span></label>
                                     <select
                                         className="form-control"
                                         id="gender"
@@ -59,7 +59,7 @@ function FormDoctor({ formData, specialization, handleChange, handleFileChange, 
                             <div className="col-md-6 mb-3">
                                 <h6 className="my-4">Contatti</h6>
                                 <div className="form-group">
-                                    <label htmlFor="phone">Numero di telefono</label>
+                                    <label htmlFor="phone">Numero di telefono <span className="red">*</span></label>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -75,7 +75,7 @@ function FormDoctor({ formData, specialization, handleChange, handleFileChange, 
                                     {phoneError && <p style={{ color: 'red' }}>{phoneError}</p>}
                                 </div>
                                 <div className="form-group mt-3">
-                                    <label htmlFor="email">Email</label>
+                                    <label htmlFor="email">Email <span className="red">*</span></label>
                                     <input
                                         type="email"
                                         className="form-control"
@@ -91,7 +91,7 @@ function FormDoctor({ formData, specialization, handleChange, handleFileChange, 
                                     {emailError && <p style={{ color: 'red' }}>{emailError}</p>}
                                 </div>
                                 <div className="form-group mt-3">
-                                    <label htmlFor="address">Indirizzo</label>
+                                    <label htmlFor="address">Indirizzo <span className="red">*</span></label>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -108,7 +108,7 @@ function FormDoctor({ formData, specialization, handleChange, handleFileChange, 
                             </div>
                         </div>
                         <hr />
-                        <h6 className="mt-4">Professione</h6>
+                        <h6 className="mt-4">Professione <span className="red">*</span></h6>
                         <div className="form-group mb-3">
                             <label htmlFor="id_specialization"></label>
                             <select
@@ -128,7 +128,7 @@ function FormDoctor({ formData, specialization, handleChange, handleFileChange, 
                             </select>
                         </div>
                         <div className="form-group my-4">
-                            <label htmlFor="description">Servizi</label>
+                            <label htmlFor="description">Servizi <span className="red">*</span></label>
                             <textarea
                                 className="form-control"
                                 id="description"

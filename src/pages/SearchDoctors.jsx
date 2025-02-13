@@ -84,33 +84,39 @@ const SearchDoctors = () => {
           </div>
         </div>
 
-        <div className="row">
-          {filteredDoctors.length > 0 ? (
-            filteredDoctors.map((doctor) => (
-              <div className="col-md-4 mb-4" key={doctor.id}>
-                <div className="card ms-card">
-                  <img
-                    src={doctor.image ? (doctor.image.startsWith("http")
-                      ? doctor.image
-                      : `http://localhost:3000/images/doctors/${doctor.image}`)
-                      : 'placeholder1.webp'}
-                    className="card-img-top"
-                    alt={doctor.first_name}
-                    style={{ objectFit: "cover" }}
-                  />
 
-                  <div className="card-body">
-                    <p><strong>Nome e Cognome:</strong> {doctor.first_name} {doctor.last_name}</p>                    
-                    <p><strong>Specializzazione:</strong> {doctor.specialization}</p>
-                    <p><strong>Indirizzo:</strong> {doctor.address}</p>
-                    <p><strong>Media Voto:</strong> {doctor.average_rating}/5</p>
-                    <button className="btn btn-primary" onClick={() => navigate(`/doctor/${doctor.slug}`)}>
-                      Vai ai dettagli
-                    </button>
-                  </div>
-                </div>
+        <div>
+          {filteredDoctors.length > 0 ? (
+            <>
+              <h4 className="my-3">Sono stati trovati {filteredDoctors.length} medici</h4>
+              <div className="row">
+                {filteredDoctors.map((doctor) => (
+                  <div className="col-md-4 mb-4" key={doctor.id}>
+                    <div className="card ms-card p-3">
+                      <img
+                      className="card-img-top mt-0"
+                      alt={doctor.first_name}
+                      style={{ objectFit: "cover" }}
+                        src={doctor.image ? (doctor.image.startsWith("http")
+                          ? doctor.image
+                          : `http://localhost:3000/images/doctors/${doctor.image}`)
+                          : 'placeholder1.webp'}
+                        
+                      />
+
+                      <div className="card-body search">
+                        <p className="m-1 mt-2"><strong>Nome e Cognome:</strong> {doctor.first_name} {doctor.last_name}</p>
+                        <p className="m-1"><strong>Specializzazione:</strong> {doctor.specialization}</p>
+                        <p className="m-1"><strong>Indirizzo:</strong> {doctor.address}</p>
+                        <p className="m-1"><strong>Media Voto:</strong> {doctor.average_rating}/5</p>
+                        <button className="btn btn-primary" onClick={() => navigate(`/doctor/${doctor.slug}`)}>
+                          Vai ai dettagli
+                        </button>
+                      </div>
+                    </div>
+                  </div>))}
               </div>
-            ))
+            </>
           ) : (
             <p className="text-center">Nessun medico trovato</p>
           )}

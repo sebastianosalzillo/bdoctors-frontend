@@ -66,17 +66,19 @@ function HomePage() {
             .map(doctor => (
               <div key={doctor.id} className="col-md-4 mb-4 ">
                 <div className="card ms-card ">
-                  <img
-                    src={doctor.image.startsWith("http") ? doctor.image : `http://localhost:3000/images/doctors/${doctor.image}`}
-                    className="card-img-top"
-                    alt={doctor.first_name}
-                    style={{ objectFit: "cover" }}
-                  />
-                  <div className="card-body">
+                  <div className="text-center">
+                    <img
+                      src={doctor.image.startsWith("http") ? doctor.image : `http://localhost:3000/images/doctors/${doctor.image}`}
+                      className="card-img-top"
+                      alt={doctor.first_name}
+                      style={{ objectFit: "cover" }}
+                    />
+                  </div>
+                  <div className="card-body home">
                     <h5 className="card-title">{doctor.first_name} {doctor.last_name}</h5>
-                    <p className="card-text"><strong>Specializzazione:</strong> {doctor.specialization}</p>
-                    <p><strong>Indirizzo:</strong> {doctor.address}</p>
-                    <p className="card-text"><strong>Media Voto:</strong> {doctor.average_rating}/5</p>
+                    <p className="card-text my-1"> <strong>Specializzazione: </strong>{doctor.specialization}</p>
+                    <p className="card-text my-1"> <strong>Indirizzo: </strong>{doctor.address}</p>
+                    <p className="card-text my-1"> <strong>Media Voto: </strong>{doctor.average_rating}/5</p>
                     <Link to={`/doctor/${doctor.slug}`} className="btn btn-primary">Vedi dettagli</Link>
                   </div>
                 </div>

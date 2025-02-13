@@ -12,7 +12,7 @@
 .ms-card {
   border-radius: 10px;
   border: 0px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: #d7f9ff;
 }
 
@@ -20,19 +20,27 @@
   border-radius: 1000px;
   width: 50%;
   margin: 0 auto;
-  margin-top: 10px;
+  margin-top: 1rem;
   border: 5px solid #023841;
+}
+
+.card-body.detail{
+  padding: 0px 0.5rem ;
+}
+
+.card-body.search{
+  padding: 0px;
 }
 
 a {
   text-decoration: none;
 }
 
-.back{
+.back {
   color: #7a7c7d;
 }
 
-.back:hover{
+.back:hover {
   cursor: pointer;
   color: #023841;
 }
@@ -67,13 +75,13 @@ input.form-check-input:checked {
   opacity: .5;
 }
 
-.registration{
+.registration {
   background-color: #bce9ff58;
   padding: 30px;
   border-radius: 30px;
 }
 
-body{
+body {
   min-height: 100vh;
 }
 
@@ -95,7 +103,7 @@ ul.navbar-nav {
 
 /* Dettaglio Medico */
 
-.card-detail{
+.card-detail {
   /* border: #023841 solid 1px; */
   color: #023841;
   background-color: #d7f9ff;
@@ -164,6 +172,11 @@ form.recensioni h3 {
   color: #0097b2;
 }
 
+/* Registration */
+.red {
+  color: red;
+}
+
 /* Alert */
 
 .fixed-alert {
@@ -171,28 +184,47 @@ form.recensioni h3 {
   top: 10px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 999; 
-  width: 60%; 
-  max-width: 600px; 
+  z-index: 999;
+  width: 60%;
+  max-width: 600px;
   margin-top: 20px;
   border-radius: 5px;
   text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* tablet */
 @media screen and (max-width:992px) {
 
-.imm img{
-margin-top: 25px;
-}
-}
-/* mobile */
-@media screen and (max-width:768px) {
-  
-  .imm img{
-    margin-top: 0;
-    }
-
+  .imm img {
+    margin-top: 0px;
   }
 
+
+}
+
+/* mobile */
+@media screen and (max-width:768px) {
+
+  .card-body.detail {
+    padding: 0.5rem 0px;
+  }
+
+  .card-body.home{
+    text-align: center;
+  }
+
+  .card-body.search{
+    text-align: center;
+  }
+
+  .ms-card img {
+    border-radius: 100px;
+    width: 33%;
+  }
+
+  .card-title{
+    font-size: 24px;
+  }
+
+}
