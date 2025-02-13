@@ -100,8 +100,9 @@ const SearchDoctors = () => {
                   />
 
                   <div className="card-body">
-                    <p><strong>Nome e Cognome:</strong> {doctor.first_name} {doctor.last_name}</p>
+                    <p><strong>Nome e Cognome:</strong> {doctor.first_name} {doctor.last_name}</p>                    
                     <p><strong>Specializzazione:</strong> {doctor.specialization}</p>
+                    <p><strong>Indirizzo:</strong> {doctor.address}</p>
                     <p><strong>Media Voto:</strong> {doctor.average_rating}/5</p>
                     <button className="btn btn-primary" onClick={() => navigate(`/doctor/${doctor.slug}`)}>
                       Vai ai dettagli

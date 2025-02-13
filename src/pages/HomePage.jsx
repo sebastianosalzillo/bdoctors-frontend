@@ -75,6 +75,7 @@ function HomePage() {
                   <div className="card-body">
                     <h5 className="card-title">{doctor.first_name} {doctor.last_name}</h5>
                     <p className="card-text"><strong>Specializzazione:</strong> {doctor.specialization}</p>
+                    <p><strong>Indirizzo:</strong> {doctor.address}</p>
                     <p className="card-text"><strong>Media Voto:</strong> {doctor.average_rating}/5</p>
                     <Link to={`/doctor/${doctor.slug}`} className="btn btn-primary">Vedi dettagli</Link>
                   </div>

@@ -1,11 +1,18 @@
 /* Generali */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
 .container.mt-4 {
   color: #023841;
 }
 
 .ms-card {
   border-radius: 10px;
-  border: #023841 solid 1px;
+  border: 0px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
   background-color: #d7f9ff;
 }
 
@@ -20,9 +27,11 @@
 a {
   text-decoration: none;
 }
+
 .back{
   color: #7a7c7d;
 }
+
 .back:hover{
   cursor: pointer;
   color: #023841;
@@ -85,16 +94,9 @@ ul.navbar-nav {
 
 
 /* Dettaglio Medico */
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
-
 
 .card-detail{
-  
-  border: #023841 solid 1px;
+  /* border: #023841 solid 1px; */
   color: #023841;
   background-color: #d7f9ff;
   padding: 15px;
@@ -102,13 +104,11 @@ ul.navbar-nav {
   align-items: center;
 }
 
-
 .imm img {
   width: 100%;
   object-fit: cover;
   border-radius: 10px;
 }
-
 
 button.spec {
   display: inline-block;
@@ -127,7 +127,7 @@ h3.my-4 {
   width: 100%;
   min-height: 100px;
   border-radius: 10px;
-  border: #023841 solid 1px;
+  /* border: #023841 solid 1px; */
   color: #023841;
   background-color: #bce9ff58;
   padding: 15px;
@@ -153,7 +153,7 @@ form.recensioni {
   width: 100%;
   min-height: 100px;
   border-radius: 10px;
-  border: #0097b2 solid 1px;
+  /* border: #0097b2 solid 1px; */
   padding: 15px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
   margin: 25px 0px;
