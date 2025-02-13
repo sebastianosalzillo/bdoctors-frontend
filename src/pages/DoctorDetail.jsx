@@ -122,7 +122,11 @@ function DoctorDetail() {
         </div>
         <div className="medico-card">
           <div className="imm">
-            <img src={`http://localhost:3000/images/doctors/${doc.image}`} alt={`medico ${doc.first_name} ${doc.last_name}`} />
+            <img
+              src={doc.image ? (doc.image.startsWith("http")
+                ? doc.image
+                : `http://localhost:3000/images/doctors/${doc.image}`)
+                : 'http://localhost:3000/images/doctors/placeholder1.webp'} alt={`medico ${doc.first_name} ${doc.last_name}`} />
           </div>
           <section className="p-3">
             <h2>{doc.first_name} {doc.last_name}</h2>
@@ -132,7 +136,10 @@ function DoctorDetail() {
         <div className="medico-card mobile">
           <h2 className="py-2">{doc.first_name} {doc.last_name}</h2>
           <div className="imm">
-            <img src={`http://localhost:3000/images/doctors/${doc.image}`} alt={`medico ${doc.first_name} ${doc.last_name}`} />
+            <img src={doc.image ? (doc.image.startsWith("http")
+              ? doc.image
+              : `http://localhost:3000/images/doctors/${doc.image}`)
+              : 'http://localhost:3000/images/doctors/placeholder1.webp'} alt={`medico ${doc.first_name} ${doc.last_name}`} />
           </div>
           <section className="p-3">
             {printData()}
