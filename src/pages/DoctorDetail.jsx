@@ -40,27 +40,6 @@ function DoctorDetail() {
     })
   }
 
-  const printData = () => {
-    return (
-      <>
-        <button onClick={gotToSpec} className="btn btn-primary spec">{doc.specialization}</button>
-        <p className="my-1">
-          <FontAwesomeIcon icon={faPhone} /> {doc.phone}
-        </p>
-        <p className="my-1">
-          <FontAwesomeIcon icon={faEnvelope} /> <a href={`mailto:${doc.email}`}>{doc.email}</a>
-        </p>
-        <p className="my-1">
-          <span><FontAwesomeIcon icon={faMapLocationDot} /></span>  {doc.address}
-        </p>
-        <p className="my-1">
-          <FontAwesomeIcon icon={solidStar} /> {doc.average_rating}
-        </p>
-        <p className="my-1">{doc.description}</p>
-      </>
-    )
-  }
-
   const stelline = (voto) => {
     return array.map((cur) => {
       if (voto >= cur) {
@@ -120,30 +99,35 @@ function DoctorDetail() {
         <div className="my-3">
           <a className="back" onClick={() => navigate(-1)}>Torna indietro</a>
         </div>
-        <div className="medico-card">
-          <div className="imm">
-            <img src={doc.image ? (doc.image.startsWith("http")
-                ? doc.image
-                : `http://localhost:3000/images/doctors/${doc.image}`)
-                : 'http://localhost:3000/images/doctors/placeholder1.webp'} alt={`medico ${doc.first_name} ${doc.last_name}`} />
+
+        <div class="card card-detail mb-3">
+          <div class="row g-0">
+            <div class="col-md-4 col-img">
+              <div className="imm">
+                <img src={doc.image ? (doc.image.startsWith("http")
+                  ? doc.image
+                  : `http://localhost:3000/images/doctors/${doc.image}`)
+                  : 'http://localhost:3000/images/doctors/placeholder1.webp'} alt={`medico ${doc.first_name} ${doc.last_name}`} />
+              </div>
+            </div>
+            <div class="col-md-8 col-text">
+              <div class="card-body">
+                <button onClick={gotToSpec} className="btn btn-primary spec">{doc.specialization}</button>
+                <p className="my-1"><FontAwesomeIcon icon={faPhone} /> {doc.phone}</p>
+                <p className="my-1"><FontAwesomeIcon icon={faEnvelope} /> <a href={`mailto:${doc.email}`}>{doc.email}</a></p>
+                <p className="my-1"><span><FontAwesomeIcon icon={faMapLocationDot} /></span>  {doc.address}</p>
+                <p className="my-1"><FontAwesomeIcon icon={solidStar} /> {doc.average_rating}</p>
+                <p className="my-1">{doc.description}</p>
+              </div>
+            </div>
           </div>
-          <section className="p-3">
+        </div>
+
+        {/* <section className="p-3">
             <h2>{doc.first_name} {doc.last_name}</h2>
             {printData()}
-          </section>
-        </div>
-        <div className="medico-card mobile">
-          <h2 className="py-2">{doc.first_name} {doc.last_name}</h2>
-          <div className="imm">
-            <img src={doc.image ? (doc.image.startsWith("http")
-                ? doc.image
-                : `http://localhost:3000/images/doctors/${doc.image}`)
-                : 'http://localhost:3000/images/doctors/placeholder1.webp'} alt={`medico ${doc.first_name} ${doc.last_name}`} />
-          </div>
-          <section className="p-3">
-            {printData()}
-          </section>
-        </div>
+          </section> */}
+
 
         <div>
           <h3 className="my-4">Recensioni ({doc.reviews.length})</h3>

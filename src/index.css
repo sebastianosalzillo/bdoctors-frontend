@@ -68,6 +68,10 @@ input.form-check-input:checked {
 footer {
   background-color: #0097b2;
   color: white;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
 }
 
 nav {
@@ -87,11 +91,9 @@ ul.navbar-nav {
   box-sizing: border-box;
 }
 
-.medico-card {
-  display: flex;
-  width: 100%;
-  min-height: 100px;
-  border-radius: 10px;
+
+.card-detail{
+  
   border: #023841 solid 1px;
   color: #023841;
   background-color: #d7f9ff;
@@ -100,18 +102,13 @@ ul.navbar-nav {
   align-items: center;
 }
 
-.medico-card .imm {
-  width: 33%;
-}
 
-.medico-card .imm img {
-  width: 90%;
+.imm img {
+  width: 100%;
+  object-fit: cover;
   border-radius: 10px;
 }
 
-.medico-card.mobile {
-  display: none;
-}
 
 button.spec {
   display: inline-block;
@@ -182,44 +179,19 @@ form.recensioni h3 {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
 }
 
-@media screen and (max-width:1400px) {
+/* tablet */
+@media screen and (max-width:992px) {
 
-  .medico-card .imm {
-    width: 100%;
-  }
-
+.imm img{
+margin-top: 25px;
 }
-
-
-@media screen and (max-width:994px) {
-
-  .medico-card .imm {
-    width: 100%;
-  }
-
-  .medico-card .imm img {
-    width: 100%;
-  }
-
 }
+/* mobile */
+@media screen and (max-width:768px) {
+  
+  .imm img{
+    margin-top: 0;
+    }
 
-@media screen and (max-width:770px) {
-  .medico-card {
-    display: none;
   }
 
-  .medico-card.mobile {
-    display: block;
-    padding: 15px 30px;
-  }
-
-  .medico-card .imm {
-    width: 100%;
-  }
-
-  .medico-card.mobile .imm img {
-    width: 100%;
-    border-radius: 10px;
-  }
-
-}
