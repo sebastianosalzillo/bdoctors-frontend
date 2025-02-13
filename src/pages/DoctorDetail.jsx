@@ -100,19 +100,22 @@ function DoctorDetail() {
           <a className="back" onClick={() => navigate(-1)}>Torna indietro</a>
         </div>
 
-        <div class="card card-detail mb-3">
-          <div class="row g-0">
-            <div class="col-md-4 col-img">
+        <div className="card card-detail mb-3">
+          <h2 className="p-3">{doc.first_name} {doc.last_name}</h2>
+          <div className="row g-0">
+            <div className="col-md-4 col-img">
               <div className="imm">
+                
                 <img src={doc.image ? (doc.image.startsWith("http")
                   ? doc.image
                   : `http://localhost:3000/images/doctors/${doc.image}`)
                   : 'http://localhost:3000/images/doctors/placeholder1.webp'} alt={`medico ${doc.first_name} ${doc.last_name}`} />
               </div>
             </div>
-            <div class="col-md-8 col-text">
-              <div class="card-body">
+            <div className="col-md-8 col-text">
+              <div className="card-body">
                 <button onClick={gotToSpec} className="btn btn-primary spec">{doc.specialization}</button>
+                
                 <p className="my-1"><FontAwesomeIcon icon={faPhone} /> {doc.phone}</p>
                 <p className="my-1"><FontAwesomeIcon icon={faEnvelope} /> <a href={`mailto:${doc.email}`}>{doc.email}</a></p>
                 <p className="my-1"><span><FontAwesomeIcon icon={faMapLocationDot} /></span>  {doc.address}</p>
@@ -123,10 +126,6 @@ function DoctorDetail() {
           </div>
         </div>
 
-        {/* <section className="p-3">
-            <h2>{doc.first_name} {doc.last_name}</h2>
-            {printData()}
-          </section> */}
 
 
         <div>
