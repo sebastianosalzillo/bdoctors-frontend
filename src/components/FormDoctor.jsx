@@ -1,5 +1,5 @@
-/* eslint-disable react/prop-types */
-function FormDoctor({ formData, specialization, handleChange, handleFileChange, handleSubmit, emailError, phoneError }) {
+
+function FormDoctor({ formData, specialization, handleChange, handleFileChange, handleSubmit, emailError, phoneError, handleBlur, errors }) {
     return (
         <div>
             <h3 className="text-center my-5">Sei nuovo? Registrati qui!</h3>
@@ -9,37 +9,37 @@ function FormDoctor({ formData, specialization, handleChange, handleFileChange, 
                         <div className="row">
                             <div className="col-md-6 mb-3">
                                 <h6 className="my-4">Dati anagrafici</h6>
-                                <div className="form-group">
+                                <div className="form-group mb-5">
                                     <label htmlFor="first_name">Nome <span className="red">*</span></label>
                                     <input
                                         type="text"
-                                        className="form-control"
+                                        className={`form-control ${errors.first_name ? 'is-invalid' : ''}`}
                                         id="first_name"
                                         name="first_name"
-                                        minLength={3}
                                         autoComplete="off"
-                                        title="Il nome deve contenere almeno 3 caratteri"
                                         value={formData.first_name}
                                         onChange={handleChange}
-                                        required
+                                        placeholder="deve contenere almeno 3 caratteri"
+                                        onBlur={handleBlur}
                                     />
+                                    {errors.first_name && <div className="invalid-feedback">{errors.first_name}</div>}
                                 </div>
-                                <div className="form-group mt-3">
+                                <div className="form-group mb-5">
                                     <label htmlFor="last_name">Cognome <span className="red">*</span></label>
                                     <input
                                         type="text"
-                                        className="form-control"
+                                        className={`form-control ${errors.last_name ? 'is-invalid' : ''}`}
                                         id="last_name"
                                         name="last_name"
-                                        minLength={3}
-                                         title="Il cognome deve contenere almeno 3 caratteri"
+                                        placeholder="deve contenere almeno 3 caratteri"
                                         autoComplete="off"
                                         value={formData.last_name}
                                         onChange={handleChange}
-                                        required
+                                        onBlur={handleBlur}
                                     />
+                                    {errors.last_name && <div className="invalid-feedback">{errors.last_name}</div>}
                                 </div>
-                                <div className="form-group mt-3">
+                                <div className="form-group">
                                     <label htmlFor="gender">Genere <span className="red">*</span></label>
                                     <select
                                         className="form-control"
@@ -47,7 +47,6 @@ function FormDoctor({ formData, specialization, handleChange, handleFileChange, 
                                         name="gender"
                                         value={formData.gender}
                                         onChange={handleChange}
-                                        required
                                     >
                                         <option value="">-</option>
                                         <option value="M">M</option>
@@ -58,68 +57,68 @@ function FormDoctor({ formData, specialization, handleChange, handleFileChange, 
                             </div>
                             <div className="col-md-6 mb-3">
                                 <h6 className="my-4">Contatti</h6>
-                                <div className="form-group">
+                                <div className="form-group mb-5">
                                     <label htmlFor="phone">Numero di telefono <span className="red">*</span></label>
                                     <input
                                         type="text"
-                                        className="form-control"
+                                        className={`form-control ${errors.phone ? 'is-invalid' : ''}`}
                                         id="phone"
                                         name="phone"
-                                        pattern="^\+?[0-9]{9,15}$"
-                                        title="Il numero deve avere massimo 15 caratteri e può iniziare con il +"
+                                        placeholder="inserisci numero valido"
                                         autoComplete="off"
                                         value={formData.phone}
                                         onChange={handleChange}
-                                        required
+                                        onBlur={handleBlur}
                                     />
+                                    {errors.phone && <div className="invalid-feedback">{errors.phone}</div>}
                                     {phoneError && <p style={{ color: 'red' }}>{phoneError}</p>}
                                 </div>
-                                <div className="form-group mt-3">
+                                <div className="form-group mb-5">
                                     <label htmlFor="email">Email <span className="red">*</span></label>
                                     <input
-                                        type="email"
-                                        className="form-control"
+                                       placeholder="inserisci email valida"
+                                        className={`form-control ${errors.email ? 'is-invalid' : ''}`}
                                         id="email"
                                         name="email"
-                                        //pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$"
                                         title="L'email deve includere la @"
                                         autoComplete="off"
                                         value={formData.email}
                                         onChange={handleChange}
-                                        required
+                                        onBlur={handleBlur}
                                     />
+                                    {errors.email && <div className="invalid-feedback">{errors.email}</div>}
                                     {emailError && <p style={{ color: 'red' }}>{emailError}</p>}
                                 </div>
-                                <div className="form-group mt-3">
+                                <div className="form-group mb-3">
                                     <label htmlFor="address">Indirizzo <span className="red">*</span></label>
                                     <input
                                         type="text"
-                                        className="form-control"
+                                        className={`form-control ${errors.address ? 'is-invalid' : ''}`}
                                         id="address"
                                         name="address"
-                                        minLength={5}
+                                        placeholder="inserisci indirizzo valido"
                                         autoComplete="off"
                                         title="L'indirizzo deve contenere almeno 5 caratteri"
                                         value={formData.address}
                                         onChange={handleChange}
-                                        required
+                                        onBlur={handleBlur}
                                     />
+                                    {errors.address && <div className="invalid-feedback">{errors.address}</div>}
                                 </div>
                             </div>
                         </div>
                         <hr />
-                        <h6 className="mt-4">Professione <span className="red">*</span></h6>
-                        <div className="form-group mb-3">
-                            <label htmlFor="id_specialization"></label>
+                        <h6 className="my-4">Professione</h6>
+                        <div className="form-group  mb-4">
+                            <label htmlFor="id_specialization">Specializzazione <span className="red">*</span></label>
                             <select
-                                className="form-control"
+                                className="form-control mt-2"
                                 id="id_specialization"
                                 name="id_specialization"
                                 value={formData.id_specialization}
                                 onChange={handleChange}
-                                required
                             >
-                                <option value="">Seleziona specializzazione</option>
+                                <option value="">-</option>
                                 {specialization.map(curItem => (
                                     <option key={curItem.id} value={curItem.id}>
                                         {curItem.name}
@@ -127,19 +126,20 @@ function FormDoctor({ formData, specialization, handleChange, handleFileChange, 
                                 ))}
                             </select>
                         </div>
-                        <div className="form-group my-4">
+                        <div className="form-group mb-5">
                             <label htmlFor="description">Servizi <span className="red">*</span></label>
                             <textarea
-                                className="form-control"
+                                className={`form-control ${errors.description ? 'is-invalid' : ''}`}
                                 id="description"
                                 name="description"
-                                minLength={6}
+                                placeholder="deve contenere almeno 5 caratteri"
                                 autoComplete="off"
-                                title="Devi inserire almeno 6 aratteri"
+                                title="Devi inserire almeno 6 caratteri"
                                 value={formData.description}
                                 onChange={handleChange}
-                                required
+                                onBlur={handleBlur}
                             ></textarea>
+                            {errors.description && <div className="invalid-feedback">{errors.description}</div>}
                         </div>
                         <hr />
                         <h6 className="mt-4">Immagine di profilo</h6>
@@ -151,7 +151,6 @@ function FormDoctor({ formData, specialization, handleChange, handleFileChange, 
                                 id="image"
                                 name="image"
                                 onChange={handleFileChange}
-                                
                             />
                         </div>
                         <div className="d-flex justify-content-center">
@@ -162,7 +161,6 @@ function FormDoctor({ formData, specialization, handleChange, handleFileChange, 
             </div>
         </div>
     );
-
 }
 
 export default FormDoctor;

@@ -4,6 +4,34 @@ import FormDoctor from "../components/FormDoctor";
 import axios from 'axios';
 import { useAlertContext } from "../contexts/AlertContext";
 
+// Funzioni di validazione
+const validateName = (name) => {
+  return typeof name === 'string' && name.trim().length >= 3;
+};
+
+const validateEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
+const validatePhone = (phone) => {
+  const phoneRegex = /^\+?[0-9]{1,15}$/;
+  return phoneRegex.test(phone);
+};
+
+const validateAddress = (address) => {
+  return typeof address === 'string' && address.trim().length >= 5;
+};
+
+const validateDescription = (description) => {
+  return typeof description === 'string' && description.trim().length >= 6;
+};
+
+const showMessage = (setMessage, text, type) => {
+  setMessage({ text, type });
+  setTimeout(() => setMessage({ text: '', type: '' }), 3000); // Rimuove il messaggio dopo 3 secondi
+};
+
 function DoctorRegistration() {
   const initialFormRegistration = {
     first_name: '',
@@ -19,9 +47,8 @@ function DoctorRegistration() {
 
   const [formData, setFormData] = useState(initialFormRegistration);
   const [specialization, setSpecialization] = useState([]);
-  const [emailError, setEmailError] = useState('');
-  const [phoneError, setPhoneError] = useState('');
-  const { message, setMessage } = useAlertContext();
+  const [errors, setErrors] = useState({});
+  const { setMessage } = useAlertContext();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,41 +61,91 @@ function DoctorRegistration() {
       });
   }, []);
 
-  const checkEmail = (email) => {
-    return axios.post('http://localhost:3000/doctors', { emailOnly: email })
-      .then(response => {
-        if (response.data.exists) {
-          setEmailError("Email già registrata");
-          return false; // Indica che l'email non è valida
-        } else {
-          setEmailError('');
-          return true; // Indica che l'email è valida
-        }
-      })
-      .catch(error => {
-        console.error('Errore durante la verifica dell\'email:', error);
-        return false; // In caso di errore, l'email non è valida
-      });
+  const checkEmail = async (email) => {
+    try {
+      const response = await axios.post('http://localhost:3000/doctors', { emailOnly: email });
+      if (response.data.exists) {
+        setErrors(prevErrors => ({ ...prevErrors, email: "Email già registrata" }));
+        return false; // Indica che l'email non è valida
+      } else {
+        setErrors(prevErrors => ({ ...prevErrors, email: "" }));
+        return true; // Indica che l'email è valida
+      }
+    } catch (error) {
+      console.error('Errore durante la verifica dell\'email:', error);
+      return false; // In caso di errore, l'email non è valida
+    }
   };
 
-  const checkPhone = (phone) => {
-    return axios.post('http://localhost:3000/doctors', { phoneOnly: phone })
-      .then(response => {
-        if (response.data.exists) {
-          setPhoneError("Numero di telefono già registrato");
-          return false; // Indica che il telefono non è valido
-        } else {
-          setPhoneError('');
-          return true; // Indica che il telefono è valido
-        }
-      })
-      .catch(error => {
-        console.error('Errore durante la verifica del telefono:', error);
-        return false; // In caso di errore, il telefono non è valido
-      });
+  const checkPhone = async (phone) => {
+    try {
+      const response = await axios.post('http://localhost:3000/doctors', { phoneOnly: phone });
+      if (response.data.exists) {
+        setErrors(prevErrors => ({ ...prevErrors, phone: "Numero di telefono già registrato" }));
+        return false; // Indica che il telefono non è valido
+      } else {
+        setErrors(prevErrors => ({ ...prevErrors, phone: "" }));
+        return true; // Indica che il telefono è valido
+      }
+    } catch (error) {
+      console.error('Errore durante la verifica del telefono:', error);
+      return false; // In caso di errore, il telefono non è valido
+    }
   };
 
-
+  const handleBlur = async (event) => {
+    const { name, value } = event.target;
+    
+    // Esegui la validazione solo al blur
+    switch (name) {
+      case 'first_name':
+        if (!validateName(value)) {
+          setErrors(prevErrors => ({ ...prevErrors, first_name: 'Il nome deve avere più di 3 caratteri' }));
+        } else {
+          setErrors(prevErrors => ({ ...prevErrors, first_name: '' }));
+        }
+        break;
+      case 'last_name':
+        if (!validateName(value)) {
+          setErrors(prevErrors => ({ ...prevErrors, last_name: 'Il cognome deve avere più di 3 caratteri' }));
+        } else {
+          setErrors(prevErrors => ({ ...prevErrors, last_name: '' }));
+        }
+        break;
+      case 'email':
+        if (!validateEmail(value)) {
+          setErrors(prevErrors => ({ ...prevErrors, email: 'La mail inserita non è valida' }));
+        } else {
+          setErrors(prevErrors => ({ ...prevErrors, email: '' }));
+          await checkEmail(value);
+        }
+        break;
+      case 'phone':
+        if (!validatePhone(value)) {
+          setErrors(prevErrors => ({ ...prevErrors, phone: 'Il numero di telefono non è valido.' }));
+        } else {
+          setErrors(prevErrors => ({ ...prevErrors, phone: '' }));
+          await checkPhone(value);
+        }
+        break;
+      case 'address':
+        if (!validateAddress(value)) {
+          setErrors(prevErrors => ({ ...prevErrors, address: "L'indirizzo deve avere più di 5 caratteri" }));
+        } else {
+          setErrors(prevErrors => ({ ...prevErrors, address: '' }));
+        }
+        break;
+      case 'description':
+        if (!validateDescription(value)) {
+          setErrors(prevErrors => ({ ...prevErrors, description: 'La descrizione deve avere più di 6 caratteri' }));
+        } else {
+          setErrors(prevErrors => ({ ...prevErrors, description: '' }));
+        }
+        break;
+      default:
+        break;
+    }
+  };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -76,65 +153,49 @@ function DoctorRegistration() {
       ...formData,
       [name]: value
     });
-
   };
-
 
   const handleFileChange = (event) => {
     setFormData({
       ...formData,
       image: event.target.files[0]
     });
-
-
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Verifica l'email e il telefono prima di inviare il modulo
-    const emailPromise = checkEmail(formData.email); // Verifica la validità dell'email
-    const phonePromise = checkPhone(formData.phone); // Verifica la validità del telefono
-
-    // Quando entrambe le Promesse sono risolte, controlla se sono valide
-    Promise.all([emailPromise, phonePromise])
-      .then((results) => {
-        const isEmailValid = results[0]; // Risultato di checkEmail
-        const isPhoneValid = results[1]; // Risultato di checkPhon
-
-        // Se una delle verifiche fallisce, non inviare il modulo
-        if (!isEmailValid || !isPhoneValid) {
-          return; // Impedisce l'invio del form se l'email o il telefono non sono validi
-        }
-      })
+    // Validazione completa prima dell'invio
+    if (!validateName(formData.first_name) || !validateName(formData.last_name) ||
+        !validateEmail(formData.email) || !validatePhone(formData.phone) ||
+        !validateAddress(formData.address) || !validateDescription(formData.description) ){
+      showMessage(setMessage, 'Il modulo non è completo! Verifica i campi cotrassegnati (*)', 'danger');
+      return;
+    }
 
     const data = new FormData();
     Object.keys(formData).forEach(key => {
       data.append(key, formData[key]);
     });
 
-    // Log dei dati per la verifica
-    for (var pair of data.entries()) {
-      console.log(pair[0] + ', ' + pair[1]);
-    }
-
     axios.post('http://localhost:3000/doctors', data)
       .then(response => {
-        setMessage({ text: 'Dottore registrato con successo!', type: 'success' });
-            navigate('/');
-            setTimeout(() => setMessage({ text: '', type: '' }), 6000); 
+        const slug = response.data.slug;
+        showMessage(setMessage, 'Dottore registrato con successo!', 'success');
+        navigate(`/doctor/${slug}`);
+        setTimeout(() => setMessage({ text: '', type: '' }), 6000); // Rimuove il messaggio dopo 6 secondi
       })
       .catch(error => {
-          console.error('Error:', error);
+        console.error('Error:', error);
+        showMessage(setMessage, 'Errore durante la creazione del dottore', 'danger');
+        setTimeout(() => setMessage({ text: '', type: '' }), 6000); // Rimuove il messaggio dopo 6 secondi
       });
-
-
   };
 
   return (
     <>
       <div className="my-3">
-      <a className="back" onClick={() => navigate(-1)}>Torna indietro</a>
+        <a className="back" onClick={() => navigate(-1)}>Torna indietro</a>
       </div>
       <FormDoctor
         formData={formData}
@@ -142,8 +203,8 @@ function DoctorRegistration() {
         handleChange={handleChange}
         handleFileChange={handleFileChange}
         handleSubmit={handleSubmit}
-        emailError={emailError}
-        phoneError={phoneError}
+        handleBlur={handleBlur} // Aggiungi l'handler di blur
+        errors={errors} // Passa gli errori al componente FormDoctor
       />
     </>
   );

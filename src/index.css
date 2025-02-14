@@ -5,6 +5,14 @@
   box-sizing: border-box;
 }
 
+.form-group{
+  position: relative;
+}
+.invalid-feedback{
+position: absolute;
+bottom: -1.5rem;
+left: 0;
+}
 .container.mt-4 {
   color: #023841;
 }
