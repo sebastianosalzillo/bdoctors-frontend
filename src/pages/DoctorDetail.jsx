@@ -57,6 +57,7 @@ function DoctorDetail() {
       const risp = rece.map((curRece) => {
         return (
           <div key={curRece.id} className="rece-card">
+            <p>{new Date(curRece.data).toLocaleDateString()}</p>
             <h5>{curRece.patient_name}</h5>
             <div><strong>Voto: </strong> {stelline(curRece.rating)}</div>
             <p>{curRece.content}</p>
