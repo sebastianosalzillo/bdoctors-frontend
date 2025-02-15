@@ -6,13 +6,13 @@ const FormReview = ({handleOnSubmit, isSubmitting, handleInputChange, newRece, a
                 <h3 className="py-2">Lascia una recensione a {doc.first_name} {doc.last_name}!</h3>
                 <div className="form-group">
                     <label className="mt-1" htmlFor="patient_name">Nome e Cognome<span className="red">*</span></label>
-                    <input required type="text" minLength={3} className="form-control mt-1" id="patient_name" name="patient_name" onBlur={handleBlur} value={newRece.patient_name} onChange={(event) => { handleInputChange(event) }} />
+                    <input required type="text" minLength={3} className="form-control mt-1" id="patient_name" name="patient_name" placeholder="Inserisci almeno 3 caratteri" onBlur={handleBlur} value={newRece.patient_name} onChange={(event) => { handleInputChange(event) }} />
                     {errors.patient_name && <div className="red">{errors.patient_name}</div>}
                 </div>
 
                 <div className="form-group">
                     <label className="mt-1" htmlFor="email">Email<span className="red">*</span></label>
-                    <input required type="email" className="form-control mt-1" id="email" name="email" onBlur={handleBlur} value={newRece.email} onChange={(event) => { handleInputChange(event) }} />
+                    <input required type="email" className="form-control mt-1" id="email" name="email" placeholder="Inserisci una mail valida" onBlur={handleBlur} value={newRece.email} onChange={(event) => { handleInputChange(event) }} />
                     {errors.email && <div className="red">{errors.email}</div>}
                 </div>
 

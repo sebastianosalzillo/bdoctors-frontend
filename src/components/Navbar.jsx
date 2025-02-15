@@ -4,11 +4,14 @@ function Navbar() {
   return (
     <nav className="navbar navbar-expand-lg">
       <div className="container">
-        <Link className="navbar-brand" to="/">
-          <img src="/logo_BDoctors.png" alt="Logo" width="75" height="75"/>
-        </Link>
+        <img src="/logo_BDoctors.png" alt="Logo" width="75" height="75" />
 
         <ul className="navbar-nav">
+          <li>
+            <Link className="nav-link" to="/">
+              <p>Home</p>
+            </Link>
+          </li>
           <li className="nav-item">
             <Link className="nav-link" to="/registration">Registrati come Medico</Link>
           </li>
