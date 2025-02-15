@@ -27,6 +27,14 @@ const validateDescription = (description) => {
   return typeof description === 'string' && description.trim().length >= 6;
 };
 
+const validateGender = (gender) => {
+  return gender === 'M' || gender === 'F' || gender === 'X';
+};
+
+const validateSpecialization = (id_specialization) => {
+  return id_specialization !== '';
+};
+
 const showMessage = (setMessage, text, type) => {
   setMessage({ text, type });
   setTimeout(() => setMessage({ text: '', type: '' }), 3000); // Rimuove il messaggio dopo 3 secondi
@@ -49,6 +57,7 @@ function DoctorRegistration() {
   const [specialization, setSpecialization] = useState([]);
   const [errors, setErrors] = useState({});
   const { setMessage } = useAlertContext();
+  const [isFormValid, setIsFormValid] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -60,6 +69,18 @@ function DoctorRegistration() {
         console.error('Error fetching specializations:', error);
       });
   }, []);
+
+  useEffect(() => {
+    const isValid = formData.first_name && !errors.first_name &&
+      formData.last_name && !errors.last_name &&
+      formData.email && !errors.email &&
+      formData.phone && !errors.phone &&
+      formData.address && !errors.address &&
+      formData.description && !errors.description &&
+      formData.gender && !errors.gender &&
+      formData.id_specialization && !errors.id_specialization;
+    setIsFormValid(isValid);
+  }, [formData, errors,]);
 
   const checkEmail = async (email) => {
     try {
@@ -95,7 +116,7 @@ function DoctorRegistration() {
 
   const handleBlur = async (event) => {
     const { name, value } = event.target;
-    
+
     // Esegui la validazione solo al blur
     switch (name) {
       case 'first_name':
@@ -137,9 +158,23 @@ function DoctorRegistration() {
         break;
       case 'description':
         if (!validateDescription(value)) {
-          setErrors(prevErrors => ({ ...prevErrors, description: 'La descrizione deve avere più di 6 caratteri' }));
+          setErrors(prevErrors => ({ ...prevErrors, description: 'La descrizione deve avere più di 5 caratteri' }));
         } else {
           setErrors(prevErrors => ({ ...prevErrors, description: '' }));
+        }
+        break;
+      case 'gender':
+        if (!validateGender(value)) {
+          setErrors(prevErrors => ({ ...prevErrors, gender: 'Il genere è obbligatorio' }));
+        } else {
+          setErrors(prevErrors => ({ ...prevErrors, gender: '' }));
+        }
+        break;
+      case 'id_specialization':
+        if (!validateSpecialization(value)) {
+          setErrors(prevErrors => ({ ...prevErrors, id_specialization: 'Inserisci una specializzazione' }));
+        } else {
+          setErrors(prevErrors => ({ ...prevErrors, id_specialization: '' }));
         }
         break;
       default:
@@ -167,8 +202,8 @@ function DoctorRegistration() {
 
     // Validazione completa prima dell'invio
     if (!validateName(formData.first_name) || !validateName(formData.last_name) ||
-        !validateEmail(formData.email) || !validatePhone(formData.phone) ||
-        !validateAddress(formData.address) || !validateDescription(formData.description) ){
+      !validateEmail(formData.email) || !validatePhone(formData.phone) ||
+      !validateAddress(formData.address) || !validateDescription(formData.description) || !validateGender(formData.gender) || !validateSpecialization(formData.id_specialization)) {
       showMessage(setMessage, 'Il modulo non è completo! Verifica i campi cotrassegnati (*)', 'danger');
       return;
     }
@@ -205,6 +240,7 @@ function DoctorRegistration() {
         handleSubmit={handleSubmit}
         handleBlur={handleBlur} // Aggiungi l'handler di blur
         errors={errors} // Passa gli errori al componente FormDoctor
+        isFormValid={isFormValid}
       />
     </>
   );

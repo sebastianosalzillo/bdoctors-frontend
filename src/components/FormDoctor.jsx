@@ -1,5 +1,5 @@
 
-function FormDoctor({ formData, specialization, handleChange, handleFileChange, handleSubmit, emailError, phoneError, handleBlur, errors }) {
+function FormDoctor({ formData, specialization, handleChange, handleFileChange, handleSubmit, emailError, phoneError, handleBlur, errors, isFormValid }) {
     return (
         <div>
             <h3 className="text-center my-5">Sei nuovo? Registrati qui!</h3>
@@ -47,12 +47,14 @@ function FormDoctor({ formData, specialization, handleChange, handleFileChange, 
                                         name="gender"
                                         value={formData.gender}
                                         onChange={handleChange}
+                                        onBlur={handleBlur}
                                     >
                                         <option value="">-</option>
                                         <option value="M">M</option>
                                         <option value="F">F</option>
                                         <option value="X">X</option>
                                     </select>
+                                    {errors.gender && <div className="invalid-feedback">{errors.gender}</div>}
                                 </div>
                             </div>
                             <div className="col-md-6 mb-3">
@@ -117,6 +119,7 @@ function FormDoctor({ formData, specialization, handleChange, handleFileChange, 
                                 name="id_specialization"
                                 value={formData.id_specialization}
                                 onChange={handleChange}
+                                onBlur={handleBlur}
                             >
                                 <option value="">-</option>
                                 {specialization.map(curItem => (
@@ -125,6 +128,7 @@ function FormDoctor({ formData, specialization, handleChange, handleFileChange, 
                                     </option>
                                 ))}
                             </select>
+                            {errors.id_specialization && <div className="invalid-feedback">{errors.id_specialization}</div>}
                         </div>
                         <div className="form-group mb-5">
                             <label htmlFor="description">Servizi <span className="red">*</span></label>
@@ -154,7 +158,7 @@ function FormDoctor({ formData, specialization, handleChange, handleFileChange, 
                             />
                         </div>
                         <div className="d-flex justify-content-center">
-                            <button type="submit" className="btn btn-primary mt-5">Registrati</button>
+                            <button type="submit" className="btn btn-primary mt-5" disabled={!isFormValid}>Registrati</button>
                         </div>
                     </form>
                 </div>
