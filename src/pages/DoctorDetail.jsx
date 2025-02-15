@@ -7,6 +7,19 @@ import axios from "axios";
 import FormReview from "../components/FormReview";
 import { useAlertContext } from "../contexts/AlertContext";
 
+const validateName = (name) => {
+  return typeof name === 'string' && name.trim().length >= 3;
+};
+
+const validateEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
+const validateRating = (rating) => {
+  return rating > 0 && rating <= 5;
+}
+
 function DoctorDetail() {
 
   const emptyRece = {
@@ -19,11 +32,11 @@ function DoctorDetail() {
   const navigate = useNavigate();
   const array = [1, 2, 3, 4, 5]
   const { slug } = useParams();
-
   const [newRece, setNewRece] = useState(emptyRece)
   const [doc, setDoc] = useState(null)
   const { message, setMessage } = useAlertContext();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState({});
 
   const gotToSpec = () => {
     if (doc.specialization) {
@@ -73,6 +86,56 @@ function DoctorDetail() {
     }
 
   }
+
+  const checkEmail = async (email) => {
+    try {
+      const response = await axios.post('http://localhost:3000/doctors', { emailOnly: email });
+      if (response.data.exists) {
+        setErrors(prevErrors => ({ ...prevErrors, email: "Email già registrata" }));
+        return false; // Indica che l'email non è valida
+      } else {
+        setErrors(prevErrors => ({ ...prevErrors, email: "" }));
+        return true; // Indica che l'email è valida
+      }
+    } catch (error) {
+      console.error('Errore durante la verifica dell\'email:', error);
+      return false; // In caso di errore, l'email non è valida
+    }
+  };
+
+  const handleBlur = async (event) => {
+    const { name, value } = event.target;
+
+    // Esegui la validazione solo al blur
+    switch (name) {
+      case 'patient_name':
+        if (!validateName(value)) {
+          setErrors(prevErrors => ({ ...prevErrors, patient_name: 'Il nome deve avere più di 3 caratteri' }));
+        } else {
+          setErrors(prevErrors => ({ ...prevErrors, patient_name: '' }));
+        }
+        console.log(errors);
+        break;
+      case 'email':
+        if (!validateEmail(value)) {
+          setErrors(prevErrors => ({ ...prevErrors, email: 'La mail inserita non è valida' }));
+        } else {
+          setErrors(prevErrors => ({ ...prevErrors, email: '' }));
+          await checkEmail(value);
+        }
+        break;
+      case 'rating':
+        if (!validateRating(parseInt(value))) {
+          setErrors(prevErrors => ({ ...prevErrors, rating: 'Inserisci una valutazione' }));
+        } else {
+          setErrors(prevErrors => ({ ...prevErrors, rating: '' }));
+        }
+        break;
+      default:
+        break;
+    }
+  };
+
 
   const handleInputChange = (event) => {
     const name = event.target.name
@@ -151,6 +214,8 @@ function DoctorDetail() {
           array={array}
           isSubmitting={isSubmitting}
           doc={doc}
+          errors={errors}
+          handleBlur={handleBlur}
         />
       </>
     }
