@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar as solidStar, faPhone, faEnvelope, faMapLocationDot, } from '@fortawesome/free-solid-svg-icons'
 import axios from "axios";
@@ -30,7 +30,8 @@ function DoctorDetail() {
   }
 
   const navigate = useNavigate();
-  
+  const mapRef = useRef(null);
+
   const { slug } = useParams();
   const [newRece, setNewRece] = useState(emptyRece)
   const [doc, setDoc] = useState(null)
@@ -48,6 +49,25 @@ function DoctorDetail() {
     refresh()
   }, [slug])
 
+  useEffect(() => {
+    if (doc && doc.address) {
+      const map = new google.maps.Map(mapRef.current, {
+        zoom: 15,
+      });
+
+      const geocoder = new google.maps.Geocoder();
+      geocoder.geocode({ address: doc.address }, (results, status) => {
+        if (status === 'OK' && results[0]) {
+          map.setCenter(results[0].geometry.location);
+          new google.maps.Marker({
+            map: map,
+            position: results[0].geometry.location,
+          });
+        }
+      });
+    }
+  }, [doc]);
+
   const refresh = () => {
     axios.get(`http://localhost:3000/doctors/${slug}`).then((resp) => {
       setDoc(resp.data.data)
@@ -63,7 +83,7 @@ function DoctorDetail() {
           <div key={curRece.id} className="rece-card">
             <p>{new Date(curRece.data).toLocaleDateString()}</p>
             <h5>{curRece.patient_name}</h5>
-            <div><strong>Voto: </strong> <Stars voto={curRece.rating}/></div>
+            <div><strong>Voto: </strong> <Stars voto={curRece.rating} /></div>
             <p>{curRece.content}</p>
           </div>
         );
@@ -114,7 +134,7 @@ function DoctorDetail() {
           await checkEmail(value);
         }
         break;
-     
+
       default:
         break;
     }
@@ -141,15 +161,15 @@ function DoctorDetail() {
       setMessage({ text: 'Grazie per aver lasciato una recensione!', type: 'success' });
       setTimeout(() => setMessage({ text: '', type: '' }), 5000);
       refresh();
-  } catch (error) {
+    } catch (error) {
       // Gestione degli errori se necessario
       console.error("Errore durante il submit:", error);
       setMessage({ text: 'Si è verificato un errore, compila i campi contrassegnati(*)', type: 'danger' });
-  } finally {
+    } finally {
       // Riabilita il bottone dopo il refresh
       setIsSubmitting(false);
+    }
   }
-}
 
   return (<>
     {doc &&
@@ -162,7 +182,7 @@ function DoctorDetail() {
         <div className="card card-detail mb-3">
           <div className="row g-0">
             <div className="col-md-4 col-lg-3 col-xxl-2 col-img">
-              <div className="imm">                
+              <div className="imm">
                 <img src={doc.image ? (doc.image.startsWith("http")
                   ? doc.image
                   : `http://localhost:3000/images/doctors/${doc.image}`)
@@ -170,20 +190,22 @@ function DoctorDetail() {
               </div>
             </div>
             <div className="col-md-8 col-text">
-              <div className="card-body detail">                     
+              <div className="card-body detail">
                 <p className="ps-1 my-1"><FontAwesomeIcon icon={faPhone} /> {doc.phone}</p>
                 <p className="ps-1 my-1"><FontAwesomeIcon icon={faEnvelope} /> <a href={`mailto:${doc.email}`}>{doc.email}</a></p>
                 <p className="ps-1 my-1"><span><FontAwesomeIcon icon={faMapLocationDot} /></span>  {doc.address}</p>
-                <p className="ps-1 my-1"><Stars voto={doc.average_rating}/></p>
+
+                <p className="ps-1 my-1"><Stars voto={doc.average_rating} /></p>
                 <button onClick={gotToSpec} className="btn my-1 spec">{doc.specialization}</button>
                 <p className="ps-1 my-1">{doc.description}</p>
               </div>
             </div>
           </div>
         </div>
-
-
-
+        <div>
+          <h3>Visualizza Mappa</h3>
+          <div ref={mapRef} style={{ height: '400px', width: '100%' }}></div>
+        </div>
         <div>
           <h3 className="my-4">Recensioni ({doc.reviews.length})</h3>
           {printRecensioni()}
