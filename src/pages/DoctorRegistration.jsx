@@ -234,6 +234,7 @@ function DoctorRegistration() {
       </div>
       <FormDoctor
         formData={formData}
+        setFormData={setFormData}
         specialization={specialization}
         handleChange={handleChange}
         handleFileChange={handleFileChange}

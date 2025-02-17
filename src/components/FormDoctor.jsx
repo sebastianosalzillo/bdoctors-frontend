@@ -1,5 +1,22 @@
+import { useEffect } from "react";
 
-function FormDoctor({ formData, specialization, handleChange, handleFileChange, handleSubmit, emailError, phoneError, handleBlur, errors, isFormValid }) {
+function FormDoctor({ formData, setFormData, specialization, handleChange, handleFileChange, handleSubmit, emailError, phoneError, handleBlur, errors, isFormValid }) {
+    useEffect(() => {
+        const autocomplete = new google.maps.places.Autocomplete(document.getElementById('address'), {
+          types: ['address'],
+        });
+    
+        autocomplete.addListener('place_changed', () => {
+          const place = autocomplete.getPlace();
+          const address = place.formatted_address;
+    
+          setFormData(prevFormData => ({
+            ...prevFormData,
+            address
+          }));
+        });
+      }, []);
+
     return (
         <div>
             <h3 className="text-center my-5">Sei nuovo? Registrati qui!</h3>
