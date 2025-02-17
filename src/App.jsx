@@ -7,10 +7,15 @@ import DoctorDetail from "./pages/DoctorDetail";
 import DoctorRegistration from "./pages/DoctorRegistration.jsx";
 import { AlertProvider } from "./contexts/AlertContext.jsx"
 import AppAllert from "./components/AppAllert.jsx"
+import  {LoadScript} from "@react-google-maps/api";
+
+const googleMapsApiKey = 'AIzaSyDty0JzQsRR7HwmlHAC55_ikV4QoluXUak'
+const libraries = ["places"]; 
 
 function App() {
   return (
     <AlertProvider>
+      <LoadScript googleMapsApiKey={googleMapsApiKey} libraries={libraries}>
       <Router>
         <AppAllert />
         <Routes>
@@ -22,6 +27,7 @@ function App() {
           </Route>
         </Routes>
       </Router>
+      </LoadScript>
     </AlertProvider>
   );
 }

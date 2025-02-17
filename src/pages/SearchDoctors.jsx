@@ -1,9 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import CardDoctor from "../components/CardDoctor";
+import { Autocomplete } from "@react-google-maps/api";
 
 const apiUrl = "http://localhost:3000";
+
 
 const SearchDoctors = () => {
   const [doctors, setDoctors] = useState([]);
@@ -12,6 +14,8 @@ const SearchDoctors = () => {
   const [city, setCity] = useState("");
   const [filteredSearchTerm, setFilteredSearchTerm] = useState("");
   const [filteredCity, setFilteredCity] = useState("");
+
+  const autocompleteRef = useRef(null);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -35,14 +39,27 @@ const SearchDoctors = () => {
 
   }, [selectedSpecialization]);
 
+  useEffect(() => {
+    console.log("Doctors updated: ", doctors);
+    console.log("Filtered Search Term: ", filteredSearchTerm);
+    console.log("Filtered City: ", filteredCity);
+  }, [doctors, filteredSearchTerm, filteredCity]);
+
   const filteredDoctors = doctors.filter((doctor) => {
     const fullName = `${doctor.first_name.toLowerCase()} ${doctor.last_name.toLowerCase()}`;
 
-    const cityInAddress = doctor.address.split(",")[1]?.trim().toLowerCase();
-    const matchCity = filteredCity ? cityInAddress?.includes(filteredCity.toLowerCase()) : true;
+    const address = doctor.address ? doctor.address.toLowerCase() : "";
+    const cityKeywords = filteredCity.toLowerCase().split(' '); // Suddividi l'input della città in parole chiave
+    const matchCity = cityKeywords.some(keyword => address.includes(keyword)); // Verifica se una delle parole chiave è presente nell'indirizzo
 
     return fullName.includes(filteredSearchTerm.toLowerCase()) && matchCity;
   });
+
+
+  const handlePlaceSelect = () => {
+    const place = autocompleteRef.current.getPlace();
+    setCity(place.formatted_address);
+  };
 
   const handleSpecializationChange = (e) => {
     const newSpecialization = e.target.value;
@@ -57,6 +74,7 @@ const SearchDoctors = () => {
 
   return (
     <>
+
       <div className="my-3">
         <a className="back" onClick={() => navigate(-1)}>Torna indietro</a>
       </div>
@@ -82,13 +100,20 @@ const SearchDoctors = () => {
             />
           </div>
           <div className="col-md-4">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Cerca per città"
-              value={city}
-              onChange={(event) => setCity(event.target.value)}
-            />
+            <Autocomplete
+              onLoad={(autocomplete) => {
+                autocompleteRef.current = autocomplete;
+              }}
+              onPlaceChanged={handlePlaceSelect}
+            >
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Cerca per città"
+                value={city}
+                onChange={(event) => setCity(event.target.value)}
+              />
+            </Autocomplete>
           </div>
           <div className="text-center mb-4">
             <button className="btn btn-primary" onClick={handleSearch}>
@@ -113,6 +138,7 @@ const SearchDoctors = () => {
           )}
         </div>
       </div>
+
     </>
   );
 };
