@@ -10,6 +10,8 @@ const SearchDoctors = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [specializations, setSpecializations] = useState([]);
   const [city, setCity] = useState("");
+  const [filteredSearchTerm, setFilteredSearchTerm] = useState("");
+  const [filteredCity, setFilteredCity] = useState("");
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -37,15 +39,20 @@ const SearchDoctors = () => {
     const fullName = `${doctor.first_name.toLowerCase()} ${doctor.last_name.toLowerCase()}`;
 
     const cityInAddress = doctor.address.split(",")[1]?.trim().toLowerCase();
-    const matchCity = city ? cityInAddress?.includes(city.toLowerCase()) : true;
+    const matchCity = filteredCity ? cityInAddress?.includes(filteredCity.toLowerCase()) : true;
 
-    return fullName.includes(searchTerm.toLowerCase()) && matchCity;
+    return fullName.includes(filteredSearchTerm.toLowerCase()) && matchCity;
   });
 
   const handleSpecializationChange = (e) => {
     const newSpecialization = e.target.value;
     setSelectedSpecialization(newSpecialization);
     navigate(`/search?specialization=${newSpecialization}`);
+  };
+
+  const handleSearch = () => {
+    setFilteredSearchTerm(searchTerm);
+    setFilteredCity(city);
   };
 
   return (
@@ -83,6 +90,11 @@ const SearchDoctors = () => {
               onChange={(event) => setCity(event.target.value)}
             />
           </div>
+          <div className="text-center mb-4">
+            <button className="btn btn-primary" onClick={handleSearch}>
+              Cerca
+            </button>
+          </div>
         </div>
 
 
@@ -92,8 +104,8 @@ const SearchDoctors = () => {
               <h4 className="my-3">Sono stati trovati {filteredDoctors.length} medici</h4>
               <div className="row">
                 {filteredDoctors.map((doctor) => (
-                  <CardDoctor key={doctor.id} doctor={doctor}/>
-                  ))}
+                  <CardDoctor key={doctor.id} doctor={doctor} />
+                ))}
               </div>
             </>
           ) : (
