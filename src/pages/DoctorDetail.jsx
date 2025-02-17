@@ -1,11 +1,11 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar as solidStar, faPhone, faEnvelope, faMapLocationDot, } from '@fortawesome/free-solid-svg-icons';
-import { faStar as regularStar } from '@fortawesome/free-regular-svg-icons';
+import { faStar as solidStar, faPhone, faEnvelope, faMapLocationDot, } from '@fortawesome/free-solid-svg-icons'
 import axios from "axios";
 import FormReview from "../components/FormReview";
 import { useAlertContext } from "../contexts/AlertContext";
+import Stars from "../components/Stars";
 
 const validateName = (name) => {
   return typeof name === 'string' && name.trim().length >= 3;
@@ -17,7 +17,7 @@ const validateEmail = (email) => {
 };
 
 const validateRating = (rating) => {
-  return rating > 0 && rating <= 5;
+  return rating >= 1 && rating <= 5;
 }
 
 function DoctorDetail() {
@@ -30,7 +30,7 @@ function DoctorDetail() {
   }
 
   const navigate = useNavigate();
-  const array = [1, 2, 3, 4, 5]
+  
   const { slug } = useParams();
   const [newRece, setNewRece] = useState(emptyRece)
   const [doc, setDoc] = useState(null)
@@ -54,15 +54,6 @@ function DoctorDetail() {
     })
   }
 
-  const stelline = (voto) => {
-    return array.map((cur) => {
-      if (voto >= cur) {
-        return <FontAwesomeIcon key={cur} icon={solidStar} />
-      } else {
-        return <FontAwesomeIcon key={cur} icon={regularStar} />
-      }
-    })
-  };
 
   const printRecensioni = () => {
     if (doc.reviews.length) {
@@ -72,9 +63,8 @@ function DoctorDetail() {
           <div key={curRece.id} className="rece-card">
             <p>{new Date(curRece.data).toLocaleDateString()}</p>
             <h5>{curRece.patient_name}</h5>
-            <div><strong>Voto: </strong> {stelline(curRece.rating)}</div>
+            <div><strong>Voto: </strong> <Stars voto={curRece.rating}/></div>
             <p>{curRece.content}</p>
-            {/* <a href={`mailto:${curRece.email}`}>{curRece.email}</a> */}
           </div>
         );
       })
@@ -124,13 +114,7 @@ function DoctorDetail() {
           await checkEmail(value);
         }
         break;
-      case 'rating':
-        if (!validateRating(parseInt(value))) {
-          setErrors(prevErrors => ({ ...prevErrors, rating: 'Inserisci una valutazione' }));
-        } else {
-          setErrors(prevErrors => ({ ...prevErrors, rating: '' }));
-        }
-        break;
+     
       default:
         break;
     }
@@ -160,7 +144,7 @@ function DoctorDetail() {
   } catch (error) {
       // Gestione degli errori se necessario
       console.error("Errore durante il submit:", error);
-      setMessage({ text: 'Si è verificato un errore', type: 'error' });
+      setMessage({ text: 'Si è verificato un errore, compila i campi contrassegnati(*)', type: 'danger' });
   } finally {
       // Riabilita il bottone dopo il refresh
       setIsSubmitting(false);
@@ -190,7 +174,7 @@ function DoctorDetail() {
                 <p className="ps-1 my-1"><FontAwesomeIcon icon={faPhone} /> {doc.phone}</p>
                 <p className="ps-1 my-1"><FontAwesomeIcon icon={faEnvelope} /> <a href={`mailto:${doc.email}`}>{doc.email}</a></p>
                 <p className="ps-1 my-1"><span><FontAwesomeIcon icon={faMapLocationDot} /></span>  {doc.address}</p>
-                <p className="ps-1 my-1"><FontAwesomeIcon icon={solidStar} /> {doc.average_rating}</p>
+                <p className="ps-1 my-1"><Stars voto={doc.average_rating}/></p>
                 <button onClick={gotToSpec} className="btn my-1 spec">{doc.specialization}</button>
                 <p className="ps-1 my-1">{doc.description}</p>
               </div>
@@ -211,7 +195,6 @@ function DoctorDetail() {
           handleOnSubmit={handleOnSubmit}
           handleInputChange={handleInputChange}
           newRece={newRece}
-          array={array}
           isSubmitting={isSubmitting}
           doc={doc}
           errors={errors}

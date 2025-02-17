@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
+import CardDoctor from "../components/CardDoctor";
 
 const apiUrl = "http://localhost:3000";
 
@@ -91,30 +92,8 @@ const SearchDoctors = () => {
               <h4 className="my-3">Sono stati trovati {filteredDoctors.length} medici</h4>
               <div className="row">
                 {filteredDoctors.map((doctor) => (
-                  <div className="col-md-4 mb-4" key={doctor.id}>
-                    <div className="card ms-card p-3">
-                      <img
-                      className="card-img-top mt-0"
-                      alt={doctor.first_name}
-                      style={{ objectFit: "cover" }}
-                        src={doctor.image ? (doctor.image.startsWith("http")
-                          ? doctor.image
-                          : `http://localhost:3000/images/doctors/${doctor.image}`)
-                          : 'placeholder1.webp'}
-                        
-                      />
-
-                      <div className="card-body search">
-                        <p className="m-1 mt-2"><strong>Nome e Cognome:</strong> {doctor.first_name} {doctor.last_name}</p>
-                        <p className="m-1"><strong>Specializzazione:</strong> {doctor.specialization}</p>
-                        <p className="m-1"><strong>Indirizzo:</strong> {doctor.address}</p>
-                        <p className="m-1"><strong>Media Voto:</strong> {doctor.average_rating}/5</p>
-                        <button className="btn btn-primary" onClick={() => navigate(`/doctor/${doctor.slug}`)}>
-                          Vai ai dettagli
-                        </button>
-                      </div>
-                    </div>
-                  </div>))}
+                  <CardDoctor key={doctor.id} doctor={doctor}/>
+                  ))}
               </div>
             </>
           ) : (

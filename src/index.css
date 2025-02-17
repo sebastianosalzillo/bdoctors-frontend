@@ -93,6 +93,14 @@ body {
   min-height: 100vh;
 }
 
+.star-interactive {
+  cursor: pointer;
+}
+
+.star-static {
+  cursor: default;
+}
+
 /* Header e Footer */
 footer {
   background-color: #0097b2;

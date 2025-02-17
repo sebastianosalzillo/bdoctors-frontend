@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import CardDoctor from "../components/CardDoctor";
 
 function HomePage() {
   const [doctors, setDoctors] = useState([]);
@@ -64,25 +65,7 @@ function HomePage() {
           doctors
             .filter(doctor => doctor.average_rating >= 4.5)
             .map(doctor => (
-              <div key={doctor.id} className="col-md-4 mb-4 ">
-                <div className="card ms-card ">
-                  <div className="text-center">
-                    <img
-                      src={doctor.image.startsWith("http") ? doctor.image : `http://localhost:3000/images/doctors/${doctor.image}`}
-                      className="card-img-top"
-                      alt={doctor.first_name}
-                      style={{ objectFit: "cover" }}
-                    />
-                  </div>
-                  <div className="card-body home">
-                    <h5 className="card-title">{doctor.first_name} {doctor.last_name}</h5>
-                    <p className="card-text my-1"> <strong>Specializzazione: </strong>{doctor.specialization}</p>
-                    <p className="card-text my-1"> <strong>Indirizzo: </strong>{doctor.address}</p>
-                    <p className="card-text my-1"> <strong>Media Voto: </strong>{doctor.average_rating}/5</p>
-                    <Link to={`/doctor/${doctor.slug}`} className="btn btn-primary">Vedi dettagli</Link>
-                  </div>
-                </div>
-              </div>
+             <CardDoctor key= {doctor.id} doctor={doctor}/>
             ))
         ) : (
           <p className="text-center">Nessun dottore trovato</p>
