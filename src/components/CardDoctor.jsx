@@ -2,6 +2,8 @@ import Stars from "../components/Stars";
 import { Link } from "react-router-dom";
 import AppMap from "./AppMap";
 import { useState } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 
 const googleMapsApiKey = 'AIzaSyDty0JzQsRR7HwmlHAC55_ikV4QoluXUak'
 
@@ -29,7 +31,7 @@ const CardDoctor = ({ doctor }) => {
   return (
     <>
       <div key={doctor.id} className="col-md-4 mb-4 ">
-        <div className="card ms-card ">
+        <div className="card ms-card  h-100">
           <div className="text-center">
             <img
               src={doctor.image ? (doctor.image.startsWith("http")
@@ -41,17 +43,17 @@ const CardDoctor = ({ doctor }) => {
               style={{ objectFit: "cover" }}
             />
           </div>
-          <div className="card-body home">
+          <div className="card-body home lh-sm">
             <h5 className="card-title">{doctor.first_name} {doctor.last_name}</h5>
             <p className="card-text my-1"> <strong>Specializzazione: </strong>{doctor.specialization}</p>
             <p className="card-text my-1"
               onClick={handleAddressClick}
               style={{ cursor: "pointer", color: "blue" }}>
-              <strong>Indirizzo: </strong>{doctor.address}
+              <span><FontAwesomeIcon className="text-dark" icon={faLocationDot} />   {doctor.address}</span>
             </p>
             <p className="card-text my-1"> <Stars voto={doctor.average_rating} /></p>
-            <Link to={`/doctor/${doctor.slug}`} className="btn btn-primary">Vedi dettagli</Link>
-          </div>
+            </div>
+          <Link to={`/doctor/${doctor.slug}`} className="btn btn-primary my-3 w-50 ms-3">Vedi dettagli</Link>
         </div>
         <AppMap
           show={showMap}
