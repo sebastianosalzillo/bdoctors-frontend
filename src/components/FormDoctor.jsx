@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useEffect } from "react";
 
 function FormDoctor({ formData, setFormData, specialization, handleChange, handleFileChange, handleSubmit, emailError, phoneError, handleBlur, errors, isFormValid }) {
