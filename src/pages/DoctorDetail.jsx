@@ -197,7 +197,7 @@ function DoctorDetail() {
 
                 <p className="ps-1 my-1"><Stars voto={doc.average_rating} /></p>
                 <button onClick={gotToSpec} className="btn my-1 spec">{doc.specialization}</button>
-                <p className="ps-1 my-1">{doc.description}</p>
+                <p className="ps-1 my-1" dangerouslySetInnerHTML={{ __html: doc.description }}></p> 
               </div>
             </div>
           </div>
