@@ -6,22 +6,21 @@ import { Autocomplete } from "@react-google-maps/api";
 
 const apiUrl = "http://localhost:3000";
 
-
 const SearchDoctors = () => {
   const [doctors, setDoctors] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [specializations, setSpecializations] = useState([]);
   const [city, setCity] = useState("");
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
   const [filteredSearchTerm, setFilteredSearchTerm] = useState("");
   const [filteredCity, setFilteredCity] = useState("");
 
   const autocompleteRef = useRef(null);
-
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const [selectedSpecialization, setSelectedSpecialization] = useState(queryParams.get("specialization") || "");
-
 
   useEffect(() => {
     axios.get(`${apiUrl}/doctors`).then((resp) => {
@@ -29,14 +28,12 @@ const SearchDoctors = () => {
       const filteredBySpecialization = selectedSpecialization
         ? allDoctors.filter((doc) => doc.specialization === selectedSpecialization)
         : allDoctors;
-
       setDoctors(filteredBySpecialization);
     });
 
     axios.get(`${apiUrl}/specialization`).then((resp) => {
       setSpecializations(resp.data.data);
     });
-
   }, [selectedSpecialization]);
 
   useEffect(() => {
@@ -45,36 +42,73 @@ const SearchDoctors = () => {
     console.log("Filtered City: ", filteredCity);
   }, [doctors, filteredSearchTerm, filteredCity]);
 
-  const filteredDoctors = doctors.filter((doctor) => {
-    const fullName = `${doctor.first_name.toLowerCase()} ${doctor.last_name.toLowerCase()}`;
-
-    const address = doctor.address ? doctor.address.toLowerCase() : "";
-    const cityKeywords = filteredCity.toLowerCase().split(' '); // Suddividi l'input della città in parole chiave
-    const matchCity = cityKeywords.some(keyword => address.includes(keyword)); // Verifica se una delle parole chiave è presente nell'indirizzo
-
-    return fullName.includes(filteredSearchTerm.toLowerCase()) && matchCity;
-  });
-
-
   const handlePlaceSelect = () => {
     const place = autocompleteRef.current.getPlace();
+    if (place.geometry) {
+      setLatitude(place.geometry.location.lat());
+      setLongitude(place.geometry.location.lng());
+    }
     setCity(place.formatted_address);
   };
 
   const handleSpecializationChange = (e) => {
     const newSpecialization = e.target.value;
     setSelectedSpecialization(newSpecialization);
-    navigate(`/search?specialization=${newSpecialization}`);
+    updateURL(newSpecialization, filteredSearchTerm, filteredCity);
   };
 
   const handleSearch = () => {
     setFilteredSearchTerm(searchTerm);
     setFilteredCity(city);
+    updateURL(selectedSpecialization, searchTerm, city);
   };
+
+  const updateURL = (specialization, name, city) => {
+    const params = new URLSearchParams();
+    if (specialization) params.set("specialization", specialization);
+    if (name) params.set("name", name);
+    if (city) params.set("city", city);
+
+    navigate(`/search?${params.toString()}`, { replace: true });
+  };
+
+  const getDistance = (lat1, lon1, lat2, lon2) => {
+    const R = 6371;
+    const dLat = (lat2 - lat1) * (Math.PI / 180);
+    const dLon = (lon2 - lon1) * (Math.PI / 180);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1 * (Math.PI / 180)) *
+        Math.cos(lat2 * (Math.PI / 180)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+  };
+
+  const filteredDoctors = doctors.filter((doctor) => {
+    const fullName = `${doctor.first_name.toLowerCase()} ${doctor.last_name.toLowerCase()}`;
+    let isWithinDistance = true;
+
+    const sanitizedCity = filteredCity
+      .toLowerCase()
+      .replace(/\b(via|italia)\b/g, '')
+      .trim();
+
+    const address = doctor.address ? doctor.address.toLowerCase() : "";
+    const cityKeywords = sanitizedCity.split(' ');
+    const matchCity = cityKeywords.some(keyword => address.includes(keyword));
+
+    if (latitude && longitude && doctor.latitude && doctor.longitude) {
+      const distance = getDistance(latitude, longitude, doctor.latitude, doctor.longitude);
+      isWithinDistance = distance <= 10;
+    }
+
+    return fullName.includes(filteredSearchTerm.toLowerCase()) && matchCity && isWithinDistance;
+  });
 
   return (
     <>
-
       <div className="my-3">
         <a className="back" onClick={() => navigate(-1)}>Torna indietro</a>
       </div>
@@ -109,7 +143,7 @@ const SearchDoctors = () => {
               <input
                 type="text"
                 className="form-control"
-                placeholder="Cerca per città"
+                placeholder="Cerca per città o indirizzo"
                 value={city}
                 onChange={(event) => setCity(event.target.value)}
               />
@@ -121,7 +155,6 @@ const SearchDoctors = () => {
             </button>
           </div>
         </div>
-
 
         <div>
           {filteredDoctors.length > 0 ? (
@@ -138,7 +171,6 @@ const SearchDoctors = () => {
           )}
         </div>
       </div>
-
     </>
   );
 };
