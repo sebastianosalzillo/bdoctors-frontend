@@ -181,14 +181,14 @@ function DoctorDetail() {
                     : 'http://localhost:3000/images/doctors/placeholder1.webp'} alt={`medico ${doc.first_name} ${doc.last_name}`} />
                 </div>
               </div>
-              <div className="col-md-8 col-text">
+              <div className="col-md-8 col-lg-9 col-xxl-10 col-text">
                 <div className="card-body detail">
-                  <p><FontAwesomeIcon icon={faPhone} /> {doc.phone}</p>
-                  <p><FontAwesomeIcon icon={faEnvelope} /> <a href={`mailto:${doc.email}`}>{doc.email}</a></p>
-                  <p><FontAwesomeIcon icon={faMapLocationDot} /> {doc.address}</p>
-                  <p><Stars voto={doc.average_rating} /></p>
-                  <button onClick={goToSpecialization} className="btn my-1 spec">{doc.specialization}</button>
-                  <p dangerouslySetInnerHTML={{ __html: doc.description }}></p>
+                  <p className="m-1"><FontAwesomeIcon icon={faPhone} /> {doc.phone}</p>
+                  <p className="m-1"><FontAwesomeIcon icon={faEnvelope} /> <a href={`mailto:${doc.email}`}>{doc.email}</a></p>
+                  <p className="m-1"><FontAwesomeIcon icon={faMapLocationDot} /> {doc.address}</p>
+                  <p className="m-1"><Stars voto={doc.average_rating} /></p>
+                  <button onClick={goToSpecialization} className="btn my-2 spec">{doc.specialization}</button>
+                  <p className="m-1" dangerouslySetInnerHTML={{ __html: doc.description }}></p>
                 </div>
               </div>
             </div>

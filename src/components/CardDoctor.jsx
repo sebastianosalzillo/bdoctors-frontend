@@ -53,7 +53,10 @@ const CardDoctor = ({ doctor }) => {
             </p>
             <p className="card-text my-1"> <Stars voto={doctor.average_rating} /></p>
             </div>
-          <Link to={`/doctor/${doctor.slug}`} className="btn btn-primary my-3 w-50 ms-3">Vedi dettagli</Link>
+            <div className="button-container">
+            <Link to={`/doctor/${doctor.slug}`} className="btn btn-primary m-3 w-50">Vedi dettagli</Link>
+            </div>
+          
         </div>
         <AppMap
           show={showMap}
