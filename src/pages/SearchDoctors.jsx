@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -40,7 +41,7 @@ const SearchDoctors = () => {
 
   function extractKeywords(address) {
     if (typeof address !== 'string' || !address.trim()) return [];
-    if (city) { address = city }
+    // if (city) { address = city }
     console.log(address);
     // Converti in minuscolo e rimuovi spazi inutili
     const lowerAddress = address.toLowerCase().trim();
@@ -97,12 +98,11 @@ const SearchDoctors = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const newFilter = { ...filter, [name]: value, };
-    console.log(newFilter);
-    setFilter(newFilter);
-    setCity("");
-    console.log(totalDoctors)
-  }
+    setFilter({ ...filter, [name]: value });
+    if (name === "address") {
+      setCity(value);  // Mantieni city sincronizzato con il valore inserito
+    }
+  };
 
   const handlePlaceSelect = () => {
     const place = autocompleteRef.current.getPlace();
@@ -110,8 +110,11 @@ const SearchDoctors = () => {
       // setLatitude(place.geometry.location.lat());
       // setLongitude(place.geometry.location.lng());
     }
-    setCity(place.formatted_address);
+    const formattedAddress = place.formatted_address;
+    setCity(formattedAddress);
+    setFilter({ ...filter, address: formattedAddress }); // Sincronizza filter.address
   };
+  
 
   const search = (event) => {
     event.preventDefault();
@@ -179,7 +182,16 @@ const SearchDoctors = () => {
         <div>
           {doctors.length > 0 ? (
             <>
-              <h4 className="my-3">Sono stati trovati {totalDoctors} medici</h4>
+              <h4 className="my-2">Sono stati trovati {totalDoctors} medici</h4>
+              <div className="my-2">
+                <span>Pagina {filter.page} di {totalPages}</span>
+                <br />
+              </div>
+              <div className="row">
+                {doctors.map((doctor) => (
+                  <CardDoctor key={doctor.id} doctor={doctor} />
+                ))}
+              </div>
               <div>
                 <span>Pagina {filter.page} di {totalPages}</span>
                 <br />
@@ -188,11 +200,7 @@ const SearchDoctors = () => {
                 <button className="btn btn-primary" onClick={(event) => changePage(event, { value: -1 })} disabled={filter.page <= 1}>Indietro</button>
                 <button className="btn btn-primary" onClick={(event) => changePage(event, { value: 1 })} disabled={doctors.length < 10 || filter.page >= totalPages}>Avanti</button>
               </div>
-              <div className="row">
-                {doctors.map((doctor) => (
-                  <CardDoctor key={doctor.id} doctor={doctor} />
-                ))}
-              </div>
+
             </>
           ) : (
             <p className="text-center">Nessun medico trovato</p>
