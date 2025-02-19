@@ -27,7 +27,8 @@ const FormReview = ({ handleOnSubmit, isSubmitting, handleInputChange, newRece, 
                     <label className="mt-1" htmlFor="content">Raccontaci come è andata!</label>
                     <textarea placeholder="Raccontacelo qui!" className="form-control mt-1" type="text" id="content" rows="3" name="content" value={newRece.content} onChange={(event) => { handleInputChange(event) }}></textarea>
                 </div>
-                <button disabled={isSubmitting} type="submit" className="btn btn-primary"> {isSubmitting ? 'Invio in corso...' : 'Conferma'}</button>
+                <button disabled={isSubmitting} type="submit" className="btn btn-primary my-4"> {isSubmitting ? 'Invio in corso...' : 'Conferma'}</button>
+                <p className="text-secondary ">* Campo obbligatorio</p>
             </form>
 
         </div>

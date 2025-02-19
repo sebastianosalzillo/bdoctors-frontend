@@ -176,7 +176,9 @@ function FormDoctor({ formData, setFormData, specialization, handleChange, handl
                         </div>
                         <div className="d-flex justify-content-center">
                             <button type="submit" className="btn btn-primary mt-5" disabled={!isFormValid}>Registrati</button>
+                            
                         </div>
+                        <p className="text-secondary text-center mt-4 ">* Campo obbligatorio</p>
                     </form>
                 </div>
             </div>
