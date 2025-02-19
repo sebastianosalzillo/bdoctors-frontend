@@ -157,6 +157,7 @@ function DoctorDetail() {
     } catch (error) {
       console.error("Errore durante il submit:", error);
       setMessage({ text: 'Si è verificato un errore, compila i campi contrassegnati(*)', type: 'danger' });
+      setTimeout(() => setMessage({ text: '', type: '' }), 3000);
     } finally {
       setIsSubmitting(false);
     }
