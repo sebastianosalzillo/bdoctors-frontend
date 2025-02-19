@@ -177,7 +177,7 @@ function DoctorDetail() {
           <h2 className="py-2 px-1">{doc.first_name} {doc.last_name}</h2>
           <div className="card card-detail mb-3">
             <div className="row g-0">
-              <div className="col-md-4 col-lg-3 col-xxl-2 col-img">
+              <div className="col-md-4 col-lg-4 col-xxl-3 col-img">
                 <div className="imm">
                   <img
                     src={
@@ -191,12 +191,12 @@ function DoctorDetail() {
                   />
                 </div>
               </div>
-              <div className="col-md-4 col-lg-5 col-xxl-5">
+              <div className="col-md-4 col-lg-4 col-xxl-5">
                 <div className="card-body detail">
                   <p className="mx-1 mb-0" dangerouslySetInnerHTML={{ __html: doc.description }}></p>
                 </div>
               </div>
-              <div className="col-md-4 col-lg-4 col-xxl-5 col-text">
+              <div className="col-md-4 col-lg-4 col-xxl-4 col-text">
                 <div className="card-body detail">
                   <p className="m-1">
                     <FontAwesomeIcon icon={faPhone} /> {doc.phone}
