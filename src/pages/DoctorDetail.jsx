@@ -105,21 +105,6 @@ function DoctorDetail() {
     }
   };
 
-  const checkEmail = async (email) => {
-    try {
-      const response = await axios.post('http://localhost:3000/doctors', { emailOnly: email });
-      if (response.data.exists) {
-        setErrors(prevErrors => ({ ...prevErrors, email: "Email già registrata" }));
-        return false;
-      } else {
-        setErrors(prevErrors => ({ ...prevErrors, email: "" }));
-        return true;
-      }
-    } catch (error) {
-      console.error('Errore durante la verifica dell\'email:', error);
-      return false;
-    }
-  };
 
   const handleBlur = async (event) => {
     const { name, value } = event.target;
