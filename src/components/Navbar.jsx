@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function Navbar() {
   return (
-    <nav className="navbar navbar-expand-lg">
+    <nav className="navbar navbar-expand">
       <div className="container">
         <img src="/logo_BDoctors.png" alt="Logo" width="75" height="75" />
 

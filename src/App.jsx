@@ -8,6 +8,7 @@ import DoctorRegistration from "./pages/DoctorRegistration.jsx";
 import { AlertProvider } from "./contexts/AlertContext.jsx"
 import AppAllert from "./components/AppAllert.jsx"
 import  {LoadScript} from "@react-google-maps/api";
+import NotFound from "./pages/NotFound.jsx";
 
 const googleMapsApiKey = 'AIzaSyDty0JzQsRR7HwmlHAC55_ikV4QoluXUak'
 const libraries = ["places"]; 
@@ -24,6 +25,7 @@ function App() {
             <Route path="/search" element={<SearchDoctors />} />
             <Route path="doctor/:slug" element={<DoctorDetail />} />
             <Route path="registration" element={<DoctorRegistration />} />
+            <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
       </Router>
