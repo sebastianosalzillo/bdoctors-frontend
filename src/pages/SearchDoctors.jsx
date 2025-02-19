@@ -182,7 +182,16 @@ const SearchDoctors = () => {
         <div>
           {doctors.length > 0 ? (
             <>
-              <h4 className="my-3">Sono stati trovati {totalDoctors} medici</h4>
+              <h4 className="my-2">Sono stati trovati {totalDoctors} medici</h4>
+              <div className="my-2">
+                <span>Pagina {filter.page} di {totalPages}</span>
+                <br />
+              </div>
+              <div className="row">
+                {doctors.map((doctor) => (
+                  <CardDoctor key={doctor.id} doctor={doctor} />
+                ))}
+              </div>
               <div>
                 <span>Pagina {filter.page} di {totalPages}</span>
                 <br />
@@ -191,11 +200,7 @@ const SearchDoctors = () => {
                 <button className="btn btn-primary" onClick={(event) => changePage(event, { value: -1 })} disabled={filter.page <= 1}>Indietro</button>
                 <button className="btn btn-primary" onClick={(event) => changePage(event, { value: 1 })} disabled={doctors.length < 10 || filter.page >= totalPages}>Avanti</button>
               </div>
-              <div className="row">
-                {doctors.map((doctor) => (
-                  <CardDoctor key={doctor.id} doctor={doctor} />
-                ))}
-              </div>
+
             </>
           ) : (
             <p className="text-center">Nessun medico trovato</p>
