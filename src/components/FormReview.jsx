@@ -19,13 +19,13 @@ const FormReview = ({ handleOnSubmit, isSubmitting, handleInputChange, newRece, 
                 </div>
 
                 <div className="mt-3">
-                    <label htmlFor="rating"><span>Valutazione:<span className="red">*</span></span></label>
+                    <label htmlFor="rating">Valutazione <span className="red">*</span></label>
                     <Stars voto={parseInt(newRece.rating)} isActive={true} onChange={(value) => handleInputChange({ target: { name: 'rating', value } })} />
                 </div>
 
                 <div className="form-group mt-2">
                     <label className="mt-1" htmlFor="content">Raccontaci come è andata!</label>
-                    <textarea placeholder="Inserisci almeno 5 caratteri" className="form-control mt-1" type="text" id="content" rows="3" name="content" value={newRece.content} onChange={(event) => { handleInputChange(event) }}></textarea>
+                    <textarea placeholder="Raccontacelo qui!" className="form-control mt-1" type="text" id="content" rows="3" name="content" value={newRece.content} onChange={(event) => { handleInputChange(event) }}></textarea>
                 </div>
                 <button disabled={isSubmitting} type="submit" className="btn btn-primary"> {isSubmitting ? 'Invio in corso...' : 'Conferma'}</button>
             </form>
