@@ -179,24 +179,46 @@ function DoctorDetail() {
             <div className="row g-0">
               <div className="col-md-4 col-lg-3 col-xxl-2 col-img">
                 <div className="imm">
-                  <img src={doc.image ? (doc.image.startsWith("http")
-                    ? doc.image
-                    : `http://localhost:3000/images/doctors/${doc.image}`)
-                    : 'http://localhost:3000/images/doctors/placeholder1.webp'} alt={`medico ${doc.first_name} ${doc.last_name}`} />
+                  <img
+                    src={
+                      doc.image
+                        ? doc.image.startsWith("http")
+                          ? doc.image
+                          : `http://localhost:3000/images/doctors/${doc.image}`
+                        : "http://localhost:3000/images/doctors/placeholder1.webp"
+                    }
+                    alt={`medico ${doc.first_name} ${doc.last_name}`}
+                  />
                 </div>
               </div>
-              <div className="col-md-8 col-lg-9 col-xxl-10 col-text">
+              <div className="col-md-4 col-lg-5 col-xxl-5">
                 <div className="card-body detail">
-                  <p className="m-1"><FontAwesomeIcon icon={faPhone} /> {doc.phone}</p>
-                  <p className="m-1"><FontAwesomeIcon icon={faEnvelope} /> <a href={`mailto:${doc.email}`}>{doc.email}</a></p>
-                  <p className="m-1"><FontAwesomeIcon icon={faMapLocationDot} /> {doc.address}</p>
-                  <p className="m-1"><Stars voto={doc.average_rating} /></p>
-                  <button onClick={goToSpecialization} className="btn my-2 spec">{doc.specialization}</button>
-                  <p className="m-1" dangerouslySetInnerHTML={{ __html: doc.description }}></p>
+                  <p className="mx-1 mb-0" dangerouslySetInnerHTML={{ __html: doc.description }}></p>
+                </div>
+              </div>
+              <div className="col-md-4 col-lg-4 col-xxl-5 col-text">
+                <div className="card-body detail">
+                  <p className="m-1">
+                    <FontAwesomeIcon icon={faPhone} /> {doc.phone}
+                  </p>
+                  <p className="m-1">
+                    <FontAwesomeIcon icon={faEnvelope} />{" "}
+                    <a href={`mailto:${doc.email}`}>{doc.email}</a>
+                  </p>
+                  <p className="m-1">
+                    <FontAwesomeIcon icon={faMapLocationDot} /> {doc.address}
+                  </p>
+                  <p className="m-1">
+                    <Stars voto={doc.average_rating} />
+                  </p>
+                  <button onClick={goToSpecialization} className="btn my-2 spec">
+                    {doc.specialization}
+                  </button>
                 </div>
               </div>
             </div>
           </div>
+
 
           <h3>Visualizza Mappa</h3>
           <div ref={mapRef} style={{ height: '400px', width: '100%' }}></div>
