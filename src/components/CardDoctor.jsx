@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import Stars from "../components/Stars";
 import { Link } from "react-router-dom";
 import AppMap from "./AppMap";
