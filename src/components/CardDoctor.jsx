@@ -53,13 +53,15 @@ const CardDoctor = ({ doctor }) => {
               <span><FontAwesomeIcon className="text-dark" icon={faLocationDot} />   {doctor.address}</span>
             </p>
             <p className="card-text my-1"> <Stars voto={doctor.average_rating} /></p>
-            </div>
-            <div className="button-container">
+          </div>
+          <div className="button-container">
             <Link to={`/doctor/${doctor.slug}`} className="btn btn-primary m-3 w-50">Vedi dettagli</Link>
-            </div>
-          
+          </div>
+
         </div>
         <AppMap
+          firstName={doctor.first_name}
+          lastName={doctor.last_name}
           show={showMap}
           handleClose={() => setShowMap(false)}
           lat={coordinates.lat}

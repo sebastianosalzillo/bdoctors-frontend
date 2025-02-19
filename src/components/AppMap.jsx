@@ -4,7 +4,7 @@ import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 
 
 
-const AppMap = ({ show, handleClose, address, lat, lng }) => {
+const AppMap = ({ show, handleClose, address, lat, lng, firstName, lastName }) => {
   const mapContainerStyle = {
     height: "400px",
     width: "100%"
@@ -18,7 +18,7 @@ const AppMap = ({ show, handleClose, address, lat, lng }) => {
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Posizione su Mappa</Modal.Title>
+        <Modal.Title>Posizione su Mappa di {firstName} {lastName}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
        
