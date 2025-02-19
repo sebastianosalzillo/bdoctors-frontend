@@ -33,8 +33,9 @@ const SearchDoctors = () => {
     const params = new URLSearchParams();
     if (page) params.set("page", page);
     if (specialization) params.set("specialization", specialization);
-    if (name) params.set("name", name);
-    if (city) params.set("city", city);
+    if (name) params.set("name", name);    
+    if (city.length!==0) params.set("city", city);
+    
 
     navigate(`/search?${params.toString()}`, { replace: true });
   };
@@ -198,7 +199,7 @@ const SearchDoctors = () => {
               </div>
               <div className="d-flex mb-3 gap-3">
                 <button className="btn btn-primary" onClick={(event) => changePage(event, { value: -1 })} disabled={filter.page <= 1}>Indietro</button>
-                <button className="btn btn-primary" onClick={(event) => changePage(event, { value: 1 })} disabled={doctors.length < 10 || filter.page >= totalPages}>Avanti</button>
+                <button className="btn btn-primary" onClick={(event) => changePage(event, { value: 1 })} disabled={doctors.length < 9 || filter.page >= totalPages}>Avanti</button>
               </div>
 
             </>
