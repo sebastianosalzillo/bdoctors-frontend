@@ -4,8 +4,10 @@ function Navbar() {
   return (
     <nav className="navbar navbar-expand">
       <div className="container">
+        {/* logo */}
         <img src="/logo_BDoctors.png" alt="Logo" width="75" height="75" />
 
+        {/* lista dei link */}
         <ul className="navbar-nav">
           <li>
             <Link className="nav-link" to="/">

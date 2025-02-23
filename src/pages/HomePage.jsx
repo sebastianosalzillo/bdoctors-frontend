@@ -9,7 +9,7 @@ function HomePage() {
   const [selectedSpecialization, setSelectedSpecialization] = useState("");
   const navigate = useNavigate();
 
-  // Recupero dati dal backend
+  // Recupero dottori e specializzazioni
   useEffect(() => {
     axios.get("http://localhost:3000/doctors")
       .then(response => setDoctors(response.data.data))
@@ -30,10 +30,11 @@ function HomePage() {
   return (
     <div className="container mt-4">
 
+      {/* Titolo della pagina */}
       <h1 className="text-center mt-4">Benvenuto su BDoctors</h1>
       <p className="text-center">Trova il dottore specialista che fa per te.</p>
 
-      {/* 🔍 Selezione Specializzazione e Pulsante di ricerca */}
+      {/* Selezione Specializzazione e Pulsante di ricerca */}
       <div className="row mt-4 align-items-center">
         <div className="col-md-8">
           <select
@@ -58,6 +59,7 @@ function HomePage() {
         </div>
       </div>
 
+      {/* Sezione per mostrare i migliori dottori */}
       <h2 className="mt-5">I nostri migliori dottori</h2>
 
       <div className="row mt-3">
@@ -65,7 +67,7 @@ function HomePage() {
           doctors
             .filter(doctor => doctor.average_rating >= 4.5)
             .map(doctor => (
-             <CardDoctor key= {doctor.id} doctor={doctor}/>
+              <CardDoctor key={doctor.id} doctor={doctor} />
             ))
         ) : (
           <p className="text-center">Nessun dottore trovato</p>

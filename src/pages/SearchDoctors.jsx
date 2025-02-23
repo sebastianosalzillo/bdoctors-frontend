@@ -12,8 +12,6 @@ const SearchDoctors = () => {
   const [doctors, setDoctors] = useState([]);
   const [specializations, setSpecializations] = useState([]);
   const [city, setCity] = useState("");
-  // const [latitude, setLatitude] = useState(null);
-  // const [longitude, setLongitude] = useState(null);
   const [totalDoctors, setTotalDoctors] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const autocompleteRef = useRef(null);
@@ -21,6 +19,8 @@ const SearchDoctors = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const selectedSpecialization = queryParams.get("specialization") || "";
+
+  //stato iniziale dei filtri
   const protoFilter = {
     specialization: selectedSpecialization,
     name: "",
@@ -29,22 +29,22 @@ const SearchDoctors = () => {
   }
   const [filter, setFilter] = useState(protoFilter);
 
+  // Funzione per aggiornare l'URL con i parametri di ricerca
   const updateURL = (specialization, name, city, page) => {
     const params = new URLSearchParams();
     if (page) params.set("page", page);
     if (specialization) params.set("specialization", specialization);
-    if (name) params.set("name", name);    
-    if (city.length!==0) params.set("city", city);
-    
+    if (name) params.set("name", name);
+    if (city.length !== 0) params.set("city", city);
+
 
     navigate(`/search?${params.toString()}`, { replace: true });
   };
 
+  // Funzione per estrarre le parole chiave dall'indirizzo
   function extractKeywords(address) {
     if (typeof address !== 'string' || !address.trim()) return [];
-    // if (city) { address = city }
-    console.log(address);
-    // Converti in minuscolo e rimuovi spazi inutili
+    // Converte in minuscolo e rimuovi spazi inutili
     const lowerAddress = address.toLowerCase().trim();
     // Lista di parole da escludere
     const excludedWords = new Set([
@@ -63,10 +63,9 @@ const SearchDoctors = () => {
     return words;
   }
 
-
+  // Funzione per filtrare i dottori in base ai criteri di ricerca
   const filterDoctors = () => {
     let newAddress = extractKeywords(filter.address)
-    console.log(newAddress);
     axios.get(`${apiUrl}/doctors`, {
       params: {
         specialization: filter.specialization,
@@ -78,12 +77,11 @@ const SearchDoctors = () => {
       updateURL(filter.specialization, filter.name, newAddress, filter.page);
       const allDoctors = resp.data.data;
       setDoctors(allDoctors);
-      console.log(allDoctors);
       setTotalDoctors(resp.data.totalDoctors);
       setTotalPages(resp.data.totalPages);
     });
   }
-
+  // carica i dottori e le specializzazioni all'inizio e quando cambia la pagina
   useEffect(() => {
     filterDoctors();
     axios.get(`${apiUrl}/specialization`).then((resp) => {
@@ -97,6 +95,7 @@ const SearchDoctors = () => {
     });
   }, []);
 
+  // Gestione del cambiamento degli input
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFilter({ ...filter, [name]: value });
@@ -105,24 +104,24 @@ const SearchDoctors = () => {
     }
   };
 
+  // Gestione della selezione del luogo dall'autocomplete
   const handlePlaceSelect = () => {
     const place = autocompleteRef.current.getPlace();
     if (place.geometry) {
-      // setLatitude(place.geometry.location.lat());
-      // setLongitude(place.geometry.location.lng());
     }
     const formattedAddress = place.formatted_address;
     setCity(formattedAddress);
     setFilter({ ...filter, address: formattedAddress }); // Sincronizza filter.address
   };
-  
 
+  // Funzione per avviare la ricerca
   const search = (event) => {
     event.preventDefault();
-    setFilter({ ...filter, page:1 });
+    setFilter({ ...filter, page: 1 });
     filterDoctors();
   };
 
+  // Funzione per cambiare pagina
   const changePage = (event, a) => {
     event.preventDefault();
     setFilter({ ...filter, page: filter.page + a.value });
@@ -130,10 +129,12 @@ const SearchDoctors = () => {
 
   return (
     <>
+      {/* Link per tornare indietro */}
       <div className="my-3">
         <a className="back" onClick={() => navigate(-1)}>Torna indietro</a>
       </div>
 
+      {/* Selezione della specializzazione */}
       <div>
         <h2 className="text-center mb-4">Cerca dottori</h2>
         <div className="row mb-4">
@@ -145,6 +146,8 @@ const SearchDoctors = () => {
               ))}
             </select>
           </div>
+
+          {/* Input per cercare per nome o cognome */}
           <div className="col-md-4">
             <input
               type="text"
@@ -155,6 +158,8 @@ const SearchDoctors = () => {
               onChange={handleChange}
             />
           </div>
+
+          {/* Input per cercare per città con autocomplete */}
           <div className="col-md-4">
             <Autocomplete
               onLoad={(autocomplete) => {
@@ -172,6 +177,8 @@ const SearchDoctors = () => {
               />
             </Autocomplete>
           </div>
+
+          {/* Bottone per avviare la ricerca */}
           <div className="text-center mb-4">
             <button className="btn btn-primary" onClick={search}>
               Cerca
@@ -183,12 +190,14 @@ const SearchDoctors = () => {
         <div>
           {doctors.length > 0 ? (
             <>
+            {/* Mostra il numero totale di dottori trovati e le pagine totali */}
               <h4 className="my-2">Sono stati trovati {totalDoctors} medici</h4>
               <div className="my-2">
                 <span>Pagina {filter.page} di {totalPages}</span>
                 <br />
               </div>
               <div className="row">
+                {/* Mappa i dottori trovati */}
                 {doctors.map((doctor) => (
                   <CardDoctor key={doctor.id} doctor={doctor} />
                 ))}
@@ -197,6 +206,7 @@ const SearchDoctors = () => {
                 <span>Pagina {filter.page} di {totalPages}</span>
                 <br />
               </div>
+              {/* Bottoni per andare alla pagina precedente o successiva */}
               <div className="d-flex mb-3 gap-3">
                 <button className="btn btn-primary" onClick={(event) => changePage(event, { value: -1 })} disabled={filter.page <= 1}>Indietro</button>
                 <button className="btn btn-primary" onClick={(event) => changePage(event, { value: 1 })} disabled={doctors.length < 9 || filter.page >= totalPages}>Avanti</button>

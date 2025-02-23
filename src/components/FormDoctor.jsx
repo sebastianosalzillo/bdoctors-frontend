@@ -1,31 +1,40 @@
 import { useEffect } from "react";
 
+//form di registrazione per i dottori
 function FormDoctor({ formData, setFormData, specialization, handleChange, handleFileChange, handleSubmit, emailError, phoneError, handleBlur, errors, isFormValid }) {
+
+    //Autocompletamento per il campo indirizzo
     useEffect(() => {
+        // crea un oggetto autocomplete
         const autocomplete = new google.maps.places.Autocomplete(document.getElementById('address'), {
-          types: ['address'],
+            types: ['address'],
         });
-    
+        //che viene attivato quando l'utente seleziona un luogo
         autocomplete.addListener('place_changed', () => {
-          const place = autocomplete.getPlace();
-          const address = place.formatted_address;
-    
-          setFormData(prevFormData => ({
-            ...prevFormData,
-            address
-          }));
+            // ottiene il luogo selezionato dall'autocomplete
+            const place = autocomplete.getPlace();
+            // formatta l'indirizzo selezionato
+            const address = place.formatted_address;
+            //aggiorna lo stato con l'indirizzo selezionato
+            setFormData(prevFormData => ({
+                ...prevFormData,
+                address
+            }));
         });
-      }, []);
+    }, []);
 
     return (
         <div>
             <h3 className="text-center my-5">Sei nuovo? Registrati qui!</h3>
             <div className="row justify-content-center">
                 <div className="col-md-8">
+                    {/* inizio form */}
                     <form className="registration" onSubmit={handleSubmit}>
                         <div className="row">
+
                             <div className="col-md-6 mb-3">
                                 <h6 className="my-4">Dati anagrafici</h6>
+                                {/* nome */}
                                 <div className="form-group mb-5">
                                     <label htmlFor="first_name">Nome <span className="red">*</span></label>
                                     <input
@@ -41,6 +50,8 @@ function FormDoctor({ formData, setFormData, specialization, handleChange, handl
                                     />
                                     {errors.first_name && <div className="invalid-feedback">{errors.first_name}</div>}
                                 </div>
+
+                                {/* cognome */}
                                 <div className="form-group mb-5">
                                     <label htmlFor="last_name">Cognome <span className="red">*</span></label>
                                     <input
@@ -56,6 +67,8 @@ function FormDoctor({ formData, setFormData, specialization, handleChange, handl
                                     />
                                     {errors.last_name && <div className="invalid-feedback">{errors.last_name}</div>}
                                 </div>
+
+                                {/* genere */}
                                 <div className="form-group">
                                     <label htmlFor="gender">Genere <span className="red">*</span></label>
                                     <select
@@ -74,8 +87,10 @@ function FormDoctor({ formData, setFormData, specialization, handleChange, handl
                                     {errors.gender && <div className="invalid-feedback">{errors.gender}</div>}
                                 </div>
                             </div>
+
                             <div className="col-md-6 mb-3">
                                 <h6 className="my-4">Contatti</h6>
+                                {/* numero telefono */}
                                 <div className="form-group mb-5">
                                     <label htmlFor="phone">Numero di telefono <span className="red">*</span></label>
                                     <input
@@ -92,10 +107,12 @@ function FormDoctor({ formData, setFormData, specialization, handleChange, handl
                                     {errors.phone && <div className="invalid-feedback">{errors.phone}</div>}
                                     {phoneError && <p style={{ color: 'red' }}>{phoneError}</p>}
                                 </div>
+
+                                {/* email */}
                                 <div className="form-group mb-5">
                                     <label htmlFor="email">Email <span className="red">*</span></label>
                                     <input
-                                       placeholder="inserisci email valida"
+                                        placeholder="inserisci email valida"
                                         className={`form-control ${errors.email ? 'is-invalid' : ''}`}
                                         id="email"
                                         name="email"
@@ -108,6 +125,8 @@ function FormDoctor({ formData, setFormData, specialization, handleChange, handl
                                     {errors.email && <div className="invalid-feedback">{errors.email}</div>}
                                     {emailError && <p style={{ color: 'red' }}>{emailError}</p>}
                                 </div>
+
+                                {/* indirizzo */}
                                 <div className="form-group mb-3">
                                     <label htmlFor="address">Indirizzo <span className="red">*</span></label>
                                     <input
@@ -126,9 +145,12 @@ function FormDoctor({ formData, setFormData, specialization, handleChange, handl
                                 </div>
                             </div>
                         </div>
+
                         <hr />
-                        <h6 className="my-4">Professione</h6>
+
                         <div className="form-group  mb-4">
+                            <h6 className="my-4">Professione</h6>
+                            {/* specializzazione */}
                             <label htmlFor="id_specialization">Specializzazione <span className="red">*</span></label>
                             <select
                                 className="form-control mt-2"
@@ -147,6 +169,8 @@ function FormDoctor({ formData, setFormData, specialization, handleChange, handl
                             </select>
                             {errors.id_specialization && <div className="invalid-feedback">{errors.id_specialization}</div>}
                         </div>
+
+                        {/* descrizione */}
                         <div className="form-group mb-5">
                             <label htmlFor="description">Servizi <span className="red">*</span></label>
                             <textarea
@@ -163,6 +187,8 @@ function FormDoctor({ formData, setFormData, specialization, handleChange, handl
                             {errors.description && <div className="invalid-feedback">{errors.description}</div>}
                         </div>
                         <hr />
+
+                        {/* immagine  */}
                         <h6 className="mt-4">Immagine di profilo</h6>
                         <div className="form-group mb-3 w-100">
                             <label htmlFor="image"></label>
@@ -174,9 +200,10 @@ function FormDoctor({ formData, setFormData, specialization, handleChange, handl
                                 onChange={handleFileChange}
                             />
                         </div>
+
+                        {/* submit */}
                         <div className="d-flex justify-content-center">
                             <button type="submit" className="btn btn-primary mt-5" disabled={!isFormValid}>Registrati</button>
-                            
                         </div>
                         <p className="text-secondary text-center mt-4 ">* Campo obbligatorio</p>
                     </form>

@@ -9,9 +9,11 @@ import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 const googleMapsApiKey = 'AIzaSyDty0JzQsRR7HwmlHAC55_ikV4QoluXUak'
 
 const CardDoctor = ({ doctor }) => {
+    // Stato per gestire la visualizzazione della mappa e le coordinate
   const [showMap, setShowMap] = useState(false);
   const [coordinates, setCoordinates] = useState({ lat: 0, lng: 0 });
 
+// Funzione per gestire il click sull'indirizzo
   const handleAddressClick = () => {
     // Esegui una chiamata API a Google Maps Geocoding per ottenere le coordinate dell'indirizzo
     const address = doctor.address;
