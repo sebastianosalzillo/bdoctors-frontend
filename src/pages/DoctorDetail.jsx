@@ -10,6 +10,7 @@ import FormReview from "../components/FormReview";
 import { useAlertContext } from "../contexts/AlertContext";
 import Stars from "../components/Stars";
 
+// Funzioni di validazione
 const validateName = (name) => {
   return typeof name === 'string' && name.trim().length >= 3;
 };
@@ -19,10 +20,7 @@ const validateEmail = (email) => {
   return emailRegex.test(email);
 };
 
-const validateRating = (rating) => {
-  return rating >= 1 && rating <= 5;
-};
-
+//Valori iniziali form recensione
 function DoctorDetail() {
   const emptyRece = {
     rating: 0,
@@ -76,18 +74,25 @@ function DoctorDetail() {
     }
   }, [doc]);
 
+  // Funzione per ricaricare i dati del medico
   const refresh = () => {
     axios.get(`http://localhost:3000/doctors/${slug}`).then((resp) => {
       setDoc(resp.data.data);
-    });
+    }).catch((err)=>{
+      if(err.status===404){
+          navigate("/not-found")
+      }
+  });
   };
 
+  // Funzione per navigare alla pagina di specializzazione
   const goToSpecialization = () => {
     if (doc.specialization) {
       navigate(`/search?specialization=${encodeURIComponent(doc.specialization)}`);
     }
   };
 
+  // Funzione per stampare le recensioni
   const printRecensioni = () => {
     if (doc.reviews.length) {
       return doc.reviews.map((curRece) => (
@@ -105,7 +110,7 @@ function DoctorDetail() {
     }
   };
 
-
+  // Gestione del blur sugli input per la validazione
   const handleBlur = async (event) => {
     const { name, value } = event.target;
     switch (name) {
@@ -128,11 +133,13 @@ function DoctorDetail() {
     }
   };
 
+  // Gestione del cambiamento degli input
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setNewRece(prev => ({ ...prev, [name]: value }));
   };
-
+  
+  // Gestione del submit del form
   const handleOnSubmit = async (event) => {
     event.preventDefault();
     setIsSubmitting(true);
@@ -153,71 +160,80 @@ function DoctorDetail() {
 
   return (
     <>
-      {doc &&
-        <>
-          <div className="my-3">
-            <a className="back" onClick={() => navigate(-1)}>Torna indietro</a>
-          </div>
+    {doc &&
+      <>
+        {/* Link per tornare indietro */}
+        <div className="my-3">
+          <a className="back" onClick={() => navigate(-1)}>Torna indietro</a>
+        </div>
 
-          <h2 className="py-2 px-1">{doc.first_name} {doc.last_name}</h2>
-          <div className="card card-detail mb-3">
-            <div className="row g-0">
-              <div className="col-md-4 col-lg-4 col-xxl-3 col-img">
-                <div className="imm">
-                  <img
-                    src={
-                      doc.image
-                        ? doc.image.startsWith("http")
-                          ? doc.image
-                          : `http://localhost:3000/images/doctors/${doc.image}`
-                        : "http://localhost:3000/images/doctors/placeholder1.webp"
-                    }
-                    alt={`medico ${doc.first_name} ${doc.last_name}`}
-                  />
-                </div>
+        {/* Card con i dettagli del medico */}
+        <h2 className="py-2 px-1">{doc.first_name} {doc.last_name}</h2>
+        <div className="card card-detail mb-3">
+          <div className="row g-0">
+            <div className="col-md-4 col-lg-4 col-xxl-3 col-img">
+              <div className="imm">
+                {/* immagine */}
+                <img
+                  src={
+                    doc.image
+                      ? doc.image.startsWith("http")
+                        ? doc.image
+                        : `http://localhost:3000/images/doctors/${doc.image}`
+                      : "http://localhost:3000/images/doctors/placeholder1.webp"
+                  }
+                  alt={`medico ${doc.first_name} ${doc.last_name}`}
+                />
               </div>
-              <div className="col-md-4 col-lg-4 col-xxl-5">
-                <div className="card-body detail">
-                  <p className="mx-1 mb-0" dangerouslySetInnerHTML={{ __html: doc.description }}></p>
-                </div>
+            </div>
+            <div className="col-md-4 col-lg-4 col-xxl-5">
+              <div className="card-body detail">
+                {/* descrizione */}
+                <p className="mx-1 mb-0" dangerouslySetInnerHTML={{ __html: doc.description }}></p>
               </div>
-              <div className="col-md-4 col-lg-4 col-xxl-4 col-text">
-                <div className="card-body detail">
-                  <p className="m-1">
-                    <FontAwesomeIcon icon={faPhone} /> {doc.phone}
-                  </p>
-                  <p className="m-1">
-                    <FontAwesomeIcon icon={faEnvelope} />{" "}
-                    <a href={`mailto:${doc.email}`}>{doc.email}</a>
-                  </p>
-                  <p className="m-1">
-                    <FontAwesomeIcon icon={faMapLocationDot} /> {doc.address}
-                  </p>
-                  <p className="m-1">
-                    <Stars voto={doc.average_rating} />
-                  </p>
-                  <button onClick={goToSpecialization} className="btn my-2 spec">
-                    {doc.specialization}
-                  </button>
-                </div>
+            </div>
+            <div className="col-md-4 col-lg-4 col-xxl-4 col-text">
+              <div className="card-body detail">
+                {/* telefono */}
+                <p className="m-1">
+                  <FontAwesomeIcon icon={faPhone} /> {doc.phone}
+                </p>
+                {/* email */}
+                <p className="m-1">
+                  <FontAwesomeIcon icon={faEnvelope} />{" "}
+                  <a href={`mailto:${doc.email}`}>{doc.email}</a>
+                </p>
+                {/* indirizzo */}
+                <p className="m-1">
+                  <FontAwesomeIcon icon={faMapLocationDot} /> {doc.address}
+                </p>
+                {/* voto medio */}
+                <p className="m-1">
+                  <Stars voto={doc.average_rating} />
+                </p>
+                <button onClick={goToSpecialization} className="btn my-2 spec">
+                  {doc.specialization}
+                </button>
               </div>
             </div>
           </div>
+        </div>
 
+        {/* mappa */}
+        <h3>Visualizza Mappa</h3>
+        <div ref={mapRef} style={{ height: '400px', width: '100%' }}></div>
+      
+        {/* recensioni */}
+        <h3 className="my-4">Recensioni ({doc.reviews.length})</h3>
+        {printRecensioni()}
 
-          <h3>Visualizza Mappa</h3>
-          <div ref={mapRef} style={{ height: '400px', width: '100%' }}></div>
+        <hr className="linea" />
 
-          <h3 className="my-4">Recensioni ({doc.reviews.length})</h3>
-          {printRecensioni()}
-
-          <hr className="linea" />
-
-          <FormReview {...{ handleOnSubmit, handleInputChange, newRece, isSubmitting, doc, errors, handleBlur }} />
-        </>
-      }
-    </>
-  );
+        <FormReview {...{ handleOnSubmit, handleInputChange, newRece, isSubmitting, doc, errors, handleBlur }} />
+      </>
+    }
+  </>
+);
 }
 
 export default DoctorDetail;

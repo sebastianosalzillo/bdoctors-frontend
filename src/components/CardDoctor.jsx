@@ -4,14 +4,16 @@ import { Link } from "react-router-dom";
 import AppMap from "./AppMap";
 import { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import { faMapLocationDot } from '@fortawesome/free-solid-svg-icons';
 
 const googleMapsApiKey = 'AIzaSyDty0JzQsRR7HwmlHAC55_ikV4QoluXUak'
 
 const CardDoctor = ({ doctor }) => {
+  // Stato per gestire la visualizzazione della mappa e le coordinate
   const [showMap, setShowMap] = useState(false);
   const [coordinates, setCoordinates] = useState({ lat: 0, lng: 0 });
 
+// Funzione per gestire il click sull'indirizzo
   const handleAddressClick = () => {
     // Esegui una chiamata API a Google Maps Geocoding per ottenere le coordinate dell'indirizzo
     const address = doctor.address;
@@ -50,12 +52,12 @@ const CardDoctor = ({ doctor }) => {
             <p className="card-text my-1"
               onClick={handleAddressClick}
               style={{ cursor: "pointer", color: "blue" }}>
-              <span><FontAwesomeIcon className="text-dark" icon={faLocationDot} />   {doctor.address}</span>
+              <span><FontAwesomeIcon className="text-dark" icon={faMapLocationDot} />   {doctor.address}</span>
             </p>
             <p className="card-text my-1"> <Stars voto={doctor.average_rating} /></p>
           </div>
           <div className="button-container">
-            <Link to={`/doctor/${doctor.slug}`} className="btn btn-primary m-3 w-50">Vedi dettagli</Link>
+            <Link to={`/doctor/${doctor.slug}`} className="btn btn-primary ms-3 mb-3 mt-1 w-50">Vedi dettagli</Link>
           </div>
 
         </div>

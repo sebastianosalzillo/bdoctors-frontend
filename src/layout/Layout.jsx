@@ -6,9 +6,13 @@ function Layout() {
   return (
     <>
       <Navbar />
-      <main className="container mt-4">
-        <Outlet />
-      </main>
+
+      <div className="main-container">
+        <main className="container pt-4">
+          <Outlet />
+        </main>
+      </div>
+
       <Footer />
     </>
   );
