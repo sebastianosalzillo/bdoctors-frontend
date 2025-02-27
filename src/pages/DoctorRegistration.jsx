@@ -35,11 +35,13 @@ const validateSpecialization = (id_specialization) => {
   return id_specialization !== '';
 };
 
+//mostra messaggi di errore o successo
 const showMessage = (setMessage, text, type) => {
   setMessage({ text, type });
-  setTimeout(() => setMessage({ text: '', type: '' }), 3000); // Rimuove il messaggio dopo 3 secondi
+  setTimeout(() => setMessage({ text: '', type: '' }), 3000); 
 };
 
+{/* Sezione per mostrare i migliori dottori */}
 function DoctorRegistration() {
   const initialFormRegistration = {
     first_name: '',
@@ -60,6 +62,8 @@ function DoctorRegistration() {
   const [isFormValid, setIsFormValid] = useState(false);
   const navigate = useNavigate();
 
+
+  //recupera specializzazioni
   useEffect(() => {
     axios.get('http://localhost:3000/specialization')
       .then(response => {
@@ -70,6 +74,7 @@ function DoctorRegistration() {
       });
   }, []);
 
+  //valida il form ogni volta che i dati e gli errori cambiano
   useEffect(() => {
     const isValid = formData.first_name && !errors.first_name &&
       formData.last_name && !errors.last_name &&
@@ -82,6 +87,7 @@ function DoctorRegistration() {
     setIsFormValid(isValid);
   }, [formData, errors,]);
 
+  //verifica se la mail già esiste
   const checkEmail = async (email) => {
     try {
       const response = await axios.post('http://localhost:3000/doctors', { emailOnly: email });
@@ -98,6 +104,7 @@ function DoctorRegistration() {
     }
   };
 
+  //Verifica se il telefono già esiste
   const checkPhone = async (phone) => {
     try {
       const response = await axios.post('http://localhost:3000/doctors', { phoneOnly: phone });
@@ -114,6 +121,7 @@ function DoctorRegistration() {
     }
   };
 
+  // Funzione per gestire il blur sugli input
   const handleBlur = async (event) => {
     const { name, value } = event.target;
 
@@ -182,6 +190,7 @@ function DoctorRegistration() {
     }
   };
 
+  // Funzione per gestire il cambiamento degli input
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData({
@@ -190,6 +199,7 @@ function DoctorRegistration() {
     });
   };
 
+  //Funzione per gestire il cambiamento del file
   const handleFileChange = (event) => {
     setFormData({
       ...formData,
@@ -197,6 +207,7 @@ function DoctorRegistration() {
     });
   };
 
+  // Funzione per gestire il submit del form
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -229,9 +240,12 @@ function DoctorRegistration() {
 
   return (
     <>
+    {/* Link per tornare indietro */}
       <div className="my-3">
         <a className="back" onClick={() => navigate(-1)}>Torna indietro</a>
       </div>
+
+      {/* Form di registrazione del dottore */}
       <FormDoctor
         formData={formData}
         setFormData={setFormData}

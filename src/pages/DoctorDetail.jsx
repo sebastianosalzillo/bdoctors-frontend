@@ -84,7 +84,6 @@ function DoctorDetail() {
       }
   });
   };
-
   // Funzione per navigare alla pagina di specializzazione
   const goToSpecialization = () => {
     if (doc.specialization) {
@@ -138,7 +137,7 @@ function DoctorDetail() {
     const { name, value } = event.target;
     setNewRece(prev => ({ ...prev, [name]: value }));
   };
-  
+
   // Gestione del submit del form
   const handleOnSubmit = async (event) => {
     event.preventDefault();
