@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
@@ -59,7 +60,7 @@ const SearchDoctors = () => {
     const words = lowerAddress
       .replace(/[^\w\s]/g, '') // Rimuove punteggiatura
       .split(/\s+/) // Divide in parole
-      .filter(word => word.length > 1 && !excludedWords.has(word));
+      .filter(word => !excludedWords.has(word));
     return words;
   }
 
@@ -72,7 +73,6 @@ const SearchDoctors = () => {
     const words = lowerName
       .replace(/[^\w\s]/g, '') // Rimuove punteggiatura
       .split(/\s+/) // Divide in parole
-      .filter(word => word.length > 1); // Mantiene solo parole con più di 1 carattere
     return words;
   }
 
@@ -80,7 +80,7 @@ const SearchDoctors = () => {
   const filterDoctors = () => {
     let newAddress = extractKeywords(filter.address)
     let newName = extractName(filter.name)
-    console.log(newAddress);
+    console.log(newName);
     axios.get(`${apiUrl}/doctors`, {
       params: {
         specialization: filter.specialization,
