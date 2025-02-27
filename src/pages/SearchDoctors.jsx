@@ -63,13 +63,28 @@ const SearchDoctors = () => {
     return words;
   }
 
+  // Funzione per estrarre le parole dal nome  
+  function extractName(name) {
+    if (typeof name !== 'string' || !name.trim()) return [];
+    // Converti in minuscolo e rimuovi spazi inutili
+    const lowerName = name.toLowerCase().trim();
+    // Pulizia della stringa: rimuove tutto tranne lettere e numeri
+    const words = lowerName
+      .replace(/[^\w\s]/g, '') // Rimuove punteggiatura
+      .split(/\s+/) // Divide in parole
+      .filter(word => word.length > 1); // Mantiene solo parole con più di 1 carattere
+    return words;
+  }
+
   // Funzione per filtrare i dottori in base ai criteri di ricerca
   const filterDoctors = () => {
     let newAddress = extractKeywords(filter.address)
+    let newName = extractName(filter.name)
+    console.log(newAddress);
     axios.get(`${apiUrl}/doctors`, {
       params: {
         specialization: filter.specialization,
-        name: filter.name,
+        name: newName,
         address: newAddress,
         page: filter.page
       }
@@ -77,6 +92,7 @@ const SearchDoctors = () => {
       updateURL(filter.specialization, filter.name, newAddress, filter.page);
       const allDoctors = resp.data.data;
       setDoctors(allDoctors);
+      console.log(allDoctors);
       setTotalDoctors(resp.data.totalDoctors);
       setTotalPages(resp.data.totalPages);
     });
@@ -190,7 +206,7 @@ const SearchDoctors = () => {
         <div>
           {doctors.length > 0 ? (
             <>
-            {/* Mostra il numero totale di dottori trovati e le pagine totali */}
+              {/* Mostra il numero totale di dottori trovati e le pagine totali */}
               <h4 className="my-2">Sono stati trovati {totalDoctors} medici</h4>
               <div className="my-2">
                 <span>Pagina {filter.page} di {totalPages}</span>
