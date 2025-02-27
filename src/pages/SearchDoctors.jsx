@@ -30,12 +30,12 @@ const SearchDoctors = () => {
   const [filter, setFilter] = useState(protoFilter);
 
   // Funzione per aggiornare l'URL con i parametri di ricerca
-  const updateURL = (specialization, name, city, page) => {
+  const updateURL = (specialization, name, city1, page) => {
     const params = new URLSearchParams();
     if (page) params.set("page", page);
     if (specialization) params.set("specialization", specialization);
     if (name) params.set("name", name);
-    if (city.length !== 0) params.set("city", city);
+    if (city1.length !== 0) params.set("city", city1);
 
 
     navigate(`/search?${params.toString()}`, { replace: true });
@@ -123,8 +123,6 @@ const SearchDoctors = () => {
   // Gestione della selezione del luogo dall'autocomplete
   const handlePlaceSelect = () => {
     const place = autocompleteRef.current.getPlace();
-    if (place.geometry) {
-    }
     const formattedAddress = place.formatted_address;
     setCity(formattedAddress);
     setFilter({ ...filter, address: formattedAddress }); // Sincronizza filter.address
