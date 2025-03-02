@@ -122,6 +122,10 @@ nav.navbar.navbar-expand {
   z-index: 1000;
 }
 
+nav .container img{
+  height: 11.6vh;
+}
+
 ul.navbar-nav {
   --bs-nav-link-color: rgb(255, 255, 255);
   --bs-nav-link-hover-color: #9dd1da;
