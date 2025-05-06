@@ -1,4 +1,4 @@
-# 🩺 BDoctors – Frontend per la Ricerca e Recensione di Professionisti Medici
+# 🩺 BDoctors – Ricerca e Recensione di Professionisti Medici
 
 **BDoctors** è l'interfaccia web per un'applicazione che consente agli utenti di cercare professionisti del settore medico, visualizzarli su mappa, leggere recensioni e registrarne di nuovi nel sistema.
 
@@ -12,13 +12,13 @@
 
 ## 🛠️ Tecnologie utilizzate
 
-- **Frontend:** React, JavaScript, HTML/CSS
+- React, JavaScript, HTML/CSS
 - **Librerie principali:**
   - Google Maps API
   - React Hook Form (o simili) per la gestione dei form
   - Axios per le richieste HTTP
 
-## 📷 Screenshot
+## 📷 Anteprima
 
 ![Home Screenshot](./public/homepage_bdoctors.png)
 ![Details Screenshot](./public/dettaglio_bdoctors.png)
