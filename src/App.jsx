@@ -10,7 +10,7 @@ import AppAllert from "./components/AppAllert.jsx"
 import  {LoadScript} from "@react-google-maps/api";
 import NotFound from "./pages/NotFound.jsx";
 
-const googleMapsApiKey = 'AIzaSyDty0JzQsRR7HwmlHAC55_ikV4QoluXUak'
+const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 const libraries = ["places"]; 
 
 function App() {
