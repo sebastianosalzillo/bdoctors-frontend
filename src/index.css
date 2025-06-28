@@ -5,20 +5,22 @@
   box-sizing: border-box;
 }
 
-.main-container{
+.main-container {
   margin-top: 11.6vh;
   min-height: 79.2vh;
   padding-bottom: 3rem;
 }
 
-.form-group{
+.form-group {
   position: relative;
 }
-.invalid-feedback{
-position: absolute;
-bottom: -1.5rem;
-left: 0;
+
+.invalid-feedback {
+  position: absolute;
+  bottom: -1.5rem;
+  left: 0;
 }
+
 .container.mt-4 {
   color: #023841;
 }
@@ -38,11 +40,11 @@ left: 0;
   border: 5px solid #023841;
 }
 
-.card-body.detail{
-  padding: 0px 0.5rem ;
+.card-body.detail {
+  padding: 0px 0.5rem;
 }
 
-.card-body.search{
+.card-body.search {
   padding: 0px;
 }
 
@@ -114,15 +116,15 @@ footer {
 nav.navbar.navbar-expand {
   background-color: #0097b2;
   height: 11.6vh;
-  position: fixed; 
-  top: 0;          
-  left: 0;         
-  width: 100%;    
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   z-index: 1000;
 }
 
-nav .container img{
+nav .container img {
   height: 11.6vh;
 }
 
@@ -131,8 +133,8 @@ ul.navbar-nav {
   --bs-nav-link-hover-color: #9dd1da;
 }
 
-.not-found{
-  
+body.modal-open .navbar{
+  padding-right: var(--scrollbar-width);
 }
 
 /* Dettaglio Medico */
@@ -227,6 +229,26 @@ form.recensioni h3 {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Modal */
+.fade.show {
+  width: 100%;
+}
+
+.modal-dialog {
+  max-width: 500px;
+  width: 90%;
+  margin: 0 auto;
+  margin-top: 4rem;
+}
+
+.fade {
+  transition: opacity .25s linear;
+}
+
+.modal.fade .modal-dialog {
+  transition: transform .33s ease-out;
+}
+
 /* tablet */
 @media screen and (max-width:992px) {
 
@@ -243,11 +265,11 @@ form.recensioni h3 {
     padding: 0.5rem 0px;
   }
 
-  .card-body.home{
+  .card-body.home {
     text-align: center;
   }
 
-  .card-body.search{
+  .card-body.search {
     text-align: center;
   }
 
@@ -256,11 +278,11 @@ form.recensioni h3 {
     width: 33%;
   }
 
-  .card-title{
+  .card-title {
     font-size: 24px;
   }
 
-  .button-container{
+  .button-container {
     display: flex;
     justify-content: center;
   }

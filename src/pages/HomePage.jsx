@@ -20,6 +20,13 @@ function HomePage() {
       .catch(error => console.error("Errore nel recupero specializzazioni", error));
   }, []);
 
+  // Funzione per trovare il valore della barra di scorrimento laterale e gestire il padding-right della navbar all'apertura del modale
+  useEffect(() => {
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    document.documentElement.style.setProperty('--scrollbar-width', `${scrollbarWidth}px`);
+    console.log(scrollbarWidth)
+  }, [doctors]);
+
   // 🔹 Funzione per navigare alla ricerca con la specializzazione selezionata
   const handleSearchBySpecialization = () => {
     if (selectedSpecialization) {

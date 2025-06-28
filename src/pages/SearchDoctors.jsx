@@ -141,6 +141,13 @@ const SearchDoctors = () => {
     setFilter({ ...filter, page: filter.page + a.value });
   };
 
+  // Funzione per trovare il valore della barra di scorrimento laterale e gestire il padding-right della navbar all'apertura del modale
+  useEffect(() => {
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    document.documentElement.style.setProperty('--scrollbar-width', `${scrollbarWidth}px`);
+    console.log(scrollbarWidth)
+  }, [doctors]);
+
   return (
     <>
       {/* Link per tornare indietro */}
